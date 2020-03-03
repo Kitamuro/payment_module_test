@@ -1,0 +1,54 @@
+
+body {
+    margin: 0 auto;
+}
+
+.header {
+    background-color: skyblue;
+    height: 180px;
+    text-align: center;
+    font-family: Courier New, monospace;
+}
+
+.shop-name {
+    text-align: right;
+    padding:  20px 40px 0 0;
+    font-size:  28px;
+
+}
+
+.title-text {
+    font-size:  36px;
+    line-height: 85px;
+    font-weight: 500;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+}
+
+.form div {
+    font-family: Courier New, monospace;
+    padding: 10px 10px;
+    font-size: 26px;
+}
+
+input {
+    font-size: 40px;
+    font-weight: lighter;
+    font-family: Courier New, monospace;
+}
+
+.button-submit {
+    display: block;
+    margin: 30px auto;
+    height: 60px;
+    width: 500px;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    font-family: Courier New, monospace;
+    font-size: 25px;
+    background-color: skyblue;
+}
