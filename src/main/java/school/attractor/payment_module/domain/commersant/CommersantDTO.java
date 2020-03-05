@@ -11,7 +11,7 @@ public class CommersantDTO {
     private String id;
     private String name;
 
-    static CommersantDTO from(Commersant commersant) {
+    public static CommersantDTO from(Commersant commersant) {
         return  builder()
                 .id(commersant.getId())
                 .name(commersant.getName())

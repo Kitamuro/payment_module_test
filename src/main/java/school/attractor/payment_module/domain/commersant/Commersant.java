@@ -13,7 +13,6 @@ public class Commersant {
     private String id;
     private String name;
 
-
 }
 
 

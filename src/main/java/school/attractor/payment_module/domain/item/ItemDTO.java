@@ -13,7 +13,7 @@ public class ItemDTO {
     private double price;
     private int quantity;
 
-    static  ItemDTO from(Item item) {
+    public static  ItemDTO from(Item item) {
         return   builder()
                 .id(item.getId())
                 .name(item.getName())
