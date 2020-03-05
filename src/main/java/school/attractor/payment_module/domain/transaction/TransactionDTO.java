@@ -1,6 +1,8 @@
 package school.attractor.payment_module.domain.transaction;
 
 import lombok.*;
+import school.attractor.payment_module.domain.commersant.CommersantDTO;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -9,7 +11,7 @@ import lombok.*;
 public class TransactionDTO {
     private String id;
     private double orderAmount;
-//    private CommersantDTO commersantDTO;
+    private CommersantDTO commersantDTO;
     private String cardHolderName;
     private String cardNumber;
     private String cardExpiryDate;
