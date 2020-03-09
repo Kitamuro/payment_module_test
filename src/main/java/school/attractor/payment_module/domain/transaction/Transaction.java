@@ -8,6 +8,7 @@ import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.item.Item;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
@@ -16,13 +17,18 @@ import java.util.List;
 @Builder
 public class Transaction {
     private String id;
-    private double amount;
     private Commersant commersant;
+    private String shopId;
+    private String userName;
+    private String email;
+    private String phone;
     private String cardHolderName;
-    private String cardNumber;
-    private String cardExpiryDate;
-    private String cardCvc;
-    private String currency = "KZT";
-    private double fee = amount /100;
+    private String CARD;
+    private String EXP;
+    private String EXP_YEAR;
+    private String CVC2;
+    private String currency;
+    private double amount;
+    private double fee;
     private List<Item> items;
 }
