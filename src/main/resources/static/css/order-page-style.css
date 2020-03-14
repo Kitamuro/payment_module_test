@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,700");
 
+html,
 body {
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .header {
@@ -38,6 +43,7 @@ input {
     font-size: 40px;
     font-weight: lighter;
     font-family: Courier New, monospace;
+
 }
 
 .button-submit {
@@ -51,4 +57,99 @@ input {
     font-family: Courier New, monospace;
     font-size: 25px;
     background-color: skyblue;
+}
+
+
+
+
+
+
+.right {
+    position: absolute;
+    width: calc(37% - 40px);
+    height: 100%;
+    top: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0px 20px;
+    border: 5px solid lightblue;
+    background: grey;
+    border-radius: 1em;
+
+}
+
+.right form {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+}
+
+.right form input,
+.right form select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    border: none;
+    border-bottom: 1.5px solid #ccc;
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 2.5px;
+    position: relative;
+}
+
+.right form .form-field {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.right form .date-val {
+    display: flex;
+    justify-content: space-between;
+}
+
+.right form .date-val select {
+    width: 45%;
+}
+
+.right form button[type="submit"] {
+    width: 170px;
+    padding: 10px;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-weight: 400;
+    font-size: 13pt;
+    background: darkgreen linear-gradient(
+            135deg,
+            #4183d7 0%,
+            #66cc99 100%
+    );
+    margin: 12px auto;
+}
+
+.right form button[type="submit"]:hover {
+    box-shadow: 0 0 0 3px #4183d7;
+    background-color: green;
+}
+
+label {
+    padding-bottom: 10px;
+}
+
+.data {
+    font-style: revert;
+    padding: 7px;
+    user-select: none;
+    background-color: white;
+    margin-bottom: 40px;
+}
+p::selection {
+    background: transparent;
+}
+
+p::-moz-selection {
+    background: transparent;
 }
