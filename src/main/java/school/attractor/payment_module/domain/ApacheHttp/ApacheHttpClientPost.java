@@ -59,17 +59,8 @@ public class ApacheHttpClientPost {
                 String htmlString = EntityUtils.toString ( entity );
                 Document html = Jsoup.parse ( htmlString );
                 if(html.title ().equals ( "Transaction declined" )){
-                    String check = "   msg += '<tr> <td>Card number:</td> <td> 4012001037141112 </td></tr>';\n" +
-                            "   msg += '<tr> <td>Card expiry YY / MM :</td><td> 27/12 </td></tr>';\n" +
-                            "   msg += \"<tr><td>Transaction amount:</td><td> 1.00 </td></tr>\";\n" +
-                            "   msg += \"<tr><td>Transaction currency:</td> <td> USD </td> </tr>\";\n" +
-                            "   msg += \"<tr><td>Merchant order id:</td><td>  </td></tr>\";\n" +
-                            "   msg += \"<tr><td>Transaction reference with the merchant bank:</td><td> 007390994057 </td></tr>\";\n" +
-                            "   msg += \"<tr><td>Internal transaction reference:</td><td> 5B43AC45BE73ECFF </td></tr>\";\n" +
-                            "   msg += \"<tr><td>Your bank's approval code:</td><td> 054865 </td></tr>\";\n" +
-                            "   msg += \"<tr><td>RC code:</td><td> 00 </td></tr>";
-                    String substring = htmlString.substring ( 1337, 1349 );
-                    System.out.println ("Transaction declined because of the " + substring );
+                    String rcCode = htmlString.split ( "(\\bRC Code\\b)" )[1].split ( "\\bp\\b" )[0].replaceAll ( "[^\\w \\xC0-\\xFF]","" ).trim ();
+                    System.out.println ("Transaction declined, Response Code " + rcCode );
 
                 } else {
                     String action = html.body ( ).getAllElements ( ).forms ( ).get ( 0 ).attributes ( ).get ( "ACTION" );
