@@ -59,19 +59,15 @@ input {
     background-color: skyblue;
 }
 
-
-
-
-
-
 .right {
     position: absolute;
     width: calc(37% - 40px);
     height: 100%;
     top: 0;
+    left: 32%;
     display: flex;
     flex-flow: column nowrap;
-    padding: 0px 20px;
+    padding: 0 20px;
     border: 5px solid lightblue;
     background: grey;
     border-radius: 1em;
@@ -80,6 +76,7 @@ input {
 
 .right form {
     display: flex;
+    flex-direction: column;
     flex-flow: column nowrap;
     width: 100%;
 }
@@ -90,28 +87,28 @@ input {
     -webkit-appearance:none; /* Safari and Chrome */
     appearance:none;
     border: none;
-    border-bottom: 1.5px solid #ccc;
-    font-size: 18px;
+    border-bottom: 2px solid #ccc;
+    font-size: 12px;
     padding: 10px;
-    margin-top: 2.5px;
+    margin: 5px;
     position: relative;
 }
 
 .right form .form-field {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-between;
     font-size: 20px;
-    margin-bottom: 12px;
 }
 
 .right form .date-val {
     display: flex;
     justify-content: space-between;
+    padding: 20px;
 }
 
 .right form .date-val select {
-    width: 45%;
+    width: 50%;
 }
 
 .right form button[type="submit"] {
@@ -135,17 +132,30 @@ input {
     background-color: green;
 }
 
-label {
-    padding-bottom: 10px;
+.right h1{
+    padding: 0;
+    margin: 15px 0;
 }
 
+
 .data {
+    padding: 50px 0;
+    margin: 0;
     font-style: revert;
-    padding: 7px;
     user-select: none;
     background-color: white;
-    margin-bottom: 40px;
+
 }
+
+.order-text{
+    padding: 10px;
+}
+
+.order-text p{
+    padding: 0;
+    margin: 0;
+}
+
 p::selection {
     background: transparent;
 }

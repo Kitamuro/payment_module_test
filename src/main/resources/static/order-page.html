@@ -19,7 +19,7 @@
 
 <div class="form">
 
-    <form action="/" class="order-form">
+    <form action="/" id="order-form">
         <input type="hidden" name="shopName" value="Example Shop">
         <div>
             <div> ФИО</div>
@@ -48,30 +48,35 @@
         </button>
     </form>
 
+</div>
 
-    <template id="purchase-form-template">
-        <section class="right">
+<script>
+    let orderButton = document.getElementById("order-button");
+    orderButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        //Получаем данные с формы заказа покупателя для отправки на сервер и вывода в модальном окне
+        let orderForm = document.getElementById("order-form");
+        let orderData = new FormData(orderForm);
+        let infoOrder = Object.fromEntries(orderData);
+        console.log(infoOrder);
+
+        //Разметка модальной формы оплаты
+        let purchaseHtml = `<section class="right">
             <h1>Страница оплаты</h1>
-
-
-            <#if order??>
-                <div class="data">
-                    <div class="order-text"> <p> Магазин: ${order.shopName} </p></div>
-                    <div class="order-text"> <p> Покупатель: ${order.userName}  </p></div>
-                    <div class="order-text"> <p> Email: ${order.email}  </p></div>
-                    <div class="order-text"> <p> Телефон: ${order.phone}  </p></div>
-                    <div class="order-text"> <p> Заказ: ${order.order_id}  </p></div>
-                    <div class="order-text"> <p> Сумма :${order.amount}  </p></div>
-                </div>
-            </#if>
-            <form action="#" id="purchase-form">
-                <#if order??>
-                    <input type="hidden" name="shopName" value=${order.shopName}>
-                    <input type="hidden" name="userName" value=${order.userName}>
-                    <input type="hidden" name="email" value=${order.email}>
-                    <input type="hidden" name="phone" value=${order.phone}>
-                    <input type="hidden" name="amount" value=${order.amount}>
-                </#if>
+            <div class="data">
+            <div class="order-text"> <p> Магазин: ${infoOrder.shopName} </p></div>
+            <div class="order-text"> <p> Покупатель: ${infoOrder.userName}</p></div>
+            <div class="order-text"> <p> Email: ${infoOrder.email}</p></div>
+            <div class="order-text"> <p> Телефон: ${infoOrder.phone}</p></div>
+            <div class="order-text"> <p> Заказ: ${infoOrder.order_id}</p></div>
+            <div class="order-text"> <p> Сумма : ${infoOrder.amount}</p></div>
+            </div>
+            <form action="/" id="purchase-form">
+                    <input type="hidden" name="shopName" value=${infoOrder.shopName}>
+                     <input type="hidden" name="userName" value=${infoOrder.userName}>
+                     <input type="hidden" name="email" value=${infoOrder.email}>
+                    <input type="hidden" name="phone" value=${infoOrder.phone}>
+                     <input type="hidden" name="amount" value=${infoOrder.amount}>
                 <div class="form-name form-field">
                     <label for="cc-number">Имя держателя карты</label>
                     <input name="cardHolderName" class="cc-name" type="text" placeholder="John John" required>
@@ -146,32 +151,25 @@
                 <button type="submit" id="purchase-button"> Оплатить </button>
 
             </form>
-        </section>
-    </template>
+        </section>`;
 
-</div>
-
-<script>
-    let orderButton = document.getElementById("order-button");
-    orderButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        console.log("sdasdsaasd");
-        let template = document.getElementById("purchase-form-template").content;
-
-        const formClone = template.cloneNode(true);
-
+        //Создаем элемент и вкладываем в него нашу разметку и добавляем в DOM
+        let html = document.createElement("div");
+        html.setAttribute("class", "purchase-block");
+        html.innerHTML = purchaseHtml.trim();
         let placeForPurchase = document.getElementsByTagName("body")[0].children[1];
-        placeForPurchase.prepend(formClone);
+        placeForPurchase.prepend(html);
 
-        let inputOrder = document.getElementsByClassName("order-form")[0];
-        inputOrder.hidden = true;
+        //Убираем лишние обьекты формы заказа
+        orderForm.hidden = true;
 
+
+        //Вешаем слушателя на кнопку оплаты в форме оплаты
         let form = document.getElementById("purchase-form");
         let url = "http://localhost:8080/pay";
 
         form.addEventListener("submit", async function (e) {
             e.preventDefault();
-            e.stopPropagation();
 
             let formData = new FormData(form);
             let transaction = Object.fromEntries(formData);
@@ -181,8 +179,12 @@
                 headers: {"Content-Type": "application/json;charset=utf-8"},
                 body: JSON.stringify(transaction)
             });
-            console.log(response)
-    })})
+            console.log(response);
+
+            //Восстановление страницы заказа покупателя
+            orderForm.hidden = false;
+            document.getElementsByClassName("purchase-block")[0].hidden = true;
+        })})
 </script>
 
 </body>
