@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.item.Item;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 

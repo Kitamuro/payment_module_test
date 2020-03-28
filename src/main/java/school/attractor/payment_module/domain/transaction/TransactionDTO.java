@@ -3,6 +3,11 @@ package school.attractor.payment_module.domain.transaction;
 import lombok.*;
 import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.item.ItemDTO;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -13,14 +18,38 @@ public class TransactionDTO {
     private String id;
     private CommersantDTO commersantDTO;
     private String shopId;
+
+    @NotBlank(message = "Введите ваше полное имя")
     private String userName;
+
+    @NotBlank(message = "Введите корректный email адрес")
+    @Email
     private String email;
+
+    @NotBlank(message = "Введите существующий номер телефона")
+    @Size(min = 10, max = 10, message = "Вы ввели неправильный номер")
     private String phone;
+
+    @NotBlank(message = "Введите правильное имя на карте")
     private String cardHolderName;
+
+    @NotBlank(message = "Введите номер существующей карты")
+//    @Digits(integer = 16, fraction = 0)
+    @Size(min = 16, max = 16, message = "Вы ввели неправильную карту")
     private String CARD;
+
+    @NotBlank(message = "Введите правильный месяц истечения срока вашей карты")
+    @Size(min = 1, max = 2)
     private String EXP;
-    private String EXP_YEAR;;
+
+    @NotBlank(message = "Введите правильный год истечения срока вашей карты")
+    @Size(min = 4, max = 4)
+    private String EXP_YEAR;
+
+    @NotBlank(message = "Введите правильный код на обратной стороне карты")
+    @Size(min = 3, max = 3)
     private String CVC2;
+
     private List<ItemDTO> items;
     private double amount;
 
