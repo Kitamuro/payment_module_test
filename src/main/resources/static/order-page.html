@@ -52,14 +52,14 @@
 
 <script>
     let orderButton = document.getElementById("order-button");
+    let orderForm = document.getElementById("order-form");
+    let errorTrigger = null;
+    //1. Нажимаем на кнопку "Оформить заказ"
     orderButton.addEventListener("click", function (e) {
         e.preventDefault();
         //Получаем данные с формы заказа покупателя для отправки на сервер и вывода в модальном окне
-        let orderForm = document.getElementById("order-form");
         let orderData = new FormData(orderForm);
         let infoOrder = Object.fromEntries(orderData);
-        console.log(infoOrder);
-
         //Разметка модальной формы оплаты
         let purchaseHtml = `<section class="right">
             <h1>Страница оплаты</h1>
@@ -145,7 +145,6 @@
                     <input name="CVC2" type="password" inputmode="numeric" minlength="2" maxlength="3" size="3"
                            placeholder="123" required>
                 </div>
-
                 <button type="submit" id="purchase-button"> Оплатить </button>
 
             </form>
@@ -161,15 +160,15 @@
         //Убираем лишние обьекты формы заказа
         orderForm.hidden = true;
 
-
         //Вешаем слушателя на кнопку оплаты в форме оплаты
-        let form = document.getElementById("purchase-form");
+        let purchaseForm = document.getElementById("purchase-form");
         let url = "http://localhost:8080/pay";
-
-        form.addEventListener("submit", async function (e) {
+        //2. Нажимаем на кпоку "Оплатить"
+        purchaseForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            let formData = new FormData(form);
+            //Отправляем форму оплаты с информацией о карте и покупателе
+            let formData = new FormData(purchaseForm);
             let transaction = Object.fromEntries(formData);
             console.log(transaction);
             let response = await fetch(url, {
@@ -177,12 +176,41 @@
                 headers: {"Content-Type": "application/json;charset=utf-8"},
                 body: JSON.stringify(transaction)
             });
-            console.log(response);
 
-            //Восстановление страницы заказа покупателя
-            orderForm.hidden = false;
-            document.getElementsByClassName("purchase-block")[0].hidden = true;
-        })})
+            //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
+            if(response.status !== 200){
+                let errors = await response.json();
+                let result = JSON.stringify(errors);
+
+                //Создаем разметку ошибки с классом "error"
+                let errorHtml = document.createElement("div");
+                errorHtml.setAttribute("class", "error");
+                //Форматируем ответ ошибки
+                let parError = `<p style="color:red">${result.toString().substr(2, (result.length - 4))}</p>`;
+                errorHtml.innerHTML = parError.trim();
+
+                //Создали триггер для проверки на повторную ошибку
+                //Если триггер не равен нынешней ошибке
+                if (errorTrigger !== errors){
+                    //И если он не пустой
+                    if (errorTrigger !== null) {
+                        //То значит там уже есть ошибка и мы удаляем старую ошибку
+                        let element = document.getElementsByClassName("error")[0];
+                        element.parentNode.removeChild(element);
+                    }
+                    //Если триггер пустой, значит ошибки ранее не было и мы без проверки вставляем ошибку
+                    document.getElementsByClassName("form-sec-code")[0].prepend(errorHtml);
+                    errorTrigger = errors;
+                }
+            }else{
+                //Восстановление страницы заказа покупателя
+                orderForm.hidden = false;
+                document.getElementsByClassName("purchase-block")[0].hidden = true;
+            }
+        });
+
+    });
+
 </script>
 
 </body>
