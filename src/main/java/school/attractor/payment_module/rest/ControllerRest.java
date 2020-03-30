@@ -9,9 +9,12 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import school.attractor.payment_module.domain.ApacheHttp.ApacheHttpClientPost;
 import school.attractor.payment_module.domain.transaction.TransactionDTO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
@@ -28,10 +31,10 @@ import static java.util.stream.Collectors.toList;
 public class ControllerRest {
 
     @PostMapping("/pay")
-    public HttpStatus mainController(@Valid @RequestBody  TransactionDTO transactionDTO) throws IOException {
+    public ModelAndView mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
         System.out.println(transactionDTO);
-//        ApacheHttpClientPost.sendRequest (transactionDTO.getCARD (), transactionDTO.getEXP (), transactionDTO.getEXP_YEAR (), transactionDTO.getCVC2 ());
-        return HttpStatus.OK;
+        request.setAttribute ( View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT );
+        return new ModelAndView ("redirect:/3DsecureMVCTemp");
     }
 
 }
