@@ -13,17 +13,4 @@ public class PagesController {
         return "order-page.html";
     }
 
-//
-//    @PostMapping("/paymentPage")
-//    public String paymentPagePost(OrderDTO order, RedirectAttributes attributes) {
-//        attributes.addFlashAttribute("order", order);
-//        return "redirect:/paymentPage";
-//    }
-//
-//    @GetMapping("/paymentPage")
-//    public String paymentPage() {
-//        return "payment-page";
-//    }
-
-//    unnecessary
 }
