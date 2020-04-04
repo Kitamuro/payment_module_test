@@ -33,8 +33,9 @@ public class ControllerRest {
     @PostMapping("/pay")
     public ModelAndView mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
         System.out.println(transactionDTO);
-        request.setAttribute ( View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT );
-        return new ModelAndView ("redirect:/3DsecureMVCTemp");
+//        request.setAttribute ( View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT );
+//        return new ModelAndView ("redirect:/3DsecureMVCTemp");
+        return new ModelAndView("redirect:/");
     }
 
 }
