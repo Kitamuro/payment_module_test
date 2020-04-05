@@ -18,6 +18,7 @@ public class FrontEndServiceTemp {
 
 
     void makeHttpClient(TransactionDTO transactionDTO) throws IOException {
-        apacheHttpClientPostTemp.sendRequest (transactionDTO.getCARD (), transactionDTO.getEXP (), transactionDTO.getEXP_YEAR (), transactionDTO.getCVC2 ());
+        String orderNumber = "456321"; //пока не передается номер заказа
+        apacheHttpClientPostTemp.sendRequest (transactionDTO.getCARD (), transactionDTO.getEXP (), transactionDTO.getEXP_YEAR (), transactionDTO.getCVC2 (), String.valueOf ( (int)transactionDTO.getAmount () ), orderNumber);
     }
 }
