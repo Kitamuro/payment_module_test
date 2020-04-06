@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -33,7 +32,7 @@ public class ApacheHttpClientPost {
     public ResponseDTO responseDTO;
 
 
-    public void sendRequest(String card, String exp, String expYear, String cvc2) throws IOException {
+    public void sendRequest(String card, String exp, String expYear, String cvc2, String amount, String order) throws IOException {
 
         try {
             final CloseableHttpClient httpclient = HttpClients.createDefault ( );
@@ -44,12 +43,12 @@ public class ApacheHttpClientPost {
             params.add ( new BasicNameValuePair ( "EXP_YEAR", expYear ) );
             params.add ( new BasicNameValuePair ( "CVC2", cvc2 ) );
             params.add ( new BasicNameValuePair ( "CVC2_RC", "1" ) );
-            params.add ( new BasicNameValuePair ( "AMOUNT", "3" ) );
+            params.add ( new BasicNameValuePair ( "AMOUNT", amount ) );
             params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
             params.add ( new BasicNameValuePair ( "DESC", "Merchant_test" ) );
             params.add ( new BasicNameValuePair ( "MERCHANT", "ECOMM001" ) );
             params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
-            params.add ( new BasicNameValuePair ( "ORDER", "123456" ) );
+            params.add ( new BasicNameValuePair ( "ORDER", order ) );
             params.add ( new BasicNameValuePair ( "TRTYPE", "1" ) );
             params.add ( new BasicNameValuePair ( "EMAIL", "test@atfbank.kz" ) );
             params.add ( new BasicNameValuePair ( "MERCH_GMT", "+6" ) );
@@ -68,12 +67,17 @@ public class ApacheHttpClientPost {
                 System.out.println ( "html = " + html );
                 String[] substring = htmlString.split ( "(\\bwindow.location.href\\b)" )[1].split ( "\\b&\\b" );
                 String rcCode = substring[3].split ( "\\bRC\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]","" );
-                if(rcCode.equals ( "00" )) {
-                    String trAm = substring[5].split ( "\\bAMOUNT\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
-                    String trCcy = substring[6].split ( "\\bCUR\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
-                    String transRef = substring[9].split ( "\\bREF\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
-                    String intTrRef = substring[10].split ( "\\bINT_REF\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
-                    String apprCode = substring[1].split ( "\\bRES\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+                if(rcCode.equals ( "00" ) && html.title ().equals ( "Transaction approved" )) {
+                    String trAm = getStringData( substring, 5, "AMOUNT" );
+//                    String trAm = substring[5].split ( "\\bAMOUNT\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+                    String trCcy = getStringData( substring, 6, "CUR" );
+//                    String trCcy = substring[6].split ( "\\bCUR\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+                    String transRef = getStringData( substring, 9, "REF" );
+//                    String transRef = substring[9].split ( "\\bREF\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+                    String intTrRef = getStringData( substring, 10, "INT_REF" );
+//                    String intTrRef = substring[10].split ( "\\bINT_REF\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+                    String apprCode = getStringData( substring, 1, "RES" );
+//                    String apprCode = substring[1].split ( "\\bRES\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
                     System.out.println ( "whole message from the Bank = " + htmlString );
                     System.out.println ( "Transaction amount = " + trAm );
                     System.out.println ( "Transaction currency = " + trCcy );
@@ -99,6 +103,12 @@ public class ApacheHttpClientPost {
         } catch (IOException e) {
             e.printStackTrace ( );
         }
+    }
+
+    String getStringData(String[] substring, int index1, String splitWord) {
+        String data = substring[index1].split ( "\\b"+splitWord+"\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+        System.out.println ( "data = " + data );
+        return data;
     }
 
 }

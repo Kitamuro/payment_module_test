@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>Оформление заказа</title>
     <link rel="stylesheet" href="css/order-page-style.css">
+    <link href="https://fonts.googleapis.com/css?family=Oxygen|Raleway&display=swap" rel="stylesheetFont">
+    <link rel="stylesheet" href="loading-bar/loading-bar.css">
+    <script src="loading-bar/loading-bar.js"></script>
 </head>
 <body>
 
 <header class="header">
     <div class="shop-name">
-        Example Shop
+        ESDP Java-1,2 Project
     </div>
     <div class="title-text">
         Страница для оформления заказа
@@ -49,11 +52,11 @@
     </form>
 
 </div>
-
 <script>
     let orderButton = document.getElementById("order-button");
     let orderForm = document.getElementById("order-form");
     let errorTrigger = null;
+
     //1. Нажимаем на кнопку "Оформить заказ"
     orderButton.addEventListener("click", function (e) {
         e.preventDefault();
@@ -62,6 +65,7 @@
         let infoOrder = Object.fromEntries(orderData);
         //Разметка модальной формы оплаты
         let purchaseHtml = `<section class="right">
+            <div class = "purchase-container">
             <h1>Страница оплаты</h1>
             <div class="data">
             <div class="order-text"> <p> Магазин: ${infoOrder.shopName} </p></div>
@@ -71,7 +75,7 @@
             <div class="order-text"> <p> Заказ: ${infoOrder.order_id}</p></div>
             <div class="order-text"> <p> Сумма : ${infoOrder.amount}</p></div>
             </div>
-            <form action="/" id="purchase-form">
+            <form action="#" id="purchase-form">
                     <input type="hidden" name="shopName" value=${infoOrder.shopName}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
@@ -148,6 +152,7 @@
                 <button type="submit" id="purchase-button"> Оплатить </button>
 
             </form>
+            </div>
         </section>`;
 
         //Создаем элемент и вкладываем в него нашу разметку и добавляем в DOM
@@ -204,16 +209,23 @@
                 }
             }else{
                 //Восстановление страницы заказа покупателя
-                orderForm.hidden = false;
-                document.getElementsByClassName("purchase-block")[0].hidden = true;
-            }
-            window.location.href = "http://localhost:8080/status";
+            let progressBarHtml = document.createElement("div");
+                progressBarHtml.setAttribute("class", "lv-circles lg lv-mid");
+                progressBarHtml.setAttribute("id", "progressBar");
+                document.getElementsByClassName("purchase-container")[0].hidden = true;
+                document.getElementsByClassName("right")[0].append(progressBarHtml);
 
+                //Создаем переменную загрузочной иконки
+                //Инициализируем иконку загрузки
+                let element = lv.create(document.getElementById("progressBar"));
+                // orderForm.hidden = false;
+                // document.getElementsByClassName("purchase-block")[0].hidden = true;
+            }
+            // window.location.href = "http://localhost:8080/";
         });
 
     });
 
 </script>
-
 </body>
 </html>
