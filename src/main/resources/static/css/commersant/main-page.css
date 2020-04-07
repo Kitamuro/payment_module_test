@@ -1,0 +1,11 @@
+.main {
+  flex-grow: 1;
+}
+
+.list {
+  padding: 10px 10px 0px 200px;
+}
+.list  div{
+  padding: 5px;
+  border: 2px solid black;
+}
