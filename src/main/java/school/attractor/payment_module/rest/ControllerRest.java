@@ -25,16 +25,16 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-
+@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class ControllerRest {
 
     @PostMapping("/pay")
-    public ModelAndView mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
+    public String mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
         System.out.println(transactionDTO);
-        request.setAttribute ( View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT );
-        return new ModelAndView ("redirect:/3DsecureMVCTemp");
+        return ResponseEntity.ok().toString();
+
     }
 
 }
