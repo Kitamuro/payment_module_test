@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/commersant")
+@RequestMapping("/")
 public class CommersantController {
 
 }
