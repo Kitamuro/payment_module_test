@@ -18,7 +18,7 @@ public class CommersantController {
 
     @GetMapping("/")
     public String hello (Model model) {
-        model.addAttribute("test", 1);
+
         return "main";
     }
 
