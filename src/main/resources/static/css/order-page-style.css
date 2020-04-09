@@ -59,6 +59,9 @@ input {
     background-color: skyblue;
 }
 
+
+/* MODAL FORM FOR PURCHASE */
+
 .right {
     position: absolute;
     width: calc(37% - 40px);

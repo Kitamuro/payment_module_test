@@ -75,7 +75,7 @@
             <div class="order-text"> <p> Заказ: ${infoOrder.order_id}</p></div>
             <div class="order-text"> <p> Сумма : ${infoOrder.amount}</p></div>
             </div>
-            <form action="#" id="purchase-form">
+            <form action="/" id="purchase-form">
                     <input type="hidden" name="shopName" value=${infoOrder.shopName}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
@@ -83,7 +83,7 @@
                      <input type="hidden" name="amount" value=${infoOrder.amount}>
                 <div class="form-name form-field">
                     <label for="cc-number">Имя держателя карты</label>
-                    <input name="cardHolderName" class="cc-name" type="text" placeholder="John John" required>
+                    <input name="cardHolderName" class="cc-name" type="text" placeholder="John John" required autofocus>
                 </div>
                 <div class="form-card form-field">
                     <label for="cc-number">Номер карты</label>
@@ -168,25 +168,33 @@
         //Вешаем слушателя на кнопку оплаты в форме оплаты
         let purchaseForm = document.getElementById("purchase-form");
         let url = "http://localhost:8080/pay";
+
+        //Создание разметки для загрузочной иконки
+        let progressBarHtml = document.createElement("div");
+        progressBarHtml.setAttribute("class", "lv-circles lg lv-mid");
+        progressBarHtml.setAttribute("id", "progressBar");
+
+
         //2. Нажимаем на кпоку "Оплатить"
         purchaseForm.addEventListener("submit", async function (e) {
             e.preventDefault();
+            e.stopPropagation();
 
             //Отправляем форму оплаты с информацией о карте и покупателе
             let formData = new FormData(purchaseForm);
             let transaction = Object.fromEntries(formData);
-            console.log(transaction);
             let response = await fetch(url, {
                 method: "post",
                 headers: {"Content-Type": "application/json;charset=utf-8"},
                 body: JSON.stringify(transaction)
             });
 
+
+
             //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
             if(response.status !== 200){
                 let errors = await response.json();
                 let result = JSON.stringify(errors);
-
                 //Создаем разметку ошибки с классом "error"
                 let errorHtml = document.createElement("div");
                 errorHtml.setAttribute("class", "error");
@@ -208,24 +216,23 @@
                     errorTrigger = errors;
                 }
             }else{
-                //Восстановление страницы заказа покупателя
-            let progressBarHtml = document.createElement("div");
-                progressBarHtml.setAttribute("class", "lv-circles lg lv-mid");
-                progressBarHtml.setAttribute("id", "progressBar");
+                //Вставляем разметку иконки в DOM
                 document.getElementsByClassName("purchase-container")[0].hidden = true;
                 document.getElementsByClassName("right")[0].append(progressBarHtml);
-
                 //Создаем переменную загрузочной иконки
                 //Инициализируем иконку загрузки
                 let element = lv.create(document.getElementById("progressBar"));
-                // orderForm.hidden = false;
-                // document.getElementsByClassName("purchase-block")[0].hidden = true;
+                // console.log(response.body.getReader());
             }
-            // window.location.href = "http://localhost:8080/";
+
+
+
+            // window.location.href = "http://localhost:8080/status";
         });
 
     });
-
 </script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 </body>
 </html>

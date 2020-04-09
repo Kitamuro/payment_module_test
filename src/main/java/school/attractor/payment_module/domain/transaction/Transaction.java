@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.item.Item;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.UUID;
 
 
 @Data
@@ -29,7 +27,7 @@ public class Transaction {
     private String EXP_YEAR;
     private String CVC2;
     private String currency;
-    private double amount;
+    private String amount;
     private double fee;
     private List<Item> items;
 }

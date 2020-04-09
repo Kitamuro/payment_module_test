@@ -26,7 +26,7 @@ public class CommersantController {
     public String transaction(Model model) {
 
         Transaction test = Transaction.builder()
-                .amount(100)
+                .amount("100")
                 .CARD("333-333-333-333-333")
                 .cardHolderName("Test Name")
                 .CVC2("333")

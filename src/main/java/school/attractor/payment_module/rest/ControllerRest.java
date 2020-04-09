@@ -2,9 +2,11 @@ package school.attractor.payment_module.rest;
 
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +27,27 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-@CrossOrigin
+
 @AllArgsConstructor
+@NoArgsConstructor
 @RestController
 public class ControllerRest {
+    private ApacheHttpClientPost apacheHttpClientPostTemp = new ApacheHttpClientPost();
 
     @PostMapping("/pay")
-    public String mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
+    public ResponseEntity<?> mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
         System.out.println(transactionDTO);
-        return ResponseEntity.ok().toString();
+        String orderId = "312321";
+        apacheHttpClientPostTemp.sendRequest(transactionDTO.getCARD(), transactionDTO.getEXP(), transactionDTO.getEXP_YEAR(), transactionDTO.getCVC2(), transactionDTO.getAmount(), orderId);
 
+        String responseCode = apacheHttpClientPostTemp.getResponseCode();
+        String errorMessage = apacheHttpClientPostTemp.getErrorMessage();
+        if (responseCode.equals("00")){
+            return ResponseEntity.status(HttpStatus.OK).body("null");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(errorMessage);
+
+        }
     }
 
 }

@@ -51,7 +51,7 @@ public class TransactionDTO {
     private String CVC2;
 
     private List<ItemDTO> items;
-    private double amount;
+    private String amount;
 
     public static TransactionDTO from(Transaction transaction) {
         return builder()
