@@ -35,19 +35,20 @@ public class ControllerRest {
     private ApacheHttpClientPost apacheHttpClientPostTemp = new ApacheHttpClientPost();
 
     @PostMapping("/pay")
-    public ResponseEntity<?> mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
+    public ResponseEntity mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
         System.out.println(transactionDTO);
-        String orderId = "312321";
-        apacheHttpClientPostTemp.sendRequest(transactionDTO.getCARD(), transactionDTO.getEXP(), transactionDTO.getEXP_YEAR(), transactionDTO.getCVC2(), transactionDTO.getAmount(), orderId);
+        String orderId = "312301";
+//        apacheHttpClientPostTemp.sendRequest(transactionDTO.getCARD(), transactionDTO.getEXP(), transactionDTO.getEXP_YEAR(), transactionDTO.getCVC2(), transactionDTO.getAmount(), orderId);
 
         String responseCode = apacheHttpClientPostTemp.getResponseCode();
         String errorMessage = apacheHttpClientPostTemp.getErrorMessage();
-        if (responseCode.equals("00")){
-            return ResponseEntity.status(HttpStatus.OK).body("null");
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(errorMessage);
+//        if (responseCode.equals("00")){
+//            return ResponseEntity.status(HttpStatus.OK).body("okay");
+//        }else{
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+//        }
 
-        }
+            return  ResponseEntity.status(HttpStatus.CONFLICT).body("not okay?");
     }
 
 }

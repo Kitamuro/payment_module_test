@@ -169,6 +169,9 @@
         let purchaseForm = document.getElementById("purchase-form");
         let url = "http://localhost:8080/pay";
 
+
+
+
         //Создание разметки для загрузочной иконки
         let progressBarHtml = document.createElement("div");
         progressBarHtml.setAttribute("class", "lv-circles lg lv-mid");
@@ -183,54 +186,77 @@
             //Отправляем форму оплаты с информацией о карте и покупателе
             let formData = new FormData(purchaseForm);
             let transaction = Object.fromEntries(formData);
-            let response = await fetch(url, {
-                method: "post",
-                headers: {"Content-Type": "application/json;charset=utf-8"},
-                body: JSON.stringify(transaction)
-            });
 
+            try{
+                let response = await fetch(url, {
+                    method: "post",
+                    headers: {"Content-Type": "application/json;charset=utf-8"},
+                    body: JSON.stringify(transaction)
+                });
+                //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
+                if (response.status !== 200) {
+                    let errors = await response.json();
+                    let result = JSON.stringify(errors);
+                    //Создаем разметку ошибки с классом "error"
+                    let errorHtml = document.createElement("div");
+                    errorHtml.setAttribute("class", "error");
+                    //Форматируем ответ ошибки
+                    let parError = `<p style="color:red">${result.toString().substr(2, (result.length - 4))}</p>`;
+                    errorHtml.innerHTML = parError.trim();
 
-
-            //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
-            if(response.status !== 200){
-                let errors = await response.json();
-                let result = JSON.stringify(errors);
-                //Создаем разметку ошибки с классом "error"
-                let errorHtml = document.createElement("div");
-                errorHtml.setAttribute("class", "error");
-                //Форматируем ответ ошибки
-                let parError = `<p style="color:red">${result.toString().substr(2, (result.length - 4))}</p>`;
-                errorHtml.innerHTML = parError.trim();
-
-                //Создали триггер для проверки на повторную ошибку
-                //Если триггер не равен нынешней ошибке
-                if (errorTrigger !== errors){
-                    //И если он не пустой
-                    if (errorTrigger !== null) {
-                        //То значит там уже есть ошибка и мы удаляем старую ошибку
-                        let element = document.getElementsByClassName("error")[0];
-                        element.parentNode.removeChild(element);
+                    //Создали триггер для проверки на повторную ошибку
+                    //Если триггер не равен нынешней ошибке
+                    if (errorTrigger !== errors) {
+                        //И если он не пустой
+                        if (errorTrigger !== null) {
+                            //То значит там уже есть ошибка и мы удаляем старую ошибку
+                            let element = document.getElementsByClassName("error")[0];
+                            element.parentNode.removeChild(element);
+                        }
+                        //Если триггер пустой, значит ошибки ранее не было и мы без проверки вставляем ошибку
+                        document.getElementsByClassName("form-sec-code")[0].prepend(errorHtml);
+                        errorTrigger = errors;
                     }
-                    //Если триггер пустой, значит ошибки ранее не было и мы без проверки вставляем ошибку
-                    document.getElementsByClassName("form-sec-code")[0].prepend(errorHtml);
-                    errorTrigger = errors;
                 }
-            }else{
-                //Вставляем разметку иконки в DOM
-                document.getElementsByClassName("purchase-container")[0].hidden = true;
-                document.getElementsByClassName("right")[0].append(progressBarHtml);
-                //Создаем переменную загрузочной иконки
-                //Инициализируем иконку загрузки
-                let element = lv.create(document.getElementById("progressBar"));
-                // console.log(response.body.getReader());
-            }
+                if (response.status === 200) {
+                    putLoadingBar(progressBarHtml);
+                    let element = lv.create(document.getElementById("progressBar"));
+                    setTimeout(async function() {
+                        //Вставим разметку успешного ответа от банка
+                        element.remove();
+                        let successfulAnswerHtml = ``;
+                        let div = document.createElement("div");
+                        div.innerHTML = successfulAnswerHtml.trim();
+                        console.log("okay");
+                    }, 3000);
+                }}
+                catch(response){
+                    putLoadingBar(progressBarHtml);
+                    let element = lv.create(document.getElementById("progressBar"));
+                    setTimeout(async function(){
+                        //Вставим разметку ошибки от банка
+                        element.remove();
+                        let unsuccessfulAnswerHtml = ``;
+                        let div = document.createElement("div");
+                        div.innerHTML = unsuccessfulAnswerHtml.trim();
+                        console.log("Boom shakalaka");
+                    }, 3000);
+
+                }
 
 
-
-            // window.location.href = "http://localhost:8080/status";
-        });
-
+                // window.location.href = "http://localhost:8080/status";
+            });
     });
+
+    function putLoadingBar(progressBarHtml) {
+        //Вставляем разметку иконки в DOM
+        document.getElementsByClassName("purchase-container")[0].hidden = true;
+        document.getElementsByClassName("right")[0].append(progressBarHtml);
+        //Создаем переменную загрузочной иконки
+        //Инициализируем иконку загрузки
+    }
+
 </script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
