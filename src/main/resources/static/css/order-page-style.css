@@ -62,7 +62,7 @@ input {
 
 /* MODAL FORM FOR PURCHASE */
 
-.right {
+.purchase {
     position: absolute;
     width: calc(37% - 40px);
     height: 100%;
@@ -74,18 +74,17 @@ input {
     border: 5px solid lightblue;
     background: grey;
     border-radius: 1em;
-
 }
 
-.right form {
+.purchase form {
     display: flex;
     flex-direction: column;
     flex-flow: column nowrap;
     width: 100%;
 }
 
-.right form input,
-.right form select {
+.purchase form input,
+.purchase form select {
     -moz-appearance:none; /* Firefox */
     -webkit-appearance:none; /* Safari and Chrome */
     appearance:none;
@@ -97,24 +96,24 @@ input {
     position: relative;
 }
 
-.right form .form-field {
+.purchase form .form-field {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
     font-size: 20px;
 }
 
-.right form .date-val {
+.purchase form .date-val {
     display: flex;
     justify-content: space-between;
     padding: 20px;
 }
 
-.right form .date-val select {
+.purchase form .date-val select {
     width: 50%;
 }
 
-.right form button[type="submit"] {
+.purchase form button[type="submit"] {
     width: 170px;
     padding: 10px;
     border: none;
@@ -130,12 +129,12 @@ input {
     margin: 12px auto;
 }
 
-.right form button[type="submit"]:hover {
+.purchase form button[type="submit"]:hover {
     box-shadow: 0 0 0 3px #4183d7;
     background-color: green;
 }
 
-.right h1{
+.purchase h1{
     padding: 0;
     margin: 15px 0;
 }

@@ -37,18 +37,18 @@ public class ControllerRest {
     @PostMapping("/pay")
     public ResponseEntity mainController(@Valid @RequestBody  TransactionDTO transactionDTO, HttpServletRequest request) throws IOException {
         System.out.println(transactionDTO);
-        String orderId = "312301";
-//        apacheHttpClientPostTemp.sendRequest(transactionDTO.getCARD(), transactionDTO.getEXP(), transactionDTO.getEXP_YEAR(), transactionDTO.getCVC2(), transactionDTO.getAmount(), orderId);
+        String orderId = "342121";
+        apacheHttpClientPostTemp.sendRequest(transactionDTO.getCARD(), transactionDTO.getEXP(), transactionDTO.getEXP_YEAR(), transactionDTO.getCVC2(), transactionDTO.getAmount(), orderId);
 
         String responseCode = apacheHttpClientPostTemp.getResponseCode();
         String errorMessage = apacheHttpClientPostTemp.getErrorMessage();
-//        if (responseCode.equals("00")){
-//            return ResponseEntity.status(HttpStatus.OK).body("okay");
-//        }else{
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
-//        }
+        if (responseCode.equals("00")){
+            return ResponseEntity.status(HttpStatus.OK).body("okay");
+        }else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+        }
 
-            return  ResponseEntity.status(HttpStatus.CONFLICT).body("not okay?");
+//            return  ResponseEntity.status(HttpStatus.CONFLICT).body("not okay?");
     }
 
 }

@@ -64,7 +64,7 @@
         let orderData = new FormData(orderForm);
         let infoOrder = Object.fromEntries(orderData);
         //Разметка модальной формы оплаты
-        let purchaseHtml = `<section class="right">
+        let purchaseHtml = `<section class="purchase">
             <div class = "purchase-container">
             <h1>Страница оплаты</h1>
             <div class="data">
@@ -167,6 +167,8 @@
 
         //Вешаем слушателя на кнопку оплаты в форме оплаты
         let purchaseForm = document.getElementById("purchase-form");
+        let purchaseBlock = document.getElementsByClassName("purchase-block")[0];
+        let purchaseSection = document.getElementsByClassName("purchase")[0];
         let url = "http://localhost:8080/pay";
 
 
@@ -221,38 +223,42 @@
                 if (response.status === 200) {
                     putLoadingBar(progressBarHtml);
                     let element = lv.create(document.getElementById("progressBar"));
-                    setTimeout(async function() {
+                    setTimeout(function() {
                         //Вставим разметку успешного ответа от банка
-                        element.remove();
-                        let successfulAnswerHtml = ``;
+                        element.hide();
+                        let successfulAnswerHtml = `<p>Транзакция прошла успешно!</p>`;
                         let div = document.createElement("div");
                         div.innerHTML = successfulAnswerHtml.trim();
-                        console.log("okay");
+                        purchaseSection.append(div);
+                        element.hide();
                     }, 3000);
                 }}
                 catch(response){
                     putLoadingBar(progressBarHtml);
                     let element = lv.create(document.getElementById("progressBar"));
-                    setTimeout(async function(){
+
+                    setTimeout(function(){
                         //Вставим разметку ошибки от банка
-                        element.remove();
-                        let unsuccessfulAnswerHtml = ``;
+                        let unsuccessfulAnswerHtml = `<p>Транзакция не удалась!</p>`;
                         let div = document.createElement("div");
                         div.innerHTML = unsuccessfulAnswerHtml.trim();
-                        console.log("Boom shakalaka");
+                        purchaseSection.append(div);
+                        element.hide();
                     }, 3000);
-
                 }
 
-
-                // window.location.href = "http://localhost:8080/status";
             });
+        // setTimeout(function(){
+        //     purchaseBlock.hidden = true;
+        //     orderForm.hidden = false;
+        // }, 8000);
     });
+
 
     function putLoadingBar(progressBarHtml) {
         //Вставляем разметку иконки в DOM
         document.getElementsByClassName("purchase-container")[0].hidden = true;
-        document.getElementsByClassName("right")[0].append(progressBarHtml);
+        document.getElementsByClassName("purchase")[0].append(progressBarHtml);
         //Создаем переменную загрузочной иконки
         //Инициализируем иконку загрузки
     }
