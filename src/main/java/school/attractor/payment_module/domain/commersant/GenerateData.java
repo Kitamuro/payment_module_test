@@ -95,11 +95,31 @@ public class GenerateData {
                 .orderId("81722")
                 .build();
 
+        Transaction test6 = Transaction.builder()
+                .amount("75000")
+                .CARD("9000-9885-3159-333-2213")
+                .cardHolderName("Test Name")
+                .CVC2("333")
+                .EXP("20/20")
+                .email("test@test")
+                .userName("test")
+                .date(new Date())
+                .shopName("Lamoda")
+                .status("Подтвержден")
+                .orderId("81722")
+                .build();
+
         transactions.add( test);
         transactions.add( test1);
         transactions.add( test2);
         transactions.add( test3);
         transactions.add( test4);
+        transactions.add( test5);
+        transactions.add( test6);
+        transactions.add( test2);
+        transactions.add( test3);
+        transactions.add( test3);
+        transactions.add( test1);
         transactions.add( test5);
 
         return transactions;
