@@ -1,6 +1,7 @@
 package school.attractor.payment_module.domain.transaction;
 
 import lombok.*;
+import school.attractor.payment_module.domain.ApacheHttp.ResponseDTO;
 import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.item.ItemDTO;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class TransactionDTO {
     private String id;
     private CommersantDTO commersantDTO;
+    private ResponseDTO responseDTO;
     private String shopId;
 
     @NotBlank(message = "Введите ваше полное имя")
