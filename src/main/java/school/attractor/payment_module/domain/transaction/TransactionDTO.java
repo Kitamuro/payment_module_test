@@ -34,7 +34,7 @@ public class TransactionDTO {
     private String cardHolderName;
 
     @NotBlank(message = "Введите номер существующей карты")
-//    @Digits(integer = 16, fraction = 0, message = "Вы ввели неправильную карту")
+    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные данные карты")
     @Size(min = 16, max = 16, message = "Вы ввели неправильную карту")
     private String CARD;
 

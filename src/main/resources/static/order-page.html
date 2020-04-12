@@ -64,36 +64,67 @@
         let orderData = new FormData(orderForm);
         let infoOrder = Object.fromEntries(orderData);
         //Разметка модальной формы оплаты
-        let purchaseHtml = `<section class="purchase">
-            <div class = "purchase-container">
-            <h1>Страница оплаты</h1>
-            <div class="data">
-            <div class="order-text"> <p> Магазин: ${infoOrder.shopName} </p></div>
-            <div class="order-text"> <p> Покупатель: ${infoOrder.userName}</p></div>
-            <div class="order-text"> <p> Email: ${infoOrder.email}</p></div>
-            <div class="order-text"> <p> Телефон: ${infoOrder.phone}</p></div>
-            <div class="order-text"> <p> Заказ: ${infoOrder.order_id}</p></div>
-            <div class="order-text"> <p> Сумма : ${infoOrder.amount}</p></div>
+        let purchaseHtml = `<div class="purchase-header">
+            <h1>Payment Modal Form</h1>
+        </div>
+        <div class="purchase-container">
+            <div class="customer-info">
+                <div class="customer-short-info">
+                    <div class="customer-info-text">${infoOrder.amount}</div>
+                    <div class="customer-info-currency"><span>&#8376;</span></div>
+                    <div class="extra-info-icon">
+                        <input type="checkbox" class="extra-button">
+                            <svg class="svg-icon" viewBox="0 0 20 20">
+                            <path d="M13.962,8.885l-3.736,3.739c-0.086,0.086-0.201,0.13-0.314,0.13S9.686,12.71,9.6,12.624l-3.562-3.56C5.863,8.892,5.863,8.611,6.036,8.438c0.175-0.173,0.454-0.173,0.626,0l3.25,3.247l3.426-3.424c0.173-0.172,0.451-0.172,0.624,0C14.137,8.434,14.137,8.712,13.962,8.885 M18.406,10c0,4.644-3.763,8.406-8.406,8.406S1.594,14.644,1.594,10S5.356,1.594,10,1.594S18.406,5.356,18.406,10 M17.521,10c0-4.148-3.373-7.521-7.521-7.521c-4.148,0-7.521,3.374-7.521,7.521c0,4.147,3.374,7.521,7.521,7.521C14.148,17.521,17.521,14.147,17.521,10"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="customer-extra-info-container " hidden>
+                    <div class="customer-extra-info">
+                        <div class="customer-extra-info-label">
+                        <ul>
+                            <li><div class="customer-info-text">Магазин</div></li>
+                            <li><div class="customer-info-text">Покупатель</div></li>
+                            <li><div class="customer-info-text">Email</div></li>
+                            <li><div class="customer-info-text">Телефон</div></li>
+                            <li><div class="customer-info-text">Заказ</div>
+                         </ul>
+                        </div>
+                        <div class="customer-extra-info-names">
+                    <ul>
+                        <li><div class="customer-info-text">${infoOrder.shopName}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.userName}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.email}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.phone}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.order_id}</div></li>
+                   </ul>
+                 </div>
+                     </div>
+                </div>
             </div>
-            <form action="/" id="purchase-form">
+            <hr>
+            <div class="purchase-block">
+                <form action="/" id="purchase-form">
                     <input type="hidden" name="shopName" value=${infoOrder.shopName}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
                     <input type="hidden" name="phone" value=${infoOrder.phone}>
                      <input type="hidden" name="amount" value=${infoOrder.amount}>
+
+                <div class="card-side">
+                     <div class="front-card">
+
                 <div class="form-name form-field">
-                    <label for="cc-number">Имя держателя карты</label>
-                    <input name="cardHolderName" class="cc-name" type="text" placeholder="John John" required autofocus>
+                    <input name="cardHolderName" class="cc-name" type="text" placeholder="Имя держателя карты" required autofocus>
                 </div>
+
                 <div class="form-card form-field">
-                    <label for="cc-number">Номер карты</label>
-                    <input name="CARD" class="cc-number" value="1111111111111111" type="text" placeholder="1111 2222 3333 4444"
+                    <input name="CARD" class="cc-number" value="1111111111111111" type="text" placeholder="Номер карты"
                            required minlength="15"
                            maxlength="16" size="16">
                 </div>
 
                 <div class="form-date form-field">
-                    <label for="expiry-month">Срок действия</label>
                     <div class="date-val">
                         <select name="EXP" class="expiry-month" required>
                             <option class="trans-label_month" value="" default="default" selected="selected">Месяц</option>
@@ -110,6 +141,7 @@
                             <option value="11">11</option>
                             <option value="12">12</option>
                         </select>
+                        <span>/</span>
                         <select name="EXP_YEAR" class="expiry-year" required>
                             <option class="trans-label_year" value="" default="" selected="selected">Год</option>
                             <option value="2020">20</option>
@@ -143,21 +175,24 @@
                         </select>
                     </div>
                 </div>
-
+            </div>
+            <div class="back-card">
+                <div class="back-card-line"></div>
                 <div class="form-sec-code form-field">
-                    <label for="sec-code">CVC код</label>
                     <input name="CVC2" type="password" inputmode="numeric" minlength="2" maxlength="3" size="3"
-                           placeholder="123" required>
+                           placeholder="Код" required>
                 </div>
+            </div>
+        </div>
                 <button type="submit" id="purchase-button"> Оплатить </button>
 
             </form>
             </div>
-        </section>`;
+        </div>`;
 
         //Создаем элемент и вкладываем в него нашу разметку и добавляем в DOM
         let html = document.createElement("div");
-        html.setAttribute("class", "purchase-block");
+        html.setAttribute("class", "purchase");
         html.innerHTML = purchaseHtml.trim();
         let placeForPurchase = document.getElementsByTagName("body")[0].children[1];
         placeForPurchase.prepend(html);
@@ -167,11 +202,8 @@
 
         //Вешаем слушателя на кнопку оплаты в форме оплаты
         let purchaseForm = document.getElementById("purchase-form");
-        let purchaseBlock = document.getElementsByClassName("purchase-block")[0];
-        let purchaseSection = document.getElementsByClassName("purchase")[0];
+        let purchaseDiv = document.getElementsByClassName("purchase")[0];
         let url = "http://localhost:8080/pay";
-
-
 
 
         //Создание разметки для загрузочной иконки
@@ -189,14 +221,13 @@
             let formData = new FormData(purchaseForm);
             let transaction = Object.fromEntries(formData);
 
-            try{
-                let response = await fetch(url, {
+            let response = await fetch(url, {
                     method: "post",
                     headers: {"Content-Type": "application/json;charset=utf-8"},
                     body: JSON.stringify(transaction)
                 });
                 //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
-                if (response.status !== 200) {
+                if (response.status === 422) {
                     let errors = await response.json();
                     let result = JSON.stringify(errors);
                     //Создаем разметку ошибки с классом "error"
@@ -216,7 +247,7 @@
                             element.parentNode.removeChild(element);
                         }
                         //Если триггер пустой, значит ошибки ранее не было и мы без проверки вставляем ошибку
-                        document.getElementsByClassName("form-sec-code")[0].prepend(errorHtml);
+                        document.getElementById("purchase-button").before(errorHtml);
                         errorTrigger = errors;
                     }
                 }
@@ -229,11 +260,11 @@
                         let successfulAnswerHtml = `<p>Транзакция прошла успешно!</p>`;
                         let div = document.createElement("div");
                         div.innerHTML = successfulAnswerHtml.trim();
-                        purchaseSection.append(div);
+                        purchaseDiv.append(div);
                         element.hide();
                     }, 3000);
-                }}
-                catch(response){
+                }
+                if(response.status === 403){
                     putLoadingBar(progressBarHtml);
                     let element = lv.create(document.getElementById("progressBar"));
 
@@ -242,7 +273,7 @@
                         let unsuccessfulAnswerHtml = `<p>Транзакция не удалась!</p>`;
                         let div = document.createElement("div");
                         div.innerHTML = unsuccessfulAnswerHtml.trim();
-                        purchaseSection.append(div);
+                        purchaseDiv.append(div);
                         element.hide();
                     }, 3000);
                 }
@@ -252,16 +283,29 @@
         //     purchaseBlock.hidden = true;
         //     orderForm.hidden = false;
         // }, 8000);
+
+        //Слушатель для кнопки "Доп.информация"
+        let extraButton = document.getElementsByClassName("extra-info-icon")[0];
+        extraButton.addEventListener("click", function(e){
+            console.log("extra!");
+            let button = document.getElementsByClassName("customer-extra-info-container")[0];
+            if(button.hidden){
+                document.getElementsByClassName("customer-extra-info-container")[0].hidden = false;
+            }else{
+                document.getElementsByClassName("customer-extra-info-container")[0].hidden = true;
+            }
+        });
     });
 
 
     function putLoadingBar(progressBarHtml) {
         //Вставляем разметку иконки в DOM
         document.getElementsByClassName("purchase-container")[0].hidden = true;
-        document.getElementsByClassName("purchase")[0].append(progressBarHtml);
+        document.getElementsByClassName("purchase-header")[0].after(progressBarHtml);
         //Создаем переменную загрузочной иконки
         //Инициализируем иконку загрузки
     }
+
 
 </script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
