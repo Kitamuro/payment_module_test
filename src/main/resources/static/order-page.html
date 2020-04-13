@@ -66,6 +66,7 @@
         //Разметка модальной формы оплаты
         let purchaseHtml = `<div class="purchase-header">
             <h1>Payment Modal Form</h1>
+            <span class = "close-button"><img src="images/close.svg" alt="close icon"></span>
         </div>
         <div class="purchase-container">
             <div class="customer-info">
@@ -285,7 +286,7 @@
         // }, 8000);
 
         //Слушатель для кнопки "Доп.информация"
-        let extraButton = document.getElementsByClassName("extra-info-icon")[0];
+        let extraButton = document.getElementsByClassName("extra-button")[0];
         extraButton.addEventListener("click", function(e){
             console.log("extra!");
             let button = document.getElementsByClassName("customer-extra-info-container")[0];
@@ -294,6 +295,12 @@
             }else{
                 document.getElementsByClassName("customer-extra-info-container")[0].hidden = true;
             }
+        });
+
+        let closeButton = document.getElementsByClassName("close-button")[0];
+        closeButton.addEventListener("click", function(e){
+            purchaseDiv.remove();
+            orderForm.hidden = false;
         });
     });
 

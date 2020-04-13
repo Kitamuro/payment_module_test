@@ -78,10 +78,19 @@ body {
 .purchase-header{
     width: 880px;
     background-color: lightgrey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .purchase-header h1{
     padding-left: 136px;
+}
+
+.purchase-header span{
+    width: 15px;
+    height: 15px;
+    margin: 0 20px 10px 0;
 }
 
 .purchase-container{
