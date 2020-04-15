@@ -57,7 +57,6 @@ public class TransactionDTO {
 
     public static TransactionDTO from(Transaction transaction) {
         return builder()
-                .id(transaction.getId())
                 .amount(transaction.getAmount())
                  .shopId(transaction.getShopId())
                 .userName(transaction.getUserName())

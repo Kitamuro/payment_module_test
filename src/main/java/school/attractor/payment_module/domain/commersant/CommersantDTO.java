@@ -13,7 +13,6 @@ public class CommersantDTO {
 
     public static CommersantDTO from(Commersant commersant) {
         return  builder()
-                .id(commersant.getId())
                 .name(commersant.getName())
                 .build();
     }
