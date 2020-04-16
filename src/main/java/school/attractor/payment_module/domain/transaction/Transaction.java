@@ -75,4 +75,24 @@ public class Transaction {
 
     @Column(length = 30)
     private String orderId;
+
+
+
+    public  static Transaction from(TransactionDTO transactionDTO) {
+        return  Transaction.builder()
+                .shopId(transactionDTO.getShopId())
+                .shopName(transactionDTO.getShopName())
+                .userName(transactionDTO.getUserName())
+                .amount(transactionDTO.getAmount())
+                .email(transactionDTO.getEmail())
+                .status(transactionDTO.getStatus())
+                .EXP(transactionDTO.getEXP())
+                .EXP_YEAR(transactionDTO.getEXP_YEAR())
+                .cardHolderName(transactionDTO.getCardHolderName())
+                .date(transactionDTO.getDate())
+                .phone(transactionDTO.getPhone())
+                .build();
+
+
+    }
 }

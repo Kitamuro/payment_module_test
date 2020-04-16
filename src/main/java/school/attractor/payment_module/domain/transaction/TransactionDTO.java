@@ -6,6 +6,7 @@ import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.item.ItemDTO;
 
 import javax.validation.constraints.*;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,10 +56,17 @@ public class TransactionDTO {
     private List<ItemDTO> items;
     private String amount;
 
+    private String shopName;
+
+    private String status;
+
+    private Date date;
+
     public static TransactionDTO from(Transaction transaction) {
         return builder()
                 .amount(transaction.getAmount())
                  .shopId(transaction.getShopId())
+                .shopName(transaction.getShopName())
                 .userName(transaction.getUserName())
                 .email(transaction.getEmail())
                 .phone(transaction.getPhone())
@@ -67,6 +75,8 @@ public class TransactionDTO {
                 .EXP(transaction.getEXP())
                 .EXP_YEAR(transaction.getEXP_YEAR())
                 .CVC2(transaction.getCVC2())
+                .status(transaction.getStatus())
+                .date(transaction.getDate())
 //                .items(transaction.getItems().stream().map(ItemDTO::from).collect(Collectors.toList()))
                 .build();
     }
