@@ -13,4 +13,5 @@ public class CommersantService {
         Commersant commersant = commersantRepository.findById(id).orElseThrow();
         return CommersantDTO.from(commersant);
     }
+
 }
