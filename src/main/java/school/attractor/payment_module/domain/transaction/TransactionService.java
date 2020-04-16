@@ -10,7 +10,8 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
 
-    public void save(Transaction transaction) {
+    public void save(TransactionDTO transactionDTO) {
+        Transaction transaction = Transaction.from(transactionDTO);
         transactionRepository.save(transaction);
     }
 
