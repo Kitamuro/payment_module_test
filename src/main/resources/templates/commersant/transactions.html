@@ -1,5 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<style>
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        text-decoration: none;
+        padding: 1px 12px 1px 11px;
+        min-width: 16px;
+        text-align: center;
+        border-radius: 0;
+        margin-left: -1px;
+        border: 1px solid #888;
+        background-color: #fff;
+        line-height: 28px;
+    }
+
+    .pagination a.active {
+        background-color: black;
+        color: white;
+        border-radius: 2px;
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -10,11 +35,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Операции</title>
 </head>
-<body>
+
 <div th:insert="layout :: header"></div>
 <div class="main">
 
-    <table class="table table-hover">
+    <table class="table table-hover" border="1">
         <thead class="thead-dark">
         <tr>
             <th scope="col">№Заказа</th>
@@ -26,18 +51,48 @@
         </thead>
 
         <tbody>
-
-        <tr th:each="transaction , itemStat : *{transactions}">
-            <th scope="row" th:text="*{transactions[__${itemStat.index}__].orderId}"></th>
-            <td th:text="*{transactions[__${itemStat.index}__].date}"></td>
-            <td th:text="*{transactions[__${itemStat.index}__].shopName}"></td>
-            <td th:text="*{transactions[__${itemStat.index}__].amount}"></td>
-            <td th:text="*{transactions[__${itemStat.index}__].status}"></td>
+        <tr th:each="transaction , itemStat : ${transactions.content}"
+            th:style="${itemStat.odd}? 'font-weight: bold;'"
+            th:alt-title="${itemStat.even}? 'even' : 'odd'">
+            <td th:text="${transaction.orderId}" />
+            <td th:text="${transaction.date}" />
+            <td th:text="${transaction.shopName}" />
+            <td th:text="${transaction.amount}" />
+            <td th:text="${transaction.status}" />
         </tr>
 
         </tbody>
     </table>
+
+    <div class="flex-row pagination">
+        <h4>количество транзакций на странице: </h4>
+        <li> <a th:href="@{/transactions(size=5, page=${number+1})}"
+                th:class="${number==transactions.number + 1 } ? active">5</a></li>
+        <li> <a th:href="@{/transactions(size=10, page=${number+1})}"
+                th:class="${number==transactions.number + 1} ? active">10</a></li>
+        <li> <a th:href="@{/transactions(size=20, page=${number+1})}"
+                th:class="${number==transactions.number + 1} ? active">20</a></li>
+    </div>
+<div class = "flex-row">
+    <div th:if="${number > 0}" class = "pagination">
+        <a th:href="@{/transactions(size=${transactions.size}, page=${number})}"
+           th:text="назад"
+           th:class="${number==transactions.number - 1} ? active"></a>
+    </div>
+    <div th:if="${transactions.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/transactions(size=${transactions.size}, page=${pageNumber})}"
+       th:text="${pageNumber}"
+       th:class="${pageNumber==transactions.number + 1} ? active"></a>
+    </div>
+    <div th:if="${number > -1} and ${transactions.totalPages > number + 1}" class = "pagination">
+        <a th:href="@{/transactions(size=${transactions.size}, page=${number}+2)}"
+           th:text="вперед"
+           th:class="${number==transactions.number + 2} ? active"></a>
+    </div>
 </div>
+</div>
+
 
 <div th:insert="layout ::footer"></div>
 </body>
