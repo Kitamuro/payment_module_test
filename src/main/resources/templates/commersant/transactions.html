@@ -38,7 +38,15 @@
 
 <div th:insert="layout :: header"></div>
 <div class="main">
-
+    <div class="flex-row pagination">
+        <h5 style="padding-right: 10px">показать:</h5>
+        <li> <a th:href="@{/transactions(size=5, page=${number+1})}"
+                th:class="${number==transactions.number + 1 } ? active">5</a></li>
+        <li> <a th:href="@{/transactions(size=10, page=${number+1})}"
+                th:class="${number==transactions.number + 1} ? active">10</a></li>
+        <li> <a th:href="@{/transactions(size=20, page=${number+1})}"
+                th:class="${number==transactions.number + 1} ? active">20</a></li>
+    </div>
     <table class="table table-hover" border="1">
         <thead class="thead-dark">
         <tr>
@@ -64,15 +72,7 @@
         </tbody>
     </table>
 
-    <div class="flex-row pagination">
-        <h4>количество транзакций на странице: </h4>
-        <li> <a th:href="@{/transactions(size=5, page=${number+1})}"
-                th:class="${number==transactions.number + 1 } ? active">5</a></li>
-        <li> <a th:href="@{/transactions(size=10, page=${number+1})}"
-                th:class="${number==transactions.number + 1} ? active">10</a></li>
-        <li> <a th:href="@{/transactions(size=20, page=${number+1})}"
-                th:class="${number==transactions.number + 1} ? active">20</a></li>
-    </div>
+
 <div class = "flex-row">
     <div th:if="${number > 0}" class = "pagination">
         <a th:href="@{/transactions(size=${transactions.size}, page=${number})}"

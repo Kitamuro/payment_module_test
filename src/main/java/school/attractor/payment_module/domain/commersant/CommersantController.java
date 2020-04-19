@@ -47,7 +47,6 @@ public class CommersantController {
         model.addAttribute ( "transactions", transactions );
         int number = transactions.getNumber ( );
         transactions.getSize ();
-        System.out.println ("number"+number );
         model.addAttribute ( "number", number );
         int totalPages = transactions.getTotalPages ();
         if(totalPages > 0){
