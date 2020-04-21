@@ -1,3 +1,28 @@
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  text-decoration: none;
+  padding: 1px 12px 1px 11px;
+  min-width: 16px;
+  text-align: center;
+  border-radius: 0;
+  margin-left: -1px;
+  border: 1px solid #888;
+  background-color: #fff;
+  line-height: 28px;
+}
+
+.pagination a.active {
+  background-color: black;
+  color: white;
+  border-radius: 2px;
+}
+
 .main {
   flex-grow: 1;
 }
@@ -8,4 +33,43 @@
 .list  div{
   padding: 5px;
   border: 2px solid black;
+}
+
+.flex {
+  display: flex;
+}
+
+
+.info-block {
+  padding: 20px;
+  border: 1px solid grey;
+  min-width: 30%;
+}
+
+.transaction-id {
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+.transaction-status {
+  padding: 5px;
+  width:40%;
+  background-color: limegreen;
+}
+
+.transaction-amount {
+  font-size: 25px;
+  font-weight: bold;
+  padding: 20px 0;
+}
+
+.transaction-title {
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+.row {
+  padding: 5px 20px;
+  display: flex;
+  justify-content:space-between;
 }
