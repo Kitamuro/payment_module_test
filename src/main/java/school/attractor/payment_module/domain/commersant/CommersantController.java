@@ -42,7 +42,7 @@ public class CommersantController {
     @GetMapping("/transactions")
     public String getTransactions(Model model, @RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
         int currentPage = page.orElse ( 1 );
-        int pageSize = size.orElse ( 5 );
+        int pageSize = size.orElse ( 12 );
         Page<Transaction> transactions = transactionService.getTransactions ( PageRequest.of(currentPage - 1, pageSize, Sort.by("shopName").descending() ) );
         model.addAttribute ( "transactions", transactions );
         int number = transactions.getNumber ( );

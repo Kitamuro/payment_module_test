@@ -1,30 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<style>
-    .pagination {
-        display: inline-block;
-    }
 
-    .pagination a {
-        color: black;
-        float: left;
-        text-decoration: none;
-        padding: 1px 12px 1px 11px;
-        min-width: 16px;
-        text-align: center;
-        border-radius: 0;
-        margin-left: -1px;
-        border: 1px solid #888;
-        background-color: #fff;
-        line-height: 28px;
-    }
-
-    .pagination a.active {
-        background-color: black;
-        color: white;
-        border-radius: 2px;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -36,64 +12,109 @@
     <title>Операции</title>
 </head>
 
+<body>
 <div th:insert="layout :: header"></div>
-<div class="main">
-    <div class="flex-row pagination">
-        <h5 style="padding-right: 10px">показать:</h5>
-        <li> <a th:href="@{/transactions(size=5, page=${number+1})}"
-                th:class="${number==transactions.number + 1 } ? active">5</a></li>
-        <li> <a th:href="@{/transactions(size=10, page=${number+1})}"
-                th:class="${number==transactions.number + 1} ? active">10</a></li>
-        <li> <a th:href="@{/transactions(size=20, page=${number+1})}"
-                th:class="${number==transactions.number + 1} ? active">20</a></li>
+
+<div class="flex-row pagination">
+    <h5 style="padding-right: 10px">показать:</h5>
+    <li><a th:href="@{/transactions(size=5, page=${number+1})}"
+           th:class="${number==transactions.number + 1 } ? active">5</a></li>
+    <li><a th:href="@{/transactions(size=10, page=${number+1})}"
+           th:class="${number==transactions.number + 1} ? active">10</a></li>
+    <li><a th:href="@{/transactions(size=20, page=${number+1})}"
+           th:class="${number==transactions.number + 1} ? active">20</a></li>
+</div>
+
+<div class="flex">
+    <div class="main">
+
+        <table class="table table-hover" border="1">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">№Заказа</th>
+                <th scope="col">Дата и время</th>
+                <th scope="col">Магазин</th>
+                <th scope="col">Сумма</th>
+                <th scope="col">Статус</th>
+            </tr>
+            </thead>
+
+            <tbody id="transactions">
+            <tr th:each="transaction , itemStat : ${transactions.content}"
+                th:style="${itemStat.odd}? 'font-weight: bold;'"
+                th:alt-title="${itemStat.even}? 'even' : 'odd'">
+                <td th:inline="javascript" hidden class="transaction-obj"> [[${transaction}]]</td>
+                <td th:text="${transaction.orderId}"></td>
+                <td th:text="${transaction.date}"></td>
+                <td th:text="${transaction.shopName}"></td>
+                <td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.status}"></td>
+            </tr>
+
+            </tbody>
+        </table>
     </div>
-    <table class="table table-hover" border="1">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">№Заказа</th>
-            <th scope="col">Дата и время</th>
-            <th scope="col">Магазин</th>
-            <th scope="col">Сумма</th>
-            <th scope="col">Статус</th>
-        </tr>
-        </thead>
 
-        <tbody>
-        <tr th:each="transaction , itemStat : ${transactions.content}"
-            th:style="${itemStat.odd}? 'font-weight: bold;'"
-            th:alt-title="${itemStat.even}? 'even' : 'odd'">
-            <td th:text="${transaction.orderId}" />
-            <td th:text="${transaction.date}" />
-            <td th:text="${transaction.shopName}" />
-            <td th:text="${transaction.amount}" />
-            <td th:text="${transaction.status}" />
-        </tr>
+    <div hidden id="info-block" class="info-block"></div>
 
-        </tbody>
-    </table>
+</div>
 
-
-<div class = "flex-row">
-    <div th:if="${number > 0}" class = "pagination">
+<div class="flex-row">
+    <div th:if="${number > 0}" class="pagination">
         <a th:href="@{/transactions(size=${transactions.size}, page=${number})}"
            th:text="назад"
            th:class="${number==transactions.number - 1} ? active"></a>
     </div>
     <div th:if="${transactions.totalPages > 0}" class="pagination"
-     th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/transactions(size=${transactions.size}, page=${pageNumber})}"
-       th:text="${pageNumber}"
-       th:class="${pageNumber==transactions.number + 1} ? active"></a>
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/transactions(size=${transactions.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==transactions.number + 1} ? active"></a>
     </div>
-    <div th:if="${number > -1} and ${transactions.totalPages > number + 1}" class = "pagination">
+    <div th:if="${number > -1} and ${transactions.totalPages > number + 1}" class="pagination">
         <a th:href="@{/transactions(size=${transactions.size}, page=${number}+2)}"
            th:text="вперед"
            th:class="${number==transactions.number + 2} ? active"></a>
     </div>
 </div>
-</div>
-
 
 <div th:insert="layout ::footer"></div>
 </body>
+
+<script th:inline="javascript">
+
+    let windowElement = window['transactions'];
+    let block = window['info-block'];
+
+    windowElement.addEventListener('click', function (e) {
+        let markupTransaction = e.target.parentElement;
+        let transactionElem = markupTransaction.getElementsByClassName('transaction-obj')[0].innerHTML;
+        let transaction = JSON.parse(transactionElem);
+        block.hidden = false;
+        print(transaction);
+
+    });
+
+    function print(transaction) {
+        block.innerHTML = ` <div id="close-icon" class="close"> x </div>
+                    <div class="transaction-id"> ${transaction.id} </div>
+                    <div class="transaction-status">${transaction.status} </div>
+                    <div class="transaction-amount">${transaction.amount}  TГ </div>
+                    <div class="transaction-title"> Платежная информация </div>
+                    <div class="row"> <div>Дата оплаты</div>  <div> ${transaction.date} </div> </div>
+                    <div class="row"> <div>Магазин</div>  <div> ${transaction.shopName} </div> </div>
+                    <div class="transaction-title">Спасоб оплаты</div>
+                    <div class="row"> <div>Карта</div>  <div> ${transaction.card} </div> </div>
+                    <div class="row"> <div>Покупатель</div>  <div>${transaction.cardHolderName}</div></div>
+                    <div class="transaction-title">Информация о покупке</div>
+                    <div class="row"> <div>Телефон</div>  <div>${transaction.phone} </div> </div>
+                    <div class="row"> <div>Почта</div>  <div> ${transaction.email} </div> </div>
+            `.trim();
+        let closeIcon = window['close-icon'];
+        closeIcon.addEventListener('click', function () {
+            block.hidden = true;
+        })
+    }
+</script>
 </html>
+
