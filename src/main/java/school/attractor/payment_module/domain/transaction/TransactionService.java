@@ -22,21 +22,9 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public Page<Transaction> getTransactions(Pageable pageable){
-        List<Transaction> transactions = transactionRepository.findAll ( );
-        int pageSize = pageable.getPageSize ();
-        int currentPage = pageable.getPageNumber ();
-        int initialItem = currentPage * pageSize;
-        List<Transaction> transactionList;
 
-        if (transactions.size () < initialItem){
-            transactionList= Collections.emptyList ();
-        }else{
-            int lastIndexofItem = Math.min(initialItem + pageSize, transactions.size ());
-            transactionList = transactions.subList ( initialItem, lastIndexofItem );
-        }
-        return new PageImpl<Transaction> (transactionList, PageRequest.of(currentPage, pageSize ), transactions.size ());
-//    https://www.baeldung.com/spring-thymeleaf-pagination
+    public Page<Transaction> getTransactions(Pageable pageable) {
+        return transactionRepository.findAll(pageable);
     }
 
 }
