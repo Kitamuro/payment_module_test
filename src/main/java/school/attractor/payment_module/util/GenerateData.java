@@ -31,6 +31,9 @@ class GenerateData {
                     .orderId(String.valueOf(randomId))
                     .build();
             transactions.add(test);
+            if (i % 3 == 0) {
+                test.setStatus("Отклонен");
+            }
         }
         return transactions;
     }
