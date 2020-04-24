@@ -1,4 +1,6 @@
 
+
+
 .pagination {
   display: inline-block;
 }
@@ -27,6 +29,9 @@
   flex-grow: 1;
 }
 
+.table {
+  color: gray;
+}
 .list {
   padding: 10px 10px 0 200px;
 }
@@ -70,9 +75,47 @@
   font-weight: bold;
   padding-top: 10px;
 }
+.table-title th {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #5b8be1 !important;
+}
+td.transaction-order-id {
+  padding-left: 25px;
+}
+
+td.transaction-date {
+  font-weight: bold;
+  color: black;
+}
+
+.transaction-row {
+  line-height: 45px;
+
+}
+
+.active {
+  background: rgba(255, 243, 69, 0.62);
+}
 
 .row {
   padding: 5px 20px;
   display: flex;
   justify-content:space-between;
+}
+
+.circle-status {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.success {
+  background: forestgreen;
+}
+
+.declined {
+  background: red;
 }
