@@ -1,6 +1,13 @@
 
 
 
+.container{
+  margin: 0 100px;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+}
 .pagination {
   display: inline-block;
 }
@@ -42,14 +49,20 @@
 
 .flex {
   display: flex;
+  justify-content: center;
+  align-items: start;
+  min-width: 650px;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid lightgrey;
 }
 
 
 .info-block {
   padding: 20px;
   border: 1px solid grey;
-  min-width: 30%;
-  max-height: 594px;
+  min-width: 350px;
+  /*max-height: 594px;*/
   overflow-y: scroll;
 
 }
@@ -75,10 +88,13 @@
   font-weight: bold;
   padding-top: 10px;
 }
+
 .table-title th {
+  height: 70px;
   font-weight: bold;
   text-transform: uppercase;
   color: #5b8be1 !important;
+  border: none !important;
 }
 td.transaction-order-id {
   padding-left: 25px;
@@ -91,7 +107,6 @@ td.transaction-date {
 
 .transaction-row {
   line-height: 45px;
-
 }
 
 .active {
