@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import school.attractor.payment_module.domain.ApacheHttp.Response;
 import school.attractor.payment_module.domain.commersant.Commersant;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 
 
 @Data
@@ -26,12 +28,17 @@ public class Transaction {
     @ManyToOne(fetch = FetchType.LAZY)
     private Commersant commersant;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Response> responses = new ArrayList<> ();
+
+    @Column(length = 1)
+    private String hold = "0";
+
     @Column(length = 50)
     private String shopId;
 
     @Column(length = 30)
     private String shopName;
-
 
     @Column(length = 30)
     private String userName;
@@ -80,6 +87,7 @@ public class Transaction {
 
     public  static Transaction from(TransactionDTO transactionDTO) {
         return  Transaction.builder()
+                .orderId(transactionDTO.getOrderId ())
                 .shopId(transactionDTO.getShopId())
                 .shopName(transactionDTO.getShopName())
                 .userName(transactionDTO.getUserName())

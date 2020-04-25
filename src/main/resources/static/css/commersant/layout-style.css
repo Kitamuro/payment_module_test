@@ -81,3 +81,18 @@ a:hover {
     background: black;
     color: white;
 }
+
+.center{
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.block{
+    display: block;
+}
+
+#btn-reverse{
+    margin-left: 70px;
+
+}

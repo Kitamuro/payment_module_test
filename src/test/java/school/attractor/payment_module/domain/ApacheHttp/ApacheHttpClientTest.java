@@ -7,16 +7,17 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
+import school.attractor.payment_module.domain.transaction.Transaction;
 
 
 public class ApacheHttpClientTest {
 
 
     @Spy
-    ApacheHttpClientPost apacheHttpClientPostSpy = Mockito.spy ( ApacheHttpClientPost.class );
+    SendRequest sendRequestSpy = Mockito.spy ( SendRequest.class );
 
     @Mock
-    ApacheHttpClientPost apacheHttpClientPostMock = Mockito.mock ( ApacheHttpClientPost.class );
+    SendRequest sendRequestMock = Mockito.mock ( SendRequest.class );
 
 
     @Test
@@ -34,7 +35,7 @@ public class ApacheHttpClientTest {
                 "<BR><BR><B>Processing...</B>\n" +
                 "</BODY>\n" +
                 "</HTML>";
-        Mockito.when ( apacheHttpClientPostMock.BankCommunicator ( Mockito.anyString ( ), Mockito.anyString ( ), Mockito.anyString ( ), Mockito.anyString ( ), Mockito.anyString ( ), Mockito.anyString ( ) ) ).thenReturn ( htmlString );
+        Mockito.when ( sendRequestMock.BankCommunicator (  Mockito.spy ( Transaction.class ),Mockito.anyString (), Mockito.anyString ( ) ) ).thenReturn ( htmlString );
     }
 
     @Test
@@ -56,9 +57,9 @@ public class ApacheHttpClientTest {
             " </body>\n"+
             "</html>";
 
-        ResponseDTO responseDTO = new ResponseDTO ( );
-        responseDTO.setRcCode ( "9" );
-        Assert.assertEquals ( responseDTO, apacheHttpClientPostSpy.parseResponse ( htmlString ));
+        Response response = new Response ( );
+        response.setRcCode ( "9" );
+        Assert.assertEquals ( response, sendRequestMock.parseResponse ( htmlString ));
 
     }
 
@@ -77,14 +78,14 @@ public class ApacheHttpClientTest {
                 "<BR><BR><B>Processing...</B>\n" +
                 "</BODY>\n" +
                 "</HTML>";
-        ResponseDTO responseDTO = new ResponseDTO ( );
-        responseDTO.setTransactionAmount ( 10000.0 );
-        responseDTO.setTransactionCcy ( "USD" );
-        responseDTO.setTransactionReference ( "010290001932" );
-        responseDTO.setInternalTransReference ( "EEDCD934745037A3" );
-        responseDTO.setApprovalCode ( "0" );
-        responseDTO.setRcCode ( "00" );
-        Assert.assertEquals (responseDTO , apacheHttpClientPostSpy.parseResponse ( html ) );
+        Response response = new Response ( );
+        response.setTransactionAmount ( 10000.0 );
+        response.setTransactionCcy ( "USD" );
+        response.setRetrievalReferenceNumber ( "010290001932" );
+        response.setInternalReferenceNumber ( "EEDCD934745037A3" );
+        response.setApprovalCode ( "0" );
+        response.setRcCode ( "00" );
+        Assert.assertEquals (response , sendRequestMock.parseResponse ( html ) );
     }
 
 
