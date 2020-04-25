@@ -5,33 +5,25 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+
     <link rel="stylesheet" href="css/commersant/layout-style.css">
     <link rel="stylesheet" href="css/commersant/main-page.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <title>Операции</title>
 </head>
 
 <body>
 <div th:insert="layout :: header"></div>
 
-<div class="flex-row pagination">
-    <h5 style="padding-right: 10px">показать:</h5>
-    <li><a th:href="@{/transactions(size=5, page=${number+1})}"
-           th:class="${number==transactions.number + 1 } ? active">5</a></li>
-    <li><a th:href="@{/transactions(size=10, page=${number+1})}"
-           th:class="${number==transactions.number + 1} ? active">10</a></li>
-    <li><a th:href="@{/transactions(size=20, page=${number+1})}"
-           th:class="${number==transactions.number + 1} ? active">20</a></li>
-</div>
-
 <div class="flex">
     <div class="main">
 
-        <table class="table table-hover" border="1">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">№Заказа</th>
+        <table class="table table-hover">
+            <thead class="thead-light">
+            <tr class="table-title">
+                <th scope="col">№  Заказа</th>
                 <th scope="col">Дата и время</th>
                 <th scope="col">Магазин</th>
                 <th scope="col">Сумма</th>
@@ -40,15 +32,14 @@
             </thead>
 
             <tbody id="transactions">
-            <tr th:each="transaction , itemStat : ${transactions.content}"
-                th:style="${itemStat.odd}? 'font-weight: bold;'"
-                th:alt-title="${itemStat.even}? 'even' : 'odd'">
+            <tr class="transaction-row" th:each="transaction , itemStat : ${transactions.content}">
                 <td th:inline="javascript" hidden class="transaction-obj"> [[${transaction}]]</td>
-                <td th:text="${transaction.orderId}"></td>
-                <td th:text="${transaction.date}"></td>
+                <td class="transaction-order-id" th:text="${transaction.orderId}"></td>
+                <td class="transaction-date" th:text="${#dates.format(transaction.date, 'dd-MM-yyyy HH:mm')}">  </td>
                 <td th:text="${transaction.shopName}"></td>
-                <td th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.status}"></td>
+                <td th:text="${transaction.amount}"> </td>
+                <td th:if="${transaction.status =='Подтвержден'}"> <div class="circle-status success"></div> Подтвержден </td>
+                <td th:if="${transaction.status =='Отклонен'}"> <div class="circle-status declined"></div> Отклонен </td>
             </tr>
 
             </tbody>
@@ -88,11 +79,18 @@
 
     windowElement.addEventListener('click', function (e) {
         let markupTransaction = e.target.parentElement;
+
         let transactionElem = markupTransaction.getElementsByClassName('transaction-obj')[0].innerHTML;
         let transaction = JSON.parse(transactionElem);
         block.hidden = false;
+
         print(transaction);
 
+        let classList = document.getElementById("transactions").children;
+        for (let i = 0; i < classList.length; i++) {
+            classList[i].classList.remove('active')
+        }
+        markupTransaction.classList.add("active");
     });
 
     function print(transaction) {

@@ -28,21 +28,14 @@ public class CommersantController {
 
     @GetMapping("/")
     public String hello (Model model) {
-
         return "main";
     }
-
-//    @GetMapping("/transactions")
-//    public String transaction(Model model) {
-//        model.addAttribute("transactions", GenerateData.addTransaction());
-//        return "transactions";
-//    }
 
 
     @GetMapping("/transactions")
     public String getTransactions(Model model, @RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
         int currentPage = page.orElse ( 1 );
-        int pageSize = size.orElse ( 12 );
+        int pageSize = size.orElse ( 8 );
         Page<Transaction> transactions = transactionService.getTransactions ( PageRequest.of(currentPage - 1, pageSize, Sort.by("shopName").descending() ) );
         model.addAttribute ( "transactions", transactions );
         int number = transactions.getNumber ( );
