@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import school.attractor.payment_module.domain.transaction.Transaction;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -24,21 +25,25 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApacheHttpClientPost {
+public class SendRequest {
 
-    public ResponseDTO responseDTO;
+    private Response response;
     private List<NameValuePair> params = new ArrayList<> ( );
     private String bankUrl = "https://test-ecom.atfbank.kz:5443/cgi-bin/cgi_link";
 
-    public ApacheHttpClientPost(String card, String exp, String expYear, String cvc2, String amount, String order) {
-        String htmlString = BankCommunicator ( card, exp, expYear, cvc2, amount, order );
-        responseDTO = parseResponse ( htmlString );
+    public SendRequest(Transaction transaction, String transactionAmount, String trType) {
+        String htmlString = BankCommunicator ( transaction, transactionAmount, trType);
+        response = parseResponse ( htmlString );
     }
 
-    String BankCommunicator(String card, String exp, String expYear, String cvc2, String amount, String order) {
+    String BankCommunicator(Transaction transaction, String transactionAmount, String trType) {
         final CloseableHttpClient httpclient = HttpClients.createDefault ( );
         final HttpPost httpPost = new HttpPost ( bankUrl );
-        params = addParam ( card, exp, expYear, cvc2, amount, order );
+        if(trType.equals ( "24" ) || trType.equals ( "21" )){
+            params = addParam ( transaction, transactionAmount, trType );
+        } else {
+            params = addParamForAuth ( transaction, trType );
+        }
         try {
             httpPost.setEntity ( new UrlEncodedFormEntity ( params ) );
         } catch (UnsupportedEncodingException e) {
@@ -53,7 +58,8 @@ public class ApacheHttpClientPost {
         return "";
     }
 
-    ResponseDTO parseResponse(String htmlString){
+
+    Response parseResponse(String htmlString){
              Document html = Jsoup.parse ( htmlString );
              System.out.println ( "html = " + html );
              String[] substring = htmlString.split ( "(\\bwindow.location.href\\b)" )[1].split ( "\\b&\\b" );
@@ -65,42 +71,54 @@ public class ApacheHttpClientPost {
             String intTrRef = getStringData( substring, 10, "INT_REF" );
             String aprCode = getStringData( substring, 1, "RES" );
             consolePrint(htmlString, trAm, trCcy, transRef, intTrRef, aprCode,rcCode);
-            return buildResponseDTOSuccessful (trAm, trCcy, transRef, intTrRef, aprCode, rcCode);
+            return buildResponseSuccessful (trAm, trCcy, transRef, intTrRef, aprCode, rcCode);
         }else{
-            return buildResponseDTOFail ( rcCode );
+            return buildResponseFail ( rcCode );
         }
     }
 
-    private ResponseDTO buildResponseDTOFail(String rcCode) {
-        return responseDTO = ResponseDTO.builder()
+    private Response buildResponseFail(String rcCode) {
+        return response = Response.builder()
                 .rcCode ( rcCode )
                 .build();
     }
 
-    private ResponseDTO buildResponseDTOSuccessful(String trAm, String trCcy, String transRef, String intTrRef, String aprCode, String rcCode) {
-            return responseDTO = ResponseDTO.builder ( )
+    private Response buildResponseSuccessful(String trAm, String trCcy, String transRef, String intTrRef, String aprCode, String rcCode) {
+            return response = Response.builder ( )
                     .transactionAmount ( Double.parseDouble ( trAm )/100 )
                     .transactionCcy ( trCcy )
-                    .transactionReference ( transRef )
-                    .internalTransReference ( intTrRef )
+                    .RetrievalReferenceNumber ( transRef )
+                    .internalReferenceNumber ( intTrRef )
                     .approvalCode ( aprCode )
                     .rcCode ( rcCode )
                     .build ( );
     }
 
-    private List<NameValuePair> addParam(String card, String exp, String expYear, String cvc2, String amount, String order) {
-        params.add ( new BasicNameValuePair ( "CARD", card ) );
-        params.add ( new BasicNameValuePair ( "EXP", exp ) );
-        params.add ( new BasicNameValuePair ( "EXP_YEAR", expYear ) );
-        params.add ( new BasicNameValuePair ( "CVC2", cvc2 ) );
+    private List<NameValuePair> addParam(Transaction transaction, String transactionAmount, String trType) {
+        Response transactionResponse = transaction.getResponses ( ).get ( 0 );
+        params.add(new BasicNameValuePair ( "RRN", transactionResponse.getRetrievalReferenceNumber () ));
+        params.add(new BasicNameValuePair (  "INT_REF", transactionResponse.getInternalReferenceNumber ()));
+        params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrderId () ));
+        params.add ( new BasicNameValuePair ( "AMOUNT", transactionAmount ) );
+        params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
+        params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
+        params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
+        return params;
+    }
+
+    private List<NameValuePair> addParamForAuth(Transaction transaction, String trType) {
+        params.add ( new BasicNameValuePair ( "CARD", transaction.getCARD () ) );
+        params.add ( new BasicNameValuePair ( "EXP", transaction.getEXP () ) );
+        params.add ( new BasicNameValuePair ( "EXP_YEAR", transaction.getEXP_YEAR () ) );
+        params.add ( new BasicNameValuePair ( "CVC2", transaction.getCVC2 () ) );
         params.add ( new BasicNameValuePair ( "CVC2_RC", "1" ) );
-        params.add ( new BasicNameValuePair ( "AMOUNT", amount ) );
+        params.add ( new BasicNameValuePair ( "AMOUNT", transaction.getAmount () ) );
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "DESC", "Merchant_test" ) );
         params.add ( new BasicNameValuePair ( "MERCHANT", "ECOMM001" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
-        params.add ( new BasicNameValuePair ( "ORDER", order ) );
-        params.add ( new BasicNameValuePair ( "TRTYPE", "1" ) );
+        params.add ( new BasicNameValuePair ( "ORDER", transaction.getOrderId () ) );
+        params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
         params.add ( new BasicNameValuePair ( "EMAIL", "test@atfbank.kz" ) );
         params.add ( new BasicNameValuePair ( "MERCH_GMT", "+6" ) );
         params.add ( new BasicNameValuePair ( "MERCH_URL", "http://test.atfbank.kz" ) );

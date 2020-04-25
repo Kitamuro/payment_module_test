@@ -6,19 +6,32 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseDTO {
+@Builder
+@Entity
+@Table(name = "responses")
+public class Response {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    LocalDateTime dateTime;
     String cardNumber;
     String cardExpiry;
     Double transactionAmount;
     String transactionCcy;
     String merchantId;
-    String transactionReference;
-    String internalTransReference;
+    String RetrievalReferenceNumber;
+    String internalReferenceNumber;
     String approvalCode;
     String rcCode;
+
+
+
 }
