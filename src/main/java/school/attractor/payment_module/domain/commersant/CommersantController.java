@@ -77,11 +77,16 @@ public class CommersantController {
 
     @PostMapping("/confirm")
     public String confirmReverse(@RequestParam Integer transactionId, @RequestParam String transactionAmount, RedirectAttributes attributes){
+
         Transaction transaction = transactionService.getTransaction(transactionId);
+        System.out.println (transactionId );
 //        SendRequest sendRequest = new SendRequest ( transaction, transactionAmount, "24" );
 //        String responseCode = sendRequest.getResponse ( ).getRcCode ( );
         String  responseCode = "00";
         attributes.addFlashAttribute ( "responseCode", responseCode );
+        transaction.setStatus ( "Возвращен" );
+        transactionService.change ( transaction );
+        System.out.println ("Статус транзакции: " + transaction.getStatus () );
         return "redirect:/reversePage";
 
 //        if (responseCode.equals("00")){
