@@ -117,5 +117,9 @@ td.transaction-date {
 }
 
 .declined {
-  background: red;
+   background: red;
+ }
+
+.reversed {
+  background: yellow;
 }

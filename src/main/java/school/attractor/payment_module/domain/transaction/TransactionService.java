@@ -27,4 +27,5 @@ public class TransactionService {
         return transactionRepository.findById ( transactionId ).orElse ( new Transaction () );
     }
 
+    public void change(Transaction transaction) { transactionRepository.save ( transaction); }
 }

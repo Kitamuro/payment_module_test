@@ -40,6 +40,7 @@
                 <td th:text="${transaction.amount}"> </td>
                 <td th:if="${transaction.status =='Подтвержден'}"> <div class="circle-status success"></div> Подтвержден </td>
                 <td th:if="${transaction.status =='Отклонен'}"> <div class="circle-status declined"></div> Отклонен </td>
+                <td th:if="${transaction.status =='Возвращен'}"> <div class="circle-status reversed"></div> Возращен </td>
             </tr>
 
             </tbody>
