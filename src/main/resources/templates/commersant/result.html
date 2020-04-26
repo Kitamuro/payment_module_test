@@ -3,8 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <link href="css/commersant/search.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -14,6 +12,7 @@
     <link rel="stylesheet" href="css/commersant/main-page.css">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+    <link href="css/commersant/search.css" rel="stylesheet" />
     <title>Операции</title>
 </head>
 
@@ -33,7 +32,7 @@
                             <path d="M18.869 19.162l-5.943-6.484c1.339-1.401 2.075-3.233 2.075-5.178 0-2.003-0.78-3.887-2.197-5.303s-3.3-2.197-5.303-2.197-3.887 0.78-5.303 2.197-2.197 3.3-2.197 5.303 0.78 3.887 2.197 5.303 3.3 2.197 5.303 2.197c1.726 0 3.362-0.579 4.688-1.645l5.943 6.483c0.099 0.108 0.233 0.162 0.369 0.162 0.121 0 0.242-0.043 0.338-0.131 0.204-0.187 0.217-0.503 0.031-0.706zM1 7.5c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5-6.5-2.916-6.5-6.5z"></path>
                         </svg>
                     </div>
-                    <input id="search" type="number" name="id" placeholder="Поиск по № заказа" />
+                    <input id="search" name="id" type="number" placeholder="Поиск по № заказа" />
 <!--                    <div class="result-count">-->
 <!--                        <span> 0 </span></div>-->
                 </div>
@@ -96,18 +95,18 @@
 </div>
 <div class="flex-row">
     <div th:if="${number > 0}" class="pagination">
-        <a th:href="@{/transactions(size=${transactions.size}, page=${number})}"
+        <a th:href="@{/search-result(size=${transactions.size}, page=${number}, id = ${searchKey.getId()}, status = ${searchKey.getStatus()},shopName = ${searchKey.getShopName()})}"
            th:text="назад"
            th:class="${number==transactions.number - 1} ? active"></a>
     </div>
     <div th:if="${transactions.totalPages > 0}" class="pagination"
          th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/transactions(size=${transactions.size}, page=${pageNumber})}"
+        <a th:href="@{/search-result(size=${transactions.size}, page=${pageNumber}, id = ${searchKey.getId()}, status = ${searchKey.getStatus()},shopName = ${searchKey.getShopName()})}"
            th:text="${pageNumber}"
            th:class="${pageNumber==transactions.number + 1} ? active"></a>
     </div>
     <div th:if="${number > -1} and ${transactions.totalPages > number + 1}" class="pagination">
-        <a th:href="@{/transactions(size=${transactions.size}, page=${number}+2)}"
+        <a th:href="@{/search-result(size=${transactions.size}, page=${number}+2, id = ${searchKey.getId()}, status = ${searchKey.getStatus()},shopName = ${searchKey.getShopName()})}"
            th:text="вперед"
            th:class="${number==transactions.number + 2} ? active"></a>
     </div>
@@ -208,26 +207,6 @@
 </script>
 
 
-<!--<script>-->
-<!--    let searchForm = window['search-form'];-->
-<!--        searchForm.addEventListener("submit", async function (e) {-->
-<!--            e.preventDefault();-->
-
-<!--            console.log("Okay okay okay");-->
-
-<!--            //Отправляем форму оплаты с информацией о карте и покупателе-->
-<!--            // let formData = new FormData(searchForm);-->
-<!--            // let searchInfo = Object.fromEntries(formData);-->
-<!--            // let url = "http://localhost:8080/search";-->
-<!--            //-->
-<!--            // let response = await fetch(url, {-->
-<!--            //     method: "post",-->
-<!--            //     headers: {"Content-Type": "application/json;charset=utf-8"},-->
-<!--            //     body: JSON.stringify(searchInfo)-->
-<!--            // });-->
-<!--            // console.log(response);-->
-<!--        })-->
-<!--</script>-->
 
 </html>
 

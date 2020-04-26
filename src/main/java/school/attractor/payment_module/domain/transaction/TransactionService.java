@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,36 +35,25 @@ public class TransactionService {
 
     public void change(Transaction transaction) { transactionRepository.save ( transaction); }
 
-    public Page<Transaction> searchTransactions(TransactionSearchDTO search, Pageable pageable){
-        List<Transaction> transactions;
-        if (search.getId() == null && search.getStatus() == null && search.getShopName() != null){
-            transactions = transactionRepository.getAllByShopName(search.getShopName(), pageable);
-        }else if(search.getId() == null && search.getStatus() != null && search.getShopName() == null){
-            transactions = transactionRepository.getAllByStatus(search.getStatus(), pageable);
-        }else if(search.getId() != null && search.getStatus() == null && search.getShopName() == null){
-            transactions = transactionRepository.getAllById(search.getId(), pageable);
-        }else if(search.getId() == null && search.getStatus() != null && search.getShopName() != null){
-            transactions = transactionRepository.getAllByStatusAndShopName(search.getStatus(), search.getShopName(), pageable);
-        }else if(search.getId() != null && search.getStatus() == null && search.getShopName() != null){
-            transactions = transactionRepository.getAllByIdAndShopName(search.getId(), search.getShopName(), pageable);
-        }
-        else if(search.getId() != null && search.getStatus() != null && search.getShopName() == null){
-            transactions = transactionRepository.getAllByIdAndStatus(search.getId(), search.getStatus(), pageable);
-        }else{
-            transactions = transactionRepository.getAllByIdAndStatusAndShopName(search.getId(), search.getStatus(), search.getShopName(), pageable);
+    public Page<Transaction> searchTransactions(TransactionSearchDTO search, Pageable pageable) {
+        Page<Transaction> transactions;
+
+        if (search.getId().isEmpty() && search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
+            transactions = transactionRepository.findAllByShopName(search.getShopName(), pageable);
+        } else if (search.getId().isEmpty() && !search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
+            transactions = transactionRepository.findAllByStatus(search.getStatus(), pageable);
+        } else if (!search.getId().isEmpty() && search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
+            transactions = transactionRepository.findAllByOrderId(search.getId(), pageable);
+        } else if (search.getId().isEmpty() && !search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
+            transactions = transactionRepository.findAllByStatusAndShopName(search.getStatus(), search.getShopName(), pageable);
+        } else if (!search.getId().isEmpty() && search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
+            transactions = transactionRepository.findAllByOrderIdAndShopName(search.getId(), search.getShopName(), pageable);
+        } else if (!search.getId().isEmpty() && !search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
+            transactions = transactionRepository.findAllByOrderIdAndStatus(search.getId(), search.getStatus(), pageable);
+        } else {
+            transactions = transactionRepository.findAllByOrderIdAndStatusAndShopName(search.getId(), search.getStatus(), search.getShopName(), pageable);
         }
 
-        int pageSize = pageable.getPageSize ();
-        int currentPage = pageable.getPageNumber ();
-        int initialItem = currentPage * pageSize;
-        List<Transaction> transactionList;
-
-        if (transactions.size () < initialItem){
-            transactionList= Collections.emptyList ();
-        }else{
-            int lastIndexOfItem = Math.min(initialItem + pageSize, transactions.size ());
-            transactionList = transactions.subList ( initialItem, lastIndexOfItem );
-        }
-        return new PageImpl<Transaction>(transactionList, PageRequest.of(currentPage, pageSize ), transactions.size ());
+        return transactions;
     }
 }

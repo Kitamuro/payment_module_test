@@ -9,11 +9,11 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-    List<Transaction> getAllById(Integer id, Pageable pageable);
-    List<Transaction> getAllByIdAndStatus(Integer id, String status, Pageable pageable);
-    List<Transaction> getAllByIdAndShopName (Integer id, String shopName, Pageable pageable);
-    List<Transaction> getAllByStatus(String status, Pageable pageable);
-    List<Transaction> getAllByShopName(String shopName, Pageable pageable);
-    List<Transaction> getAllByStatusAndShopName (String status, String shopName, Pageable pageable);
-    List<Transaction> getAllByIdAndStatusAndShopName (Integer id, String status, String shopName, Pageable pageable);
+    Page<Transaction> findAllByOrderId(String id, Pageable pageable);
+    Page<Transaction> findAllByOrderIdAndStatus(String id, String status, Pageable pageable);
+    Page<Transaction> findAllByOrderIdAndShopName(String id, String shopName, Pageable pageable);
+    Page<Transaction> findAllByStatus(String status, Pageable pageable);
+    Page<Transaction> findAllByShopName(String shopName, Pageable pageable);
+    Page<Transaction> findAllByStatusAndShopName (String status, String shopName, Pageable pageable);
+    Page<Transaction> findAllByOrderIdAndStatusAndShopName (String id, String status, String shopName, Pageable pageable);
 }

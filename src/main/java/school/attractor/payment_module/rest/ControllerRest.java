@@ -2,11 +2,14 @@ package school.attractor.payment_module.rest;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionDTO;
 import school.attractor.payment_module.domain.transaction.TransactionSearchDTO;
 import school.attractor.payment_module.domain.transaction.TransactionService;
@@ -14,8 +17,11 @@ import school.attractor.payment_module.domain.transaction.TransactionService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @CrossOrigin
 @AllArgsConstructor
@@ -46,13 +52,6 @@ public class ControllerRest {
 
 //            return  ResponseEntity.status(HttpStatus.CONFLICT).body("not okay?");
     }
-    @GetMapping("/search")
-    public String getSearchingTransactions(@RequestParam TransactionSearchDTO model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
-        int currentPage = page.orElse ( 1 );
-        int pageSize = size.orElse ( 12 );
-        transactionService.searchTransactions( model, PageRequest.of(currentPage - 1, pageSize, Sort.by("shopName").descending() ));
 
-        return "transactions";
-//    https://www.baeldung.com/spring-thymeleaf-pagination
-    }
+
 }
