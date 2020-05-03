@@ -112,7 +112,7 @@ public class SendRequest {
         params.add ( new BasicNameValuePair ( "EXP_YEAR", transaction.getEXP_YEAR () ) );
         params.add ( new BasicNameValuePair ( "CVC2", transaction.getCVC2 () ) );
         params.add ( new BasicNameValuePair ( "CVC2_RC", "1" ) );
-        params.add ( new BasicNameValuePair ( "AMOUNT", transaction.getAmount () ) );
+        params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf(transaction.getAmount () ) ));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "DESC", "Merchant_test" ) );
         params.add ( new BasicNameValuePair ( "MERCHANT", "ECOMM001" ) );
