@@ -35,19 +35,19 @@ public class TransactionService {
         Page<Transaction> transactions;
 
         if (search.getId().isEmpty() && search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByShopName(search.getShopName(), pageable);
+            transactions = transactionRepository.findAllByShopNameContaining(search.getShopName(), pageable);
         } else if (search.getId().isEmpty() && !search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByStatus(search.getStatus(), pageable);
+            transactions = transactionRepository.findAllByStatusContaining(search.getStatus(), pageable);
         } else if (!search.getId().isEmpty() && search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
             transactions = transactionRepository.findAllByOrderId(search.getId(), pageable);
         } else if (search.getId().isEmpty() && !search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByStatusAndShopName(search.getStatus(), search.getShopName(), pageable);
+            transactions = transactionRepository.findAllByStatusAndShopNameContaining(search.getStatus(), search.getShopName(), pageable);
         } else if (!search.getId().isEmpty() && search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByOrderIdAndShopName(search.getId(), search.getShopName(), pageable);
+            transactions = transactionRepository.findAllByOrderIdAndShopNameContaining(search.getId(), search.getShopName(), pageable);
         } else if (!search.getId().isEmpty() && !search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByOrderIdAndStatus(search.getId(), search.getStatus(), pageable);
+            transactions = transactionRepository.findAllByOrderIdAndStatusContaining(search.getId(), search.getStatus(), pageable);
         } else {
-            transactions = transactionRepository.findAllByOrderIdAndStatusAndShopName(search.getId(), search.getStatus(), search.getShopName(), pageable);
+            transactions = transactionRepository.findAllByOrderIdAndStatusAndShopNameContaining(search.getId(), search.getStatus(), search.getShopName(), pageable);
         }
 
         return transactions;
