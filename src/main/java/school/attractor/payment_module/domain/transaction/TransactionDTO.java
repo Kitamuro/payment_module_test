@@ -53,11 +53,13 @@ public class TransactionDTO {
 
     private List<ItemDTO> items;
     private String orderId;
-    private String amount;
+    private int amount;
 
     private String shopName;
 
-    private String status;
+    private TransactionType type;
+
+    private TransactionStatus status;
 
     private Date date;
 
@@ -76,6 +78,7 @@ public class TransactionDTO {
                 .EXP_YEAR(transaction.getEXP_YEAR())
                 .CVC2(transaction.getCVC2())
                 .status(transaction.getStatus())
+                .type(transaction.getType())
                 .date(transaction.getDate())
 //                .items(transaction.getItems().stream().map(ItemDTO::from).collect(Collectors.toList()))
                 .build();

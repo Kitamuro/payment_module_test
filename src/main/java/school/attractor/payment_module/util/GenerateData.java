@@ -1,6 +1,7 @@
 package school.attractor.payment_module.util;
 
 import school.attractor.payment_module.domain.transaction.Transaction;
+import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ class GenerateData {
             int randomId = random.nextInt(5000);
 
             Transaction test = Transaction.builder()
-                    .amount(String.valueOf(randomAmount))
+                    .amount((randomAmount))
                     .CARD("2214-3112-333-0987-5672")
                     .cardHolderName(userName.get(random.nextInt(userName.size())))
                     .CVC2("7800")
@@ -27,12 +28,12 @@ class GenerateData {
                     .userName(userName.get(random.nextInt(userName.size())))
                     .date(new Date())
                     .shopName(shops.get(random.nextInt(shops.size())))
-                    .status("Подтвержден")
+                    .status(TransactionStatus.SUCCESS)
                     .orderId(String.valueOf(randomId))
                     .build();
             transactions.add(test);
             if (i % 3 == 0) {
-                test.setStatus("Отклонен");
+                test.setStatus(TransactionStatus.REFUSED);
             }
         }
         return transactions;

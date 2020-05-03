@@ -69,7 +69,7 @@ public class Transaction {
     private String currency;
 
     @Column(length = 100)
-    private String amount;
+    private Integer amount;
 
     @Column
     private double fee;
@@ -77,8 +77,11 @@ public class Transaction {
     @Column
     private Date date;
 
-    @Column(length = 30)
-    private String status;
+    @Column
+    private TransactionStatus status;
+
+    @Column
+    private TransactionType type;
 
     @Column(length = 30)
     private String orderId;
@@ -94,6 +97,7 @@ public class Transaction {
                 .amount(transactionDTO.getAmount())
                 .email(transactionDTO.getEmail())
                 .status(transactionDTO.getStatus())
+                .type(transactionDTO.getType())
                 .EXP(transactionDTO.getEXP())
                 .EXP_YEAR(transactionDTO.getEXP_YEAR())
                 .cardHolderName(transactionDTO.getCardHolderName())

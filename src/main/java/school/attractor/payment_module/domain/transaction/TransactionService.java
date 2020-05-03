@@ -3,13 +3,9 @@ package school.attractor.payment_module.domain.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -55,5 +51,13 @@ public class TransactionService {
         }
 
         return transactions;
+    }
+
+    public int  getSum(String orderID) {
+        return transactionRepository.getSum(orderID);
+    }
+
+    public List<Transaction> getByOrderId(String orderId) {
+       return transactionRepository.findAllByOrderId(orderId);
     }
 }

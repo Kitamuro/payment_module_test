@@ -4,15 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <link href="css/commersant/search.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-
     <link rel="stylesheet" href="css/commersant/layout-style.css">
     <link rel="stylesheet" href="css/commersant/main-page.css">
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
     <title>Операции</title>
 </head>
@@ -80,12 +76,14 @@
                 <td class="transaction-order-id" th:text="${transaction.orderId}"></td>
                 <td class="transaction-date" th:text="${#dates.format(transaction.date, 'dd-MM-yyyy HH:mm')}">  </td>
                 <td th:text="${transaction.shopName}"></td>
-                <td th:text="${transaction.amount}"> </td>
-                <td th:if="${transaction.status =='Подтвержден'}"> <div class="circle-status success"></div> Подтвержден </td>
-                <td th:if="${transaction.status =='Отклонен'}"> <div class="circle-status declined"></div> Отклонен </td>
-                <td th:if="${transaction.status =='Возвращен'}"> <div class="circle-status reversed"></div> Возращен </td>
-            </tr>
 
+                <td th:if="${transaction.amount < 0}" th:text="${transaction.amount * -1} ">   </td>
+                <td th:unless="${transaction.amount < 0}" th:text="${transaction.amount} ">   </td>
+                <td th:unless="${transaction.type == null}">  Частичный возврат </td>
+                <td th:if="${transaction.status.name() =='SUCCESS'}"> <div class="circle-status success"></div> Подтвержден </td>
+                <td th:if="${transaction.status.name() =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
+
+            </tr>
             </tbody>
         </table>
     </div>
@@ -122,18 +120,21 @@
     let block = window['info-block'];
     let searchElement = window['search-block'];
 
-    windowElement.addEventListener('click', function (e) {
+    windowElement.addEventListener('click',async function (e) {
         let markupTransaction = e.target.parentElement;
 
         let transactionElem = markupTransaction.getElementsByClassName('transaction-obj')[0].innerHTML;
         let transaction = JSON.parse(transactionElem);
 
-        print(transaction);
+
         block.hidden = false;
         searchElement.hidden = true;
 
-        print(transaction);
+        let responseData = await fetch("http://localhost:8080/"+ transaction.orderId + "/data" , {method:'post'});
+        let promise = await responseData.json();
 
+        let data = JSON.parse(JSON.stringify(promise));
+        print(transaction, data);
 
         let classList = document.getElementById("transactions").children;
         for (let i = 0; i < classList.length; i++) {
@@ -146,7 +147,8 @@
         const html = `
                     <div>
                     <form action="/sendRequest" method="post">
-                    <input type="hidden" value="${transaction.id}" name="transactionId">
+                    <input type="hidden" value="${transaction.orderId}" name="orderId">
+                    <input type="hidden" value="${transaction.shopName}" name="shopName">
                     <input type="number" value="${transaction.amount}" name="transactionAmount">
                     <button type="submit"> вернуть</button>
                     </form>
@@ -156,9 +158,11 @@
         return div;
     }
 
-    function print(transaction) {
+    function print(transaction, data) {
+        console.log(data);
         block.innerHTML = ` <div id="close-icon" class="close"> x </div>
                     <div class="transaction-id"> ${transaction.id} </div>
+                    <div> Остаток : ${data.sum} </div>
                     <div class="transaction-status">${transaction.status} </div>
                     <div class="transaction-amount">${transaction.amount}  TГ </div>
                     <div class="transaction-title"> Платежная информация </div>
@@ -170,9 +174,12 @@
                     <div class="transaction-title">Информация о покупке</div>
                     <div class="row"> <div>Телефон</div>  <div>${transaction.phone} </div> </div>
                     <div class="row"> <div>Почта</div>  <div> ${transaction.email} </div> </div>
-            `.trim();
+                    <div>  История платежей </div>
+                    <div>
+                          ${data.transactions.map(transaction => `<div>  ${new Date(transaction.date).toLocaleString()}  ${transaction.type}</div>`).join('')}
+                    </div>`.trim();
         const amount = document.getElementsByClassName('transaction-amount')[0];
-        if (transaction.status === 'Подтвержден') {
+        if (transaction.status === 'SUCCESS' || transaction.status ==='NEW') {
             const formDiv = addForm(transaction);
             amount.after(formDiv)
         }

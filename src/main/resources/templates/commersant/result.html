@@ -79,10 +79,11 @@
                 <td class="transaction-order-id" th:text="${transaction.orderId}"></td>
                 <td class="transaction-date" th:text="${#dates.format(transaction.date, 'dd-MM-yyyy HH:mm')}">  </td>
                 <td th:text="${transaction.shopName}"></td>
-                <td th:text="${transaction.amount}"> </td>
-                <td th:if="${transaction.status =='Подтвержден'}"> <div class="circle-status success"></div> Подтвержден </td>
-                <td th:if="${transaction.status =='Отклонен'}"> <div class="circle-status declined"></div> Отклонен </td>
-                <td th:if="${transaction.status =='Возвращен'}"> <div class="circle-status reversed"></div> Возращен </td>
+                <td th:if="${transaction.amount < 0}" th:text="${transaction.amount * -1} ">   </td>
+                <td th:unless="${transaction.amount < 0}" th:text="${transaction.amount} ">   </td>
+                <td th:unless="${transaction.type == null}">  Частичный возврат </td>
+                <td th:if="${transaction.status =='SUCCESS'}"> <div class="circle-status success"></div> Подтвержден </td>
+                <td th:if="${transaction.status =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
             </tr>
 
             </tbody>
