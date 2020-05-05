@@ -53,6 +53,10 @@ public class TransactionDTO {
 
     private List<ItemDTO> items;
     private String orderId;
+
+    @Positive
+    @NotEmpty
+    @Min(1)
     private int amount;
 
     private String shopName;

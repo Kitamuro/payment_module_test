@@ -151,7 +151,10 @@
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${transaction.orderId}" name="orderId">
                     <input type="hidden" value="${transaction.shopName}" name="shopName">
-                    <input type="number"  placeholder="введите сумму" name="transactionAmount">
+                        <div>
+                                <p style="color:red">You must enter an amount less than or equal to the order amount</p>
+                        </div>
+                    <input type="number" value="${transaction.transactionAmount}"  placeholder="введите сумму" name="transactionAmount">
                     <button type="submit"> вернуть</button>
                     </form>
                     </div>`;
