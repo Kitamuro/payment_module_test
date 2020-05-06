@@ -1,6 +1,4 @@
 package school.attractor.payment_module.domain.order;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrderDTO {
-
     String amount;
     int sum;
     List<TransactionDTO> transactions;
