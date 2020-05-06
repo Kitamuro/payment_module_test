@@ -28,7 +28,7 @@ class GenerateData {
                     .userName(userName.get(random.nextInt(userName.size())))
                     .date(new Date())
                     .shopName(shops.get(random.nextInt(shops.size())))
-                    .status(TransactionStatus.SUCCESS)
+                    .status(TransactionStatus.APPROVED)
                     .orderId(String.valueOf(randomId))
                     .build();
             transactions.add(test);
