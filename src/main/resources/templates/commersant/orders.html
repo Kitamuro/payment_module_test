@@ -126,12 +126,13 @@
     let windowElement = window['transactions'];
     let block = window['info-block'];
     let searchElement = window['search-block'];
+    let transaction;
 
     windowElement.addEventListener('click',async function (e) {
         let markupTransaction = e.target.parentElement;
 
         let transactionElem = markupTransaction.getElementsByClassName('transaction-obj')[0].innerHTML;
-        let transaction = JSON.parse(transactionElem);
+        transaction = JSON.parse(transactionElem);
 
 
         block.hidden = false;
@@ -156,20 +157,20 @@
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${transaction.orderId}" name="orderId">
                     <input type="hidden" value="${transaction.shopName}" name="shopName">
-                        <div>
-                                <p style="color:red">You must enter an amount less than or equal to the order amount</p>
-                        </div>
-                    <input type="number" value="${transaction.transactionAmount}"  placeholder="введите сумму" name="transactionAmount">
-                    <button type="submit"> вернуть</button>
+                    <input type="number" value="${transaction.transactionAmount}" placeholder="введите сумму" name="transactionAmount" oninput="validateSum(value)" >
+                    <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
         const div = document.createElement('div');
         div.innerHTML = html;
+
         return div;
     }
 
+
+
     function print(transaction, data) {
-        console.log(data);
+        // console.log(data);
         block.innerHTML = ` <div id="close-icon" class="close"> x </div>
                     <div class="transaction-id"> ${transaction.id} </div>
                     <div> Остаток : ${data.sum} </div>
@@ -199,6 +200,16 @@
             searchElement.hidden = false;
         })
     }
+
+    function validateSum(value) {
+        if (value > transaction.amount){
+            document.getElementById("returnButton").disabled = true;
+        } else {
+            document.getElementById("returnButton").disabled = false;
+        }
+
+    }
+
 </script>
 
 <script>

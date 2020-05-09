@@ -60,21 +60,13 @@ public class CommersantController {
 //    https://www.baeldung.com/spring-thymeleaf-pagination
     }
 
-    @PostMapping("/transactions")
-    public String transactionPage(@Valid BindingResult validationResult,
-                                  RedirectAttributes attributes){
-        if (validationResult.hasFieldErrors()) {
-            attributes.addFlashAttribute("errors", validationResult.getFieldErrors());
-            return "redirect:/transactions";
-        }
-
-        return "send";
-    }
-
-
     @PostMapping("/sendRequest")
     public String sendRequest(Model model, @RequestParam String orderId, @RequestParam Integer transactionAmount,
                              @RequestParam String shopName, RedirectAttributes attributes){
+        int sum = transactionService.getSum(orderId);
+        if (transactionAmount > sum){
+            attributes.addFlashAttribute("error", "You must enter an amount less than or equal to the order amount");
+        }
         attributes.addFlashAttribute("shopName", shopName);
         attributes.addFlashAttribute ( "orderId", orderId );
         attributes.addFlashAttribute ( "transactionAmount", transactionAmount );

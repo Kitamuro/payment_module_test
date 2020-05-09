@@ -14,7 +14,10 @@
 <body>
 <div th:insert="layout :: header"></div>
 <div class="main">
-   <div class = "block center">
+      <div th:if="${error} != null">
+         <div th:text="${error}"></div>
+      </div>
+   <div class = "block center" th:if="${error} == null">
       <h2>Возврат платежа</h2>
       <div>
          <td th:text="${'Подтвердите возврат платежа на сумму ' + transactionAmount + ' тенге'}"></td>
