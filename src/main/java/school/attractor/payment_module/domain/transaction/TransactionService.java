@@ -3,10 +3,16 @@ package school.attractor.payment_module.domain.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.data.jpa.domain.Specification.where;
+import static school.attractor.payment_module.domain.transaction.TransactionSpecifications.*;
+
 import java.util.List;
+import java.util.Objects;
+
 
 @Service
 @AllArgsConstructor
@@ -20,7 +26,6 @@ public class TransactionService {
         return transaction;
     }
 
-
     public Page<Transaction> getTransactions(Pageable pageable) {
         return transactionRepository.findAll(pageable);
     }
@@ -31,26 +36,16 @@ public class TransactionService {
 
     public void change(Transaction transaction) { transactionRepository.save ( transaction); }
 
-    public Page<Transaction> searchTransactions(TransactionSearchDTO search, Pageable pageable) {
-        Page<Transaction> transactions;
+    public Page<Transaction> searchTransactions(TransactionSearchDTO search) {
 
-        if (search.getId().isEmpty() && search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByShopNameContaining(search.getShopName(), pageable);
-        } else if (search.getId().isEmpty() && !search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByStatusContaining(search.getStatus(), pageable);
-        } else if (!search.getId().isEmpty() && search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByOrderId(search.getId(), pageable);
-        } else if (search.getId().isEmpty() && !search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByStatusAndShopNameContaining(search.getStatus(), search.getShopName(), pageable);
-        } else if (!search.getId().isEmpty() && search.getStatus().isEmpty() && !search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByOrderIdAndShopNameContaining(search.getId(), search.getShopName(), pageable);
-        } else if (!search.getId().isEmpty() && !search.getStatus().isEmpty() && search.getShopName().isEmpty()) {
-            transactions = transactionRepository.findAllByOrderIdAndStatusContaining(search.getId(), search.getStatus(), pageable);
-        } else {
-            transactions = transactionRepository.findAllByOrderIdAndStatusAndShopNameContaining(search.getId(), search.getStatus(), search.getShopName(), pageable);
-        }
+        Page<Transaction> pageTransactions;
 
-        return transactions;
+        List<Transaction>transactions = transactionRepository.findAll(Objects.requireNonNull(where(hasAmount(search.getAmount())).or(hasOrderId(search.getId())).or(shopNameContains(search.getShopName()))).or(hasStatus(search.getStatus())));
+
+//        List<Transaction> transactions = transactionRepository.findTransactionsByOrderIdOrShopNameOrStatusOrAmount(search.getId(), search.getShopName(), search.getStatus(), search.getAmount());
+
+        pageTransactions =  new PageImpl<>(transactions);
+        return pageTransactions;
     }
 
     public int  getSum(String orderID) {

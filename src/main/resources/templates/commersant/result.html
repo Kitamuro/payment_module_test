@@ -42,19 +42,25 @@
                         <input class="extra-input" name="shopName" type="text" placeholder="Название магазина" value=""/>
                     </div>
                     <div class="advance-input">
-                        <select class="advance-input-select" name="status">
-                            <option placeholder="" value="">Статус оплаты</option>
-                            <option>Подтвержден</option>
-                            <option>Отклонен</option>
-                        </select>
+                        <input class="extra-input" type="number" name="amount"  placeholder="Сумма" />
                     </div>
+<!--                    <div class="advance-input">-->
+<!--                        <select class="advance-input-select" name="status">-->
+<!--                            <option value="0">Статус оплаты</option>-->
+<!--                            <option value="1">NEW</option>-->
+<!--                            <option value="2">RESERVED</option>-->
+<!--                            <option value="3">APPROVED</option>-->
+<!--                            <option value="4">REFUSED</option>-->
+<!--                            <option value="5">PARTIAL_REFUSED</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     </div>
                 <div class="row">
                     <div class="input-field">
-                        <button type="submit" class="btn-search">Искать</button>
+                        <button type="submit" class="btn-search btn">Искать</button>
                     </div>
                     <div class="input-field">
-                    <button type="reset" class="btn-delete" id="delete">Очистить</button>
+                        <button type="reset" class="btn-delete btn" id="delete">Очистить</button>
                     </div>
                 </div>
             </div>
@@ -84,8 +90,8 @@
                 <td th:if="${transaction.amount < 0}" th:text="${transaction.amount * -1} ">   </td>
                 <td th:unless="${transaction.amount < 0}" th:text="${transaction.amount} ">   </td>
                 <td th:unless="${transaction.type == null}">  Частичный возврат </td>
-                <td th:if="${transaction.status =='SUCCESS'}"> <div class="circle-status success"></div> Подтвержден </td>
-                <td th:if="${transaction.status =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
+                <td th:if="${transaction.status.name() =='APPROVED'}"> <div class="circle-status success"></div> Подтвержден </td>
+                <td th:if="${transaction.status.name() =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
             </tr>
 
             </tbody>

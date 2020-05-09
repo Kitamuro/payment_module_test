@@ -31,8 +31,11 @@ public class ControllerRest {
 //        String orderId = String.valueOf ( random.nextInt ( 999999 ) + 100000 );
 //        ApacheHttpClientPost apacheHttpClientPost = new ApacheHttpClientPost ( transactionDTO.getCARD ( ), transactionDTO.getEXP ( ), transactionDTO.getEXP_YEAR ( ), transactionDTO.getCVC2 ( ), transactionDTO.getAmount ( ), orderId );
 //        String responseCode = apacheHttpClientPost.getResponseDTO ().getRcCode ();
-
+//        orderService.create();
+//        orderService.save();
         transactionService.save(transactionDTO);
+//
+//
 
         return ResponseEntity.status(HttpStatus.OK).body("okay");
 
@@ -52,7 +55,7 @@ public class ControllerRest {
         int sum = transactionService.getSum(orderId);
         List<Transaction> transactions = transactionService.getByOrderId(orderId);
          return OrderDTO.builder()
-                 .sum(sum)
+                 .amount(sum)
                 .transactions( transactions.stream().map(TransactionDTO::from).collect(Collectors.toList()))
                 .build();
 

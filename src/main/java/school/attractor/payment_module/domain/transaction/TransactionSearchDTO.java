@@ -1,1 +1,1 @@
-package school.attractor.payment_module.domain.transaction;import lombok.Getter;import lombok.Setter;@Getter@Setterpublic class TransactionSearchDTO {    private String id;    private String status;    private String shopName;}
+package school.attractor.payment_module.domain.transaction;import lombok.Getter;import lombok.Setter;@Getter@Setterpublic class TransactionSearchDTO {    private String id;    private TransactionStatus status;    private Integer amount;    private String shopName;}

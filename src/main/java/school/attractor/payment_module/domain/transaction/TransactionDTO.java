@@ -3,6 +3,9 @@ package school.attractor.payment_module.domain.transaction;
 import lombok.*;
 import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.item.ItemDTO;
+import school.attractor.payment_module.domain.order.OrderDTO;
+import school.attractor.payment_module.domain.transaction.Transaction;
+
 
 import javax.validation.constraints.*;
 import java.util.Date;
@@ -52,12 +55,12 @@ public class TransactionDTO {
     private String CVC2;
 
     private List<ItemDTO> items;
-    private String orderId;
+    private OrderDTO order;
 
     @Positive
     @NotEmpty
     @Min(1)
-    private int amount;
+    private Integer amount;
 
     private String shopName;
 
@@ -69,7 +72,6 @@ public class TransactionDTO {
 
     public static TransactionDTO from(Transaction transaction) {
         return builder()
-                .orderId(transaction.getOrderId ())
                 .amount(transaction.getAmount())
                  .shopId(transaction.getShopId())
                 .shopName(transaction.getShopName())

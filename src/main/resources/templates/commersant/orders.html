@@ -39,12 +39,18 @@
                         <input class="extra-input" name="shopName" type="text" placeholder="Название магазина" />
                     </div>
                     <div class="advance-input">
-                        <select class="advance-input-select" name="status">
-                            <option placeholder="" value="">Статус оплаты</option>
-                            <option>Подтвержден</option>
-                            <option>Отклонен</option>
-                        </select>
+                        <input class="extra-input" type="number" name="amount"  placeholder="Сумма" />
                     </div>
+<!--                    <div class="advance-input">-->
+<!--                        <select class="advance-input-select" name="status">-->
+<!--                            <option value="0">Статус оплаты</option>-->
+<!--                            <option value="NEW">NEW</option>-->
+<!--                            <option value="RESERVED">RESERVED</option>-->
+<!--                            <option value="APPROVED">APPROVED</option>-->
+<!--                            <option value="REFUSED">REFUSED</option>-->
+<!--                            <option value="PARTIAL_REFUSED">PARTIAL_REFUSED</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     </div>
                 <div class="row">
                     <div class="input-field">
@@ -73,17 +79,16 @@
             </thead>
 
             <tbody id="transactions">
-            <tr class="transaction-row" th:each="transaction , itemStat : ${transactions.content}">
-                <td th:inline="javascript" hidden class="transaction-obj"> [[${transaction}]]</td>
-                <td class="transaction-order-id" th:text="${transaction.orderId}"></td>
-                <td class="transaction-date" th:text="${#dates.format(transaction.date, 'dd-MM-yyyy HH:mm')}">  </td>
-                <td th:text="${transaction.shopName}"></td>
+            <tr class="transaction-row" th:each="order , itemStat : ${orders.content}">
+                <td th:inline="javascript" hidden class="transaction-obj"> [[${orders}]]</td>
+                <td class="transaction-order-id" th:text="${order.id}"></td>
+                <td class="transaction-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}">  </td>
+                <td th:text="${order.shopName}"></td>
 
-                <td th:if="${transaction.amount < 0}" th:text="${transaction.amount * -1} ">   </td>
-                <td th:unless="${transaction.amount < 0}" th:text="${transaction.amount} ">   </td>
-                <td th:unless="${transaction.type == null}">  Частичный возврат </td>
-                <td th:if="${transaction.status.name() =='SUCCESS'}"> <div class="circle-status success"></div> Подтвержден </td>
-                <td th:if="${transaction.status.name() =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
+                <td th:text="${order.amount} "></td>
+<!--                <td th:unless="${order.type == null}">  Частичный возврат </td>-->
+                <td th:if="${order.status.name() =='APPROVED'}"> <div class="circle-status success"></div> Подтвержден </td>
+                <td th:if="${order.status.name() =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
 
             </tr>
             </tbody>
@@ -96,20 +101,20 @@
 </div>
 <div class="flex-row">
     <div th:if="${number > 0}" class="pagination">
-        <a th:href="@{/transactions(size=${transactions.size}, page=${number})}"
+        <a th:href="@{/orders(size=${orders.size}, page=${number})}"
            th:text="назад"
-           th:class="${number==transactions.number - 1} ? active"></a>
+           th:class="${number==orders.number - 1} ? active"></a>
     </div>
-    <div th:if="${transactions.totalPages > 0}" class="pagination"
+    <div th:if="${orders.totalPages > 0}" class="pagination"
          th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/transactions(size=${transactions.size}, page=${pageNumber})}"
+        <a th:href="@{/orders(size=${orders.size}, page=${pageNumber})}"
            th:text="${pageNumber}"
-           th:class="${pageNumber==transactions.number + 1} ? active"></a>
+           th:class="${pageNumber==orders.number + 1} ? active"></a>
     </div>
-    <div th:if="${number > -1} and ${transactions.totalPages > number + 1}" class="pagination">
-        <a th:href="@{/transactions(size=${transactions.size}, page=${number}+2)}"
+    <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
+        <a th:href="@{/transactions(size=${orders.size}, page=${number}+2)}"
            th:text="вперед"
-           th:class="${number==transactions.number + 2} ? active"></a>
+           th:class="${number==orders.number + 2} ? active"></a>
     </div>
 </div>
 
@@ -218,28 +223,6 @@
         }, false);
     }
 </script>
-
-
-<!--<script>-->
-<!--    let searchForm = window['search-form'];-->
-<!--        searchForm.addEventListener("submit", async function (e) {-->
-<!--            e.preventDefault();-->
-
-<!--            console.log("Okay okay okay");-->
-
-<!--            //Отправляем форму оплаты с информацией о карте и покупателе-->
-<!--            // let formData = new FormData(searchForm);-->
-<!--            // let searchInfo = Object.fromEntries(formData);-->
-<!--            // let url = "http://localhost:8080/search";-->
-<!--            //-->
-<!--            // let response = await fetch(url, {-->
-<!--            //     method: "post",-->
-<!--            //     headers: {"Content-Type": "application/json;charset=utf-8"},-->
-<!--            //     body: JSON.stringify(searchInfo)-->
-<!--            // });-->
-<!--            // console.log(response);-->
-<!--        })-->
-<!--</script>-->
 
 </html>
 

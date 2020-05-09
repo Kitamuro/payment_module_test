@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import school.attractor.payment_module.domain.ApacheHttp.Response;
 import school.attractor.payment_module.domain.commersant.Commersant;
+import school.attractor.payment_module.domain.order.Order;
+import school.attractor.payment_module.domain.order.OrderDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -83,14 +85,13 @@ public class Transaction {
     @Column
     private TransactionType type;
 
-    @Column(length = 30)
-    private String orderId;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 
 
     public  static Transaction from(TransactionDTO transactionDTO) {
         return  Transaction.builder()
-                .orderId(transactionDTO.getOrderId ())
+                .order(OrderDTO.from(transactionDTO.getOrder ()))
                 .shopId(transactionDTO.getShopId())
                 .shopName(transactionDTO.getShopName())
                 .userName(transactionDTO.getUserName())
@@ -104,7 +105,5 @@ public class Transaction {
                 .date(transactionDTO.getDate())
                 .phone(transactionDTO.getPhone())
                 .build();
-
-
     }
 }

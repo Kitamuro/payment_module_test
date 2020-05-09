@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.attractor.payment_module.domain.order.Order;
+import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.*;
 
 import javax.validation.Valid;
@@ -25,6 +27,7 @@ import java.util.stream.IntStream;
 public class CommersantController {
 
     private final TransactionService transactionService;
+    private final OrderService orderService;
 
     @GetMapping("/")
     public String hello (Model model) {
@@ -42,18 +45,18 @@ public class CommersantController {
     public String getTransactions(Model model, @RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
         int currentPage = page.orElse ( 1 );
         int pageSize = size.orElse ( 10 );
-        Page<Transaction> transactions = transactionService.getTransactions ( PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending() ) );
+        Page<Order> orders = orderService.getOrders ( PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending() ) );
 
-        model.addAttribute ( "transactions", transactions );
-        int number = transactions.getNumber ( );
+        model.addAttribute ( "orders", orders );
+        int number = orders.getNumber ( );
 
         model.addAttribute ( "number", number );
-        int totalPages = transactions.getTotalPages ();
+        int totalPages = orders.getTotalPages ();
         if(totalPages > 0){
             List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ().collect( Collectors.toList());
             model.addAttribute ( "pageNumbers", pageNumbers );
         }
-        return "transactions";
+        return "orders";
 //    https://www.baeldung.com/spring-thymeleaf-pagination
     }
 
@@ -98,7 +101,6 @@ public class CommersantController {
        System.out.println(sum);
 
         Transaction refund = Transaction.builder()
-                .orderId(orderId)
                 .amount(-transactionAmount)
                 .shopName(shopName)
                 .type(TransactionType.REFUND)
@@ -137,24 +139,27 @@ public class CommersantController {
     public String getSearchingTransactions(@RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
                                            @ModelAttribute("searchKey") TransactionSearchDTO searchDTO, Model model,
                                            @RequestParam(required = false, name = "id") String id,
-                                           @RequestParam(required = false, name = "status") String status,
+                                           @RequestParam(required = false, name = "amount")  Integer amount,
                                            @RequestParam(required = false, name = "shopName") String shopName){
         int currentPage = page.orElse ( 1 );
         int pageSize = size.orElse ( 10 );
         if (page.get() > 1) {
-            if (!id.isEmpty()) {
+            if (id != null) {
                 searchDTO.setId(id);
             }
-            if (!status.isEmpty()) {
-                searchDTO.setStatus(status);
+            if (amount != null) {
+                searchDTO.setAmount(amount);
             }
-            if (!shopName.isEmpty()) {
+            if (shopName != null) {
                 searchDTO.setShopName(shopName);
             }
+//            if (amount != null){
+//                searchDTO.setAmount(amount);
+//            }
         }
 
 
-        Page<Transaction> transactions = transactionService.searchTransactions ( searchDTO, PageRequest.of(currentPage - 1, pageSize) );
+        Page<Transaction> transactions = transactionService.searchTransactions ( searchDTO);
         model.addAttribute ( "transactions", transactions );
         model.addAttribute("searchKey", searchDTO);
         int number = transactions.getNumber ( );
@@ -171,13 +176,18 @@ public class CommersantController {
 
     @PostMapping("/search")
     public String searchTransactions(@RequestParam(required = false, name = "id") String id,
-                                     @RequestParam(required = false, name = "status") String status,
+                                     @RequestParam(required = false, name = "amount") Integer amount,
                                      @RequestParam(required = false, name = "shopName") String shopName,
                                      RedirectAttributes attributes){
         TransactionSearchDTO searchDTO = new TransactionSearchDTO();
+
         searchDTO.setId(id);
         searchDTO.setShopName(shopName);
-        searchDTO.setStatus(status);
+        searchDTO.setAmount(amount);
+        System.out.println(id);
+        System.out.println(amount);
+        System.out.println(shopName);
+
         attributes.addFlashAttribute ( "searchKey", searchDTO );
         return "redirect:/search-result?size=10&page=1";
     }

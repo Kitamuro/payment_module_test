@@ -1,5 +1,6 @@
 package school.attractor.payment_module.util;
 
+import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
@@ -7,6 +8,33 @@ import java.util.*;
 
 
 class GenerateData {
+
+    static List<Order> addOrders() {
+
+        Random random = new Random();
+        List<Order> orders = new ArrayList<>();
+        List<String> shops = Arrays.asList("Sulpak", "Все для дома", "Хозяюшка","Технодом","Магнум","Aliexpress","Lamoda");
+        List<String> userName = Arrays.asList("Artur","Бакытжан","Кирил","Вячеслав","Вор","Test");
+        for (int i = 0; i < 30; i++) {
+            int randomAmount = random.nextInt(80000);
+            int randomId = random.nextInt(5000);
+
+            Order test = Order.builder()
+                    .amount((randomAmount))
+                    .email("test@test")
+                    .userName(userName.get(random.nextInt(userName.size())))
+                    .date(new Date())
+                    .shopName(shops.get(random.nextInt(shops.size())))
+                    .status(TransactionStatus.APPROVED)
+                    .id(randomId)
+                    .build();
+            orders.add(test);
+            if (i % 3 == 0) {
+                test.setStatus(TransactionStatus.REFUSED);
+            }
+        }
+        return orders;
+    }
 
     static List<Transaction> addTransaction() {
 
@@ -29,7 +57,6 @@ class GenerateData {
                     .date(new Date())
                     .shopName(shops.get(random.nextInt(shops.size())))
                     .status(TransactionStatus.APPROVED)
-                    .orderId(String.valueOf(randomId))
                     .build();
             transactions.add(test);
             if (i % 3 == 0) {
