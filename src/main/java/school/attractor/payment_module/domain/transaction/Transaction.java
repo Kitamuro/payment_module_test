@@ -86,6 +86,7 @@ public class Transaction {
     private TransactionType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
 
@@ -102,6 +103,7 @@ public class Transaction {
                 .EXP_YEAR(transactionDTO.getEXP_YEAR())
                 .cardHolderName(transactionDTO.getCardHolderName())
                 .date(transactionDTO.getDate())
+                .order(Order.from(transactionDTO.getOrder()))
                 .phone(transactionDTO.getPhone())
                 .build();
     }

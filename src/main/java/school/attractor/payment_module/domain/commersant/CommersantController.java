@@ -10,10 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.attractor.payment_module.domain.order.Order;
+import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +32,7 @@ public class CommersantController {
     private final OrderService orderService;
 
     @GetMapping("/")
-    public String hello (Model model) {
+    public String hello(Model model) {
 
         return "main";
     }
@@ -42,65 +44,60 @@ public class CommersantController {
 //    }
 
     @GetMapping("/orders")
-    public String getTransactions(Model model, @RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
-        int currentPage = page.orElse ( 1 );
-        int pageSize = size.orElse ( 10 );
-        Page<Order> orders = orderService.getOrders ( PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending() ) );
+    public String getTransactions(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(10);
+        Page<Order> orders = orderService.getOrders(PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending()));
 
-        model.addAttribute ( "orders", orders );
-        int number = orders.getNumber ( );
+        model.addAttribute("orders", orders);
+        int number = orders.getNumber();
 
-        model.addAttribute ( "number", number );
-        int totalPages = orders.getTotalPages ();
-        if(totalPages > 0){
-            List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ().collect( Collectors.toList());
-            model.addAttribute ( "pageNumbers", pageNumbers );
+        model.addAttribute("number", number);
+        int totalPages = orders.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
         }
         return "orders";
     }
 
     @PostMapping("/sendRequest")
-    public String sendRequest(Model model, @RequestParam String orderId, @RequestParam Integer transactionAmount,
-                             @RequestParam String shopName, RedirectAttributes attributes){
-        int sum = transactionService.getSum(orderId);
-        if (transactionAmount > sum){
-            attributes.addFlashAttribute("error", "You must enter an amount less than or equal to the order amount");
+    public String sendRequest(@RequestParam Integer orderId, @RequestParam Integer refundAmount, RedirectAttributes attributes) {
+        OrderDTO order = orderService.findByOrderId(orderId);
+        if (refundAmount > order.getResidual()) {
+            attributes.addFlashAttribute("error", "Сумма возврата не может быть больше чем сумма заказа");
+        } else {
+            attributes.addFlashAttribute("orderId", orderId);
+            attributes.addFlashAttribute("refundAmount", refundAmount);
         }
-        attributes.addFlashAttribute("shopName", shopName);
-        attributes.addFlashAttribute ( "orderId", orderId );
-        attributes.addFlashAttribute ( "transactionAmount", transactionAmount );
         return "redirect:/send";
     }
 
     @GetMapping("/send")
-    public String openRequestPage(){
+    public String openRequestPage() {
         return "request";
     }
 
     @GetMapping("/reversePage")
-    public String openResponsePage(){
+    public String openResponsePage() {
         return "reverseResponse";
     }
 
 
     @PostMapping("/confirm")
-    public String confirmReverse(@RequestParam String orderId, @RequestParam int transactionAmount,
-                                @RequestParam String shopName, RedirectAttributes attributes){
+    public String confirmReverse(@RequestParam Integer orderId, @RequestParam int refundAmount, RedirectAttributes attributes) {
 
-       int sum = transactionService.getSum(orderId);
+        OrderDTO orderDTO = orderService.findByOrderId(orderId);
 
-       System.out.println(sum);
-
-        Transaction refund = Transaction.builder()
-                .amount(-transactionAmount)
-                .shopName(shopName)
+        TransactionDTO transactionDTO = TransactionDTO.builder()
                 .type(TransactionType.REFUND)
-                .status(TransactionStatus.NEW)
-                .date(new Date())
+                .order(orderDTO)
                 .build();
-        transactionService.save(TransactionDTO.from(refund));
+        orderDTO.setTransactions(new ArrayList<>());
+        orderDTO.getTransactions().add(transactionDTO);
 
-        attributes.addFlashAttribute ( "responseCode", "00" );
+
+        attributes.addFlashAttribute("responseCode", "00");
 
 //        Transaction transaction = transactionService.getTransaction(transactionId);
 //        System.out.println (transactionId );
@@ -168,7 +165,7 @@ public class CommersantController {
     public String searchTransactions(@RequestParam(required = false, name = "id") String id,
                                      @RequestParam(required = false, name = "amount") Integer amount,
                                      @RequestParam(required = false, name = "shopName") String shopName,
-                                     RedirectAttributes attributes){
+                                     RedirectAttributes attributes) {
         TransactionSearchDTO searchDTO = new TransactionSearchDTO();
 
         searchDTO.setId(id);
@@ -178,7 +175,7 @@ public class CommersantController {
         System.out.println(amount);
         System.out.println(shopName);
 
-        attributes.addFlashAttribute ( "searchKey", searchDTO );
+        attributes.addFlashAttribute("searchKey", searchDTO);
         return "redirect:/search-result?size=10&page=1";
     }
 }

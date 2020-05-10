@@ -136,8 +136,7 @@
                     <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="${orderDTO.shopName}" name="shopName">
-                    <input type="number" value="${orderDTO.amount}" placeholder="введите сумму" name="transactionAmount" oninput="validateSum(value)" >
+                    <input type="number"  placeholder="введите сумму" name="refundAmount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
