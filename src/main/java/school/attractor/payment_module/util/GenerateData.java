@@ -18,15 +18,22 @@ class GenerateData {
         for (int i = 0; i < 30; i++) {
             int randomAmount = random.nextInt(80000);
             int randomId = random.nextInt(5000);
+            String name = userName.get(random.nextInt(userName.size()));
 
             Order test = Order.builder()
-                    .amount((randomAmount))
-                    .email("test@test")
-                    .userName(userName.get(random.nextInt(userName.size())))
-                    .date(new Date())
-                    .shopName(shops.get(random.nextInt(shops.size())))
-                    .status(TransactionStatus.APPROVED)
                     .id(randomId)
+                    .shopName(shops.get(random.nextInt(shops.size())))
+                    .userName(name)
+                    .status(TransactionStatus.APPROVED)
+                    .amount((randomAmount))
+                    .residual(randomAmount)
+                    .email("test@test")
+                    .cardHolderName(name)
+                    .CARD("1111 1111 1111 1111")
+                    .EXP("01")
+                    .EXP_YEAR("20")
+                    .CVC2("202")
+                    .date(new Date())
                     .build();
             orders.add(test);
             if (i % 3 == 0) {

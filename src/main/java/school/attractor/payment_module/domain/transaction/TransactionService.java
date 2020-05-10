@@ -3,15 +3,12 @@ package school.attractor.payment_module.domain.transaction;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import static org.springframework.data.jpa.domain.Specification.where;
-import static school.attractor.payment_module.domain.transaction.TransactionSpecifications.*;
 
 import java.util.List;
-import java.util.Objects;
+
 
 
 @Service
@@ -35,18 +32,13 @@ public class TransactionService {
     }
 
     public void change(Transaction transaction) { transactionRepository.save ( transaction); }
-
-    public Page<Transaction> searchTransactions(TransactionSearchDTO search) {
-
-        Page<Transaction> pageTransactions;
-
-        List<Transaction>transactions = transactionRepository.findAll(Objects.requireNonNull(where(hasAmount(search.getAmount())).or(hasOrderId(search.getId())).or(shopNameContains(search.getShopName()))).or(hasStatus(search.getStatus())));
-
-//        List<Transaction> transactions = transactionRepository.findTransactionsByOrderIdOrShopNameOrStatusOrAmount(search.getId(), search.getShopName(), search.getStatus(), search.getAmount());
-
-        pageTransactions =  new PageImpl<>(transactions);
-        return pageTransactions;
-    }
+//        public Page<Transaction> searchTransactions(TransactionSearchDTO search) {
+//        Page<Transaction> pageTransactions;
+////      List<Transaction>transactions = transactionRepository.findAll(Objects.requireNonNull(where(hasAmount(search.getAmount())).or(hasOrderId(search.getId())).or(shopNameContains(search.getShopName()))).or(hasStatus(search.getStatus())));
+////      List<Transaction> transactions = transactionRepository.findTransactionsByOrderIdOrShopNameOrStatusOrAmount(search.getId(), search.getShopName(), search.getStatus(), search.getAmount());
+//        pageTransactions =  new PageImpl<>(transactions);
+//        return pageTransactions;
+//    }
 
     public int  getSum(String orderID) {
         return transactionRepository.getSum(orderID);

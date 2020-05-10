@@ -91,7 +91,6 @@ public class Transaction {
 
     public  static Transaction from(TransactionDTO transactionDTO) {
         return  Transaction.builder()
-                .order(OrderDTO.from(transactionDTO.getOrder ()))
                 .shopId(transactionDTO.getShopId())
                 .shopName(transactionDTO.getShopName())
                 .userName(transactionDTO.getUserName())
