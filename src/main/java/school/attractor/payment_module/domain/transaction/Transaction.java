@@ -1,9 +1,11 @@
 package school.attractor.payment_module.domain.transaction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import school.attractor.payment_module.domain.ApacheHttp.Request;
 import school.attractor.payment_module.domain.ApacheHttp.Response;
 import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.order.Order;
@@ -27,51 +29,19 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Commersant commersant;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Response> responses = new ArrayList<> ();
+    @OneToOne(fetch = FetchType.LAZY)
+    private Response response;
 
-    @Column(length = 1)
-    private String hold = "0";
-
-    @Column(length = 50)
-    private String shopId;
-
-    @Column(length = 30)
-    private String shopName;
-
-    @Column(length = 30)
-    private String userName;
-
-    @Column(length = 30)
-    @Email
-    private String email;
-
-    @Column(length = 30)
-    private String phone;
-
-    @Column(length = 50)
-    private String cardHolderName;
-
-    @Column(length = 30)
-    private String CARD;
-
-    @Column(length = 10)
-    private String EXP;
-
-    @Column(length = 10)
-    private String EXP_YEAR;
-
-    @Column(length = 10)
-    private String CVC2;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Request request;
 
     @Column(length = 30)
     private String currency;
 
     @Column(length = 100)
-    private Integer amount;
+    private int amount;
 
     @Column
     private double fee;
@@ -86,25 +56,16 @@ public class Transaction {
     private TransactionType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
 
     public  static Transaction from(TransactionDTO transactionDTO) {
         return  Transaction.builder()
-                .shopId(transactionDTO.getShopId())
-                .shopName(transactionDTO.getShopName())
-                .userName(transactionDTO.getUserName())
                 .amount(transactionDTO.getAmount())
-                .email(transactionDTO.getEmail())
                 .status(transactionDTO.getStatus())
                 .type(transactionDTO.getType())
-                .EXP(transactionDTO.getEXP())
-                .EXP_YEAR(transactionDTO.getEXP_YEAR())
-                .cardHolderName(transactionDTO.getCardHolderName())
                 .date(transactionDTO.getDate())
                 .order(Order.from(transactionDTO.getOrder()))
-                .phone(transactionDTO.getPhone())
                 .build();
     }
 }

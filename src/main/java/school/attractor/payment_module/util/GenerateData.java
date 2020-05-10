@@ -55,14 +55,7 @@ class GenerateData {
 
             Transaction test = Transaction.builder()
                     .amount((randomAmount))
-                    .CARD("2214-3112-333-0987-5672")
-                    .cardHolderName(userName.get(random.nextInt(userName.size())))
-                    .CVC2("7800")
-                    .EXP("20/20")
-                    .email("test@test")
-                    .userName(userName.get(random.nextInt(userName.size())))
                     .date(new Date())
-                    .shopName(shops.get(random.nextInt(shops.size())))
                     .status(TransactionStatus.APPROVED)
                     .build();
             transactions.add(test);

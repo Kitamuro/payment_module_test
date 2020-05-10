@@ -6,7 +6,8 @@ public enum  TransactionStatus {
     RESERVED(2),
     APPROVED(3),
     REFUSED(4),
-    PARTIAL_REFUSED(5);
+    PARTIAL_REFUND(5),
+    TOTAL_REFUND (6);
 
 
     private final int code;
