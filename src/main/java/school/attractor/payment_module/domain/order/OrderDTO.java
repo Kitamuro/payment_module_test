@@ -39,7 +39,7 @@ public class OrderDTO {
 //    @NotBlank(message = "Введите номер существующей карты")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные данные карты")
 //    @Size(min = 16, max = 16, message = "Вы ввели неправильную карту")
-    private String card;
+    private String CARD;
 
 //    @NotBlank(message = "Введите правильный месяц истечения срока вашей карты")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные данные месяца")
@@ -74,7 +74,7 @@ public class OrderDTO {
                 .email(order.getEmail())
                 .date(order.getDate())
                 .cardHolderName(order.getCardHolderName())
-                .card(order.getCARD())
+                .CARD (order.getCARD())
                 .EXP(order.getEXP())
                 .EXP_YEAR(order.getEXP_YEAR())
                 .CVC2(order.getCVC2())
