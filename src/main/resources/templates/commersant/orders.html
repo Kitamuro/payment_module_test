@@ -3,100 +3,83 @@
 
 <head>
     <meta charset="UTF-8">
-    <link href="css/commersant/search.css" rel="stylesheet" />
+    <link href="css/commersant/search.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="css/commersant/layout-style.css">
     <link rel="stylesheet" href="css/commersant/main-page.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
     <title>Операции</title>
 </head>
 
 <body>
 
-
 <div th:insert="layout :: header"></div>
-
 <div class="container">
-<div id = "search-block" class="s007">
-    <form action="/search" method="post" id = "search-form">
-        <div class="inner-form">
-            <div class="basic-search">
-                <div class="input-field">
-                    <div class="icon-wrap">
-                        <span class="basic-search-title">ПОИСК</span>
+    <div id="search-block" class="s007">
+        <form action="/search" method="post" id="search-form">
+            <div class="inner-form">
+                <div class="basic-search">
+                    <div class="input-field">
+                        <div class="icon-wrap">
+                            <span class="basic-search-title">ПОИСК</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="advance-search">
+                    <span class="desc">Расширенный поиск</span>
+                    <div class="column">
+                        <div class="advance-input">
+                            <input id="search" type="number" name="id" placeholder="Поиск по № заказа"/>
+                        </div>
+                        <div class="advance-input">
+                            <input class="extra-input" name="shopName" type="text" placeholder="Название магазина"/>
+                        </div>
+                        <div class="advance-input">
+                            <input class="extra-input" type="number" name="amount" placeholder="Сумма"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field">
+                            <button type="submit" class="btn-search btn">Искать</button>
+                        </div>
+                        <div class="input-field">
+                            <button type="reset" class="btn-delete btn" id="delete">Очистить</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="advance-search">
-                <span class="desc">Расширенный поиск</span>
-                <div class="column">
-                    <div class="advance-input">
-                    <input id="search" type="number" name="id" placeholder="Поиск по № заказа" />
-                    </div>
-                    <div class="advance-input">
-                        <input class="extra-input" name="shopName" type="text" placeholder="Название магазина" />
-                    </div>
-                    <div class="advance-input">
-                        <input class="extra-input" type="number" name="amount"  placeholder="Сумма" />
-                    </div>
-<!--                    <div class="advance-input">-->
-<!--                        <select class="advance-input-select" name="status">-->
-<!--                            <option value="0">Статус оплаты</option>-->
-<!--                            <option value="NEW">NEW</option>-->
-<!--                            <option value="RESERVED">RESERVED</option>-->
-<!--                            <option value="APPROVED">APPROVED</option>-->
-<!--                            <option value="REFUSED">REFUSED</option>-->
-<!--                            <option value="PARTIAL_REFUSED">PARTIAL_REFUSED</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-                    </div>
-                <div class="row">
-                    <div class="input-field">
-                        <button type="submit" class="btn-search btn">Искать</button>
-                    </div>
-                    <div class="input-field">
-                    <button type="reset" class="btn-delete btn" id="delete">Очистить</button>
-                    </div>
-                </div>
-            </div>
-            </div>
-    </form>
-</div>
-<div class="flex">
-    <div class="main">
-
-        <table class="table table-hover">
-            <thead class="thead-light">
-            <tr class="table-title">
-                <th scope="col">№  Заказа</th>
-                <th scope="col">Дата и время</th>
-                <th scope="col">Магазин</th>
-                <th scope="col">Сумма</th>
-                <th scope="col">Статус</th>
-            </tr>
-            </thead>
-
-            <tbody id="transactions">
-            <tr class="transaction-row" th:each="order , itemStat : ${orders.content}">
-                <td th:inline="javascript" hidden class="transaction-obj"> [[${orders}]]</td>
-                <td class="transaction-order-id" th:text="${order.id}"></td>
-                <td class="transaction-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}">  </td>
-                <td th:text="${order.shopName}"></td>
-
-                <td th:text="${order.amount} "></td>
-<!--                <td th:unless="${order.type == null}">  Частичный возврат </td>-->
-                <td th:if="${order.status.name() =='APPROVED'}"> <div class="circle-status success"></div> Подтвержден </td>
-                <td th:if="${order.status.name() =='REFUSED'}"> <div class="circle-status declined"></div> Возвращен </td>
-
-            </tr>
-            </tbody>
-        </table>
+        </form>
     </div>
-</div>
+    <div class="flex">
+        <div class="main">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                <tr class="table-title">
+                    <th scope="col">№ Заказа</th>
+                    <th scope="col">Дата и время</th>
+                    <th scope="col">Магазин</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col">Статус</th>
+                </tr>
+                </thead>
+                <tbody id="orders">
+                <tr class="order-row" th:each="order , itemStat : ${orders.content}">
+                    <td th:inline="javascript" hidden class="order-obj"> [[${order}]]</td>
+                    <td class="order-id" th:text="${order.id}"></td>
+                    <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${order.shopName}"></td>
+                    <td th:text="${order.amount} "></td>
+                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден
+                    </td>
+                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Возвращен</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div hidden id="info-block" class="info-block"></div>
-
 
 </div>
 <div class="flex-row">
@@ -120,78 +103,71 @@
 
 <div th:insert="layout ::footer"></div>
 </body>
+</html>
 
-<script th:inline="javascript">
+<script>
 
-    let windowElement = window['transactions'];
+    let ListOrders = window['orders'];
     let block = window['info-block'];
     let searchElement = window['search-block'];
-    let transaction;
+    let orderDTO;
 
-    windowElement.addEventListener('click',async function (e) {
+    ListOrders.addEventListener('click', async function (e) {
         let markupTransaction = e.target.parentElement;
-
-        let transactionElem = markupTransaction.getElementsByClassName('transaction-obj')[0].innerHTML;
-        transaction = JSON.parse(transactionElem);
-
-
         block.hidden = false;
         searchElement.hidden = true;
-
-        let responseData = await fetch("http://localhost:8080/"+ transaction.orderId + "/data" , {method:'post'});
+        let orderElem = markupTransaction.getElementsByClassName('order-obj')[0].innerHTML;
+        let order = JSON.parse(orderElem);
+        let responseData = await fetch('http://localhost:8080/orders/' + order.id);
         let promise = await responseData.json();
+        orderDTO = JSON.parse(JSON.stringify(promise));
 
-        let data = JSON.parse(JSON.stringify(promise));
-        print(transaction, data);
+        print(orderDTO);
 
-        let classList = document.getElementById("transactions").children;
+        let classList = ListOrders.children;
         for (let i = 0; i < classList.length; i++) {
             classList[i].classList.remove('active')
         }
         markupTransaction.classList.add("active");
     });
 
-    function addForm(transaction) {
+    function addFormRefund(orderDTO) {
         const html = `
                     <div>
                     <form action="/sendRequest" method="post">
-                    <input type="hidden" value="${transaction.orderId}" name="orderId">
-                    <input type="hidden" value="${transaction.shopName}" name="shopName">
-                    <input type="number" value="${transaction.transactionAmount}" placeholder="введите сумму" name="transactionAmount" oninput="validateSum(value)" >
+                    <input type="hidden" value="${orderDTO.id}" name="orderId">
+                    <input type="hidden" value="${orderDTO.shopName}" name="shopName">
+                    <input type="number" value="${orderDTO.amount}" placeholder="введите сумму" name="transactionAmount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
         const div = document.createElement('div');
         div.innerHTML = html;
-
         return div;
     }
 
-
-
-    function print(transaction, data) {
-        // console.log(data);
-        block.innerHTML = ` <div id="close-icon" class="close"> x </div>
-                    <div class="transaction-id"> ${transaction.id} </div>
-                    <div> Остаток : ${data.sum} </div>
-                    <div class="transaction-status">${transaction.status} </div>
-                    <div class="transaction-amount">${transaction.amount}  TГ </div>
-                    <div class="transaction-title"> Платежная информация </div>
-                    <div class="row"> <div>Дата оплаты</div>  <div> ${transaction.date} </div> </div>
-                    <div class="row"> <div>Магазин</div>  <div> ${transaction.shopName} </div> </div>
-                    <div class="transaction-title">Спасоб оплаты</div>
-                    <div class="row"> <div>Карта</div>  <div> ${transaction.card} </div> </div>
-                    <div class="row"> <div>Покупатель</div>  <div>${transaction.cardHolderName}</div></div>
-                    <div class="transaction-title">Информация о покупке</div>
-                    <div class="row"> <div>Телефон</div>  <div>${transaction.phone} </div> </div>
-                    <div class="row"> <div>Почта</div>  <div> ${transaction.email} </div> </div>
-                    <div>  История платежей </div>
-                    <div>
-                          ${data.transactions.map(transaction => `<div>  ${new Date(transaction.date).toLocaleString()}  ${transaction.type}</div>`).join('')}
-                    </div>`.trim();
-        const amount = document.getElementsByClassName('transaction-amount')[0];
-        if (transaction.status === 'SUCCESS' || transaction.status ==='NEW') {
-            const formDiv = addForm(transaction);
+    function print(orderDTO) {
+        block.innerHTML = `<div id="close-icon" class="close"> x </div>
+                           <div class="id"> ${orderDTO.id} </div>
+                           <div> Остаток : ${orderDTO.residual} </div>
+                           <div class="status">${orderDTO.status} </div>
+                           <div class="amount">${orderDTO.amount}  TГ </div>
+                           <div class="title"> Платежная информация </div>
+                           <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
+                           <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
+                           <div class="order-title">Спасоб оплаты</div>
+                           <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
+                           <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
+                           <div class="order-title">Информация о покупке</div>
+                           <div class="row"> <div>Телефон</div>  <div>${orderDTO.phone} </div> </div>
+                           <div class="row"> <div>Почта</div>  <div> ${orderDTO.email} </div> </div>
+                           <div>  История платежей </div>
+                           <div>
+                              ${orderDTO.transactions.map(transaction => `<div> ${dateFormat(transaction.date)} ${transaction.type}</div>`).join('')}
+                           </div>`.trim();
+        const amount = document.getElementsByClassName('amount')[0];
+        if (orderDTO.status === 'APPROVED') {
+            const formDiv = addFormRefund(orderDTO);
             amount.after(formDiv)
         }
         let closeIcon = window['close-icon'];
@@ -202,38 +178,10 @@
     }
 
     function validateSum(value) {
-        if (value > transaction.amount){
-            document.getElementById("returnButton").disabled = true;
-        } else {
-            document.getElementById("returnButton").disabled = false;
-        }
-
+        document.getElementById("returnButton").disabled = value > orderDTO.amount;
     }
 
-</script>
-
-<script>
-    const customSelects = document.querySelectorAll("select");
-
-    for (let i = 0; i < customSelects.length; i++)
-    {
-        customSelects[i].addEventListener('addItem', function(event)
-        {
-            if (event.detail.value)
-            {
-                let parent = this.parentNode.parentNode;
-                parent.classList.add('valid');
-                parent.classList.remove('invalid')
-            }
-            else
-            {
-                let parent = this.parentNode.parentNode;
-                parent.classList.add('invalid');
-                parent.classList.remove('valid')
-            }
-        }, false);
+    function dateFormat(date) {
+        return new Date(date).toLocaleString();
     }
 </script>
-
-</html>
-

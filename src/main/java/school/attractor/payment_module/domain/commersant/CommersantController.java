@@ -41,7 +41,7 @@ public class CommersantController {
 //        return "transactions";
 //    }
 
-    @GetMapping("/transactions")
+    @GetMapping("/orders")
     public String getTransactions(Model model, @RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
         int currentPage = page.orElse ( 1 );
         int pageSize = size.orElse ( 10 );
@@ -57,7 +57,6 @@ public class CommersantController {
             model.addAttribute ( "pageNumbers", pageNumbers );
         }
         return "orders";
-//    https://www.baeldung.com/spring-thymeleaf-pagination
     }
 
     @PostMapping("/sendRequest")
@@ -127,44 +126,43 @@ public class CommersantController {
 
     }
 
-    @GetMapping("/search-result")
-    public String getSearchingTransactions(@RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
-                                           @ModelAttribute("searchKey") TransactionSearchDTO searchDTO, Model model,
-                                           @RequestParam(required = false, name = "id") String id,
-                                           @RequestParam(required = false, name = "amount")  Integer amount,
-                                           @RequestParam(required = false, name = "shopName") String shopName){
-        int currentPage = page.orElse ( 1 );
-        int pageSize = size.orElse ( 10 );
-        if (page.get() > 1) {
-            if (id != null) {
-                searchDTO.setId(id);
-            }
-            if (amount != null) {
-                searchDTO.setAmount(amount);
-            }
-            if (shopName != null) {
-                searchDTO.setShopName(shopName);
-            }
-//            if (amount != null){
+//    @GetMapping("/search-result")
+//    public String getSearchingTransactions(@RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
+//                                           @ModelAttribute("searchKey") TransactionSearchDTO searchDTO, Model model,
+//                                           @RequestParam(required = false, name = "id") String id,
+//                                           @RequestParam(required = false, name = "amount")  Integer amount,
+//                                           @RequestParam(required = false, name = "shopName") String shopName){
+//        int currentPage = page.orElse ( 1 );
+//        int pageSize = size.orElse ( 10 );
+//        if (page.get() > 1) {
+//            if (id != null) {
+//                searchDTO.setId(id);
+//            }
+//            if (amount != null) {
 //                searchDTO.setAmount(amount);
 //            }
-        }
-
-
-        Page<Transaction> transactions = transactionService.searchTransactions ( searchDTO);
-        model.addAttribute ( "transactions", transactions );
-        model.addAttribute("searchKey", searchDTO);
-        int number = transactions.getNumber ( );
-        transactions.getSize ();
-        model.addAttribute ( "number", number );
-        int totalPages = transactions.getTotalPages ();
-        if(totalPages > 0){
-            List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ().collect( Collectors.toList());
-            model.addAttribute ( "pageNumbers", pageNumbers );
-        }
-
-        return "result";
-    }
+//            if (shopName != null) {
+//                searchDTO.setShopName(shopName);
+//            }
+////            if (amount != null){
+////                searchDTO.setAmount(amount);
+////            }
+//        }
+//
+//        Page<Transaction> transactions = transactionService.searchTransactions ( searchDTO);
+//        model.addAttribute ( "transactions", transactions );
+//        model.addAttribute("searchKey", searchDTO);
+//        int number = transactions.getNumber ( );
+//        transactions.getSize ();
+//        model.addAttribute ( "number", number );
+//        int totalPages = transactions.getTotalPages ();
+//        if(totalPages > 0){
+//            List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ().collect( Collectors.toList());
+//            model.addAttribute ( "pageNumbers", pageNumbers );
+//        }
+//
+//        return "result";
+//    }
 
     @PostMapping("/search")
     public String searchTransactions(@RequestParam(required = false, name = "id") String id,

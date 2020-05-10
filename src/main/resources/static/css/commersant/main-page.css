@@ -63,24 +63,24 @@
 
 }
 
-.transaction-id {
+.id {
   font-size: 30px;
   padding-bottom: 10px;
 }
 
-.transaction-status {
+.status {
   padding: 5px;
   width:40%;
   background-color: limegreen;
 }
 
-.transaction-amount {
+.amount {
   font-size: 25px;
   font-weight: bold;
   padding: 20px 0;
 }
 
-.transaction-title {
+.order-title {
   font-weight: bold;
   padding-top: 10px;
 }
@@ -92,11 +92,11 @@
   color: #5b8be1 !important;
   border: none !important;
 }
-td.transaction-order-id {
+td.order-order-id {
   padding-left: 25px;
 }
 
-td.transaction-date {
+td.order-date {
   font-weight: bold;
   color: black;
 }

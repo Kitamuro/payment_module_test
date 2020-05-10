@@ -98,7 +98,7 @@ public class SendRequest {
         Response transactionResponse = transaction.getResponses ( ).get ( 0 );
         params.add(new BasicNameValuePair ( "RRN", transactionResponse.getRetrievalReferenceNumber () ));
         params.add(new BasicNameValuePair (  "INT_REF", transactionResponse.getInternalReferenceNumber ()));
-        params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrderId () ));
+        params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrder ().getId().toString() ));
         params.add ( new BasicNameValuePair ( "AMOUNT", transactionAmount ) );
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
@@ -117,7 +117,7 @@ public class SendRequest {
         params.add ( new BasicNameValuePair ( "DESC", "Merchant_test" ) );
         params.add ( new BasicNameValuePair ( "MERCHANT", "ECOMM001" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
-        params.add ( new BasicNameValuePair ( "ORDER", transaction.getOrderId () ) );
+        params.add ( new BasicNameValuePair ( "ORDER", transaction.getOrder ().getId().toString() ) );
         params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
         params.add ( new BasicNameValuePair ( "EMAIL", "test@atfbank.kz" ) );
         params.add ( new BasicNameValuePair ( "MERCH_GMT", "+6" ) );
