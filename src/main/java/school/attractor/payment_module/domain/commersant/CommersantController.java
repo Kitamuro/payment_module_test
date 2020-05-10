@@ -1,6 +1,7 @@
 package school.attractor.payment_module.domain.commersant;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderService;
@@ -30,10 +32,10 @@ public class CommersantController {
 
     private final TransactionService transactionService;
     private final OrderService orderService;
+    private final ResponseService responseService;
 
     @GetMapping("/")
     public String hello(Model model) {
-
         return "main";
     }
 
@@ -48,7 +50,6 @@ public class CommersantController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
         Page<Order> orders = orderService.getOrders(PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending()));
-
         model.addAttribute("orders", orders);
         int number = orders.getNumber();
 
@@ -62,14 +63,11 @@ public class CommersantController {
     }
 
     @PostMapping("/sendRequest")
-    public String sendRequest(@RequestParam Integer orderId, @RequestParam Integer refundAmount, RedirectAttributes attributes) {
-        OrderDTO order = orderService.findByOrderId(orderId);
-        if (refundAmount > order.getResidual()) {
-            attributes.addFlashAttribute("error", "Сумма возврата не может быть больше чем сумма заказа");
-        } else {
-            attributes.addFlashAttribute("orderId", orderId);
-            attributes.addFlashAttribute("refundAmount", refundAmount);
-        }
+    public String sendRequest(Model model, @RequestParam int orderId, @RequestParam int refundAmount, @RequestParam String type,
+                              RedirectAttributes attributes) {
+        attributes.addFlashAttribute ( "type", type );
+        attributes.addFlashAttribute ( "orderId", orderId );
+        attributes.addFlashAttribute ( "refundAmount", refundAmount );
         return "redirect:/send";
     }
 
@@ -85,42 +83,25 @@ public class CommersantController {
 
 
     @PostMapping("/confirm")
-    public String confirmReverse(@RequestParam Integer orderId, @RequestParam int refundAmount, RedirectAttributes attributes) {
-
-        OrderDTO orderDTO = orderService.findByOrderId(orderId);
-
-        TransactionDTO transactionDTO = TransactionDTO.builder()
-                .type(TransactionType.REFUND)
-                .order(orderDTO)
-                .build();
-        orderDTO.setTransactions(new ArrayList<>());
-        orderDTO.getTransactions().add(transactionDTO);
-
-
-        attributes.addFlashAttribute("responseCode", "00");
-
-//        Transaction transaction = transactionService.getTransaction(transactionId);
-//        System.out.println (transactionId );
-////        SendRequest sendRequest = new SendRequest ( transaction, transactionAmount, "24" );
-////        String responseCode = sendRequest.getResponse ( ).getRcCode ( );
-//        String  responseCode = "00";
-//        attributes.addFlashAttribute ( "responseCode", responseCode );
-//        transaction.setStatus ( "Возвращен" );
-//        transactionService.change ( transaction );
-//        System.out.println ("Статус транзакции: " + transaction.getStatus () );
-
-
+    public String confirmReverse(@RequestParam int orderId, @RequestParam int refundAmount, @RequestParam String type,
+                                 RedirectAttributes attributes) {
+        Order order = orderService.findById ( orderId );
+        TransactionType trType;
+        if(type.equals ( "0" )){
+            trType = TransactionType.REFUND;
+        }else{
+            trType = TransactionType.AUTH;
+        }
+        Transaction transaction = transactionService.makeTransaction ( order, refundAmount, trType );
+        String trStatus = responseService.sendRequest ( transaction);
+        order.getTransactions ().add(transaction);
+        orderService.change ( order );
+        if (trStatus.equals ( "SUCCESS" )) {
+            attributes.addFlashAttribute ( "response", "SUCCESS" );
+        } else {
+            attributes.addFlashAttribute ( "response", "REFUSED" );
+        }
         return "redirect:/reversePage";
-
-//        if (responseCode.equals("00")){
-//            List<Response> responses = transaction.getResponses ( );
-//            responses.add (sendRequest.getResponse ());
-//            transaction.setStatus ( "Возвращен" );
-//            return ResponseEntity.status( HttpStatus.OK).body("okay");
-//        }else{
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseCode);
-//        }
-
     }
 
 //    @GetMapping("/search-result")

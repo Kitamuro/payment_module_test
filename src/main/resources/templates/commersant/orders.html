@@ -136,6 +136,22 @@
                     <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
+                    <input type="hidden" value="0" name="type">
+                    <input type="number"  placeholder="введите сумму" name="refundAmount" oninput="validateSum(value)" >
+                    <button id="returnButton" type="submit">вернуть</button>
+                    </form>
+                    </div>`;
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div;
+    }
+
+    function addFormAuth(orderDTO) {
+        const html = `
+                    <div>
+                    <form action="/sendRequest" method="post">
+                    <input type="hidden" value="${orderDTO.id}" name="orderId">
+                    <input type="hidden" value="3" name="type">
                     <input type="number"  placeholder="введите сумму" name="refundAmount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
                     </form>
@@ -166,9 +182,16 @@
                            </div>`.trim();
         const amount = document.getElementsByClassName('amount')[0];
         if (orderDTO.status === 'APPROVED') {
-            const formDiv = addFormRefund(orderDTO);
+            const formDiv = addFormRefund(transaction);
             amount.after(formDiv)
         }
+        if(orderDTO.status === 'HOLD') {
+            const formDivAuth = addFormAuth(orderDTO);
+            const formDivRefund = addFormRefund(orderDTO);
+            amount.after(formDivAuth);
+            amount.after(formDivRefund)
+        }
+
         let closeIcon = window['close-icon'];
         closeIcon.addEventListener('click', function () {
             block.hidden = true;

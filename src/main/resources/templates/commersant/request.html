@@ -31,6 +31,7 @@
       <div id="btn-reverse">
          <form action="/confirm" method="post">
          <input type="hidden" th:value="${orderId}" name="orderId">
+         <input type="hidden" th:value="${type}" name="type">
          <input type="hidden" th:value="${refundAmount}" name="refundAmount">
          <button type="submit"> вернуть</button>
       </form>
