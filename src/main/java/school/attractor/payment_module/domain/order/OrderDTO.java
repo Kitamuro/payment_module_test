@@ -1,33 +1,49 @@
 package school.attractor.payment_module.domain.order;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+
+import lombok.*;
 import school.attractor.payment_module.domain.transaction.TransactionDTO;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class OrderDTO {
-    String shopName;
-    String userName;
-    String email;
-    Date date;
-    int amount;
-    TransactionStatus status;
-    List<TransactionDTO> transactions;
+    private int id;
+    private String shopName;
+    private String userName;
+    private String email;
+    private Date date;
+    private String cardHolderName;
+    private String CARD;
+    private String EXP;
+    private String EXP_YEAR;
+    private String CVC2;
+    private int amount;
+    private int residual;
+    private TransactionStatus status;
+    private List<TransactionDTO> transactions;
 
-    public static Order from(OrderDTO orderDTO) {
-        return  Order.builder()
-                .shopName(orderDTO.getShopName())
-                .userName(orderDTO.getUserName())
-                .amount(orderDTO.getAmount())
-                .email(orderDTO.getEmail())
-                .status(orderDTO.getStatus())
-                .date(orderDTO.getDate())
+    public static OrderDTO from(Order order) {
+        return OrderDTO.builder()
+                .id(order.getId())
+                .shopName(order.getShopName())
+                .userName(order.getUserName())
+                .email(order.getEmail())
+                .date(order.getDate())
+                .cardHolderName(order.getCardHolderName())
+                .CARD(order.getCARD())
+                .EXP(order.getEXP())
+                .EXP_YEAR(order.getEXP_YEAR())
+                .CVC2(order.getCVC2())
+                .amount(order.getAmount())
+                .residual(order.getResidual())
+                .status(order.getStatus())
+                .transactions(order.getTransactions().stream().map(TransactionDTO::from).collect(Collectors.toList()))
                 .build();
     }
 }
