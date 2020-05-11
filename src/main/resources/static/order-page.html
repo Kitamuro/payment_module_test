@@ -53,7 +53,7 @@
         </div>
         <div>
             <div> Номер заказа</div>
-            <input name="ordeId" value="1000" type="number" required>
+            <input name="orderId" value="1000" type="number" required>
         </div>
         <div>
             <div> Сумма</div>
@@ -126,6 +126,7 @@
                      <input type="hidden" name="email" value=${infoOrder.email}>
                      <input type="hidden" name="phone" value=${infoOrder.phone}>
                      <input type="hidden" name="amount" value=${infoOrder.amount}>
+                     <input type="hidden" name="residual" value=${infoOrder.amount}>
                      <input type="hidden" name="orderId" value=${infoOrder.orderId}>
                      <input type="hidden" name="status" value=${infoOrder.status}>
 
