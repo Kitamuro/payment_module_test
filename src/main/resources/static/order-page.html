@@ -27,15 +27,16 @@
         <div> Тип оплаты:</div>
         <div class="checkbox-input">
             <label>
-                <input type="radio" class="checkbox hidden" name="payment_type" value="hold" required>
+                <input type="radio" class="checkbox hidden" name="type" value="2" required>
                 <span class="right checkbox-text"> Hold </span>
             </label>
             <label>
-                <input type="radio" class="checkbox hidden" name="payment_type" value="write" checked required>
-                <span class="left checkbox-text"> Write </span>
+                <input type="radio" class="checkbox hidden" name="type" value="1" checked required>
+                <span class="left checkbox-text"> Instant </span>
             </label>
         </div>
         <input type="hidden" name="shopName" value="Example Shop">
+        <input type="hidden" name="status" value="1">
         <div>
             <div> ФИО</div>
             <input name="userName" value="test" type="text" required>
@@ -52,7 +53,7 @@
         </div>
         <div>
             <div> Номер заказа</div>
-            <input name="order_id" value="1000" type="number" required>
+            <input name="orderId" value="1000" type="number" required>
         </div>
         <div>
             <div> Сумма</div>
@@ -110,7 +111,7 @@
                         <li><div class="customer-info-text">${infoOrder.userName}</div></li>
                         <li><div class="customer-info-text">${infoOrder.email}</div></li>
                         <li><div class="customer-info-text">${infoOrder.phone}</div></li>
-                        <li><div class="customer-info-text">${infoOrder.order_id}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.orderId}</div></li>
                    </ul>
                  </div>
                      </div>
@@ -119,13 +120,15 @@
             <hr>
             <div class="purchase-block">
                 <form action="/" id="purchase-form">
-                     <input type="hidden" name="payment_type" value="${infoOrder.payment_type}">
+                     <input type="hidden" name="type" value="${infoOrder.type}">
                      <input type="hidden" name="shopName" value=${infoOrder.shopName}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
                      <input type="hidden" name="phone" value=${infoOrder.phone}>
                      <input type="hidden" name="amount" value=${infoOrder.amount}>
-                     <input type="hidden" name="orderId" value=${infoOrder.order_id}>
+                     <input type="hidden" name="residual" value=${infoOrder.amount}>
+                     <input type="hidden" name="orderId" value=${infoOrder.orderId}>
+                     <input type="hidden" name="status" value=${infoOrder.status}>
 
                 <div class="card-side">
                      <div class="front-card">

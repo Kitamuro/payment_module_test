@@ -1,6 +1,7 @@
 package school.attractor.payment_module.domain.commersant;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -9,11 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
 import school.attractor.payment_module.domain.order.Order;
+import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,10 +32,10 @@ public class CommersantController {
 
     private final TransactionService transactionService;
     private final OrderService orderService;
+    private final ResponseService responseService;
 
     @GetMapping("/")
-    public String hello (Model model) {
-
+    public String hello(Model model) {
         return "main";
     }
 
@@ -42,88 +46,56 @@ public class CommersantController {
 //    }
 
     @GetMapping("/orders")
-    public String getTransactions(Model model, @RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
-        int currentPage = page.orElse ( 1 );
-        int pageSize = size.orElse ( 10 );
-        Page<Order> orders = orderService.getOrders ( PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending() ) );
+    public String getTransactions(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(10);
+        Page<Order> orders = orderService.getOrders(PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending()));
+        model.addAttribute("orders", orders);
+        int number = orders.getNumber();
 
-        model.addAttribute ( "orders", orders );
-        int number = orders.getNumber ( );
-
-        model.addAttribute ( "number", number );
-        int totalPages = orders.getTotalPages ();
-        if(totalPages > 0){
-            List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ().collect( Collectors.toList());
-            model.addAttribute ( "pageNumbers", pageNumbers );
+        model.addAttribute("number", number);
+        int totalPages = orders.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
         }
         return "orders";
     }
 
     @PostMapping("/sendRequest")
-    public String sendRequest(Model model, @RequestParam String orderId, @RequestParam Integer transactionAmount,
-                             @RequestParam String shopName, RedirectAttributes attributes){
-        int sum = transactionService.getSum(orderId);
-        if (transactionAmount > sum){
-            attributes.addFlashAttribute("error", "You must enter an amount less than or equal to the order amount");
-        }
-        attributes.addFlashAttribute("shopName", shopName);
+    public String sendRequest(Model model, @RequestParam int orderId, @RequestParam int amount, @RequestParam String type,
+                              RedirectAttributes attributes) {
+        attributes.addFlashAttribute ( "type", type );
         attributes.addFlashAttribute ( "orderId", orderId );
-        attributes.addFlashAttribute ( "transactionAmount", transactionAmount );
+        attributes.addFlashAttribute ( "amount", amount );
         return "redirect:/send";
     }
 
     @GetMapping("/send")
-    public String openRequestPage(){
+    public String openRequestPage() {
         return "request";
     }
 
     @GetMapping("/reversePage")
-    public String openResponsePage(){
+    public String openResponsePage() {
         return "reverseResponse";
     }
 
 
     @PostMapping("/confirm")
-    public String confirmReverse(@RequestParam String orderId, @RequestParam int transactionAmount,
-                                @RequestParam String shopName, RedirectAttributes attributes){
-
-       int sum = transactionService.getSum(orderId);
-
-       System.out.println(sum);
-
-        Transaction refund = Transaction.builder()
-                .amount(-transactionAmount)
-                .shopName(shopName)
-                .type(TransactionType.REFUND)
-                .status(TransactionStatus.NEW)
-                .date(new Date())
-                .build();
-        transactionService.save(TransactionDTO.from(refund));
-
-        attributes.addFlashAttribute ( "responseCode", "00" );
-
-//        Transaction transaction = transactionService.getTransaction(transactionId);
-//        System.out.println (transactionId );
-////        SendRequest sendRequest = new SendRequest ( transaction, transactionAmount, "24" );
-////        String responseCode = sendRequest.getResponse ( ).getRcCode ( );
-//        String  responseCode = "00";
-//        attributes.addFlashAttribute ( "responseCode", responseCode );
-//        transaction.setStatus ( "Возвращен" );
-//        transactionService.change ( transaction );
-//        System.out.println ("Статус транзакции: " + transaction.getStatus () );
-
-
+    public String confirmReverse(@RequestParam int orderId, @RequestParam int amount, @RequestParam TransactionType type,
+                                 RedirectAttributes attributes) {
+        Order order = orderService.findById ( orderId );
+        Transaction transaction = transactionService.makeTransaction ( order, amount, type );
+        String trStatus = responseService.sendRequest ( transaction);
+        order.getTransactions ().add(transaction);
+        orderService.change ( order );
+        if (trStatus.equals ( "SUCCESS" )) {
+            attributes.addFlashAttribute ( "response", "SUCCESS" );
+        } else {
+            attributes.addFlashAttribute ( "response", "REFUSED" );
+        }
         return "redirect:/reversePage";
-
-//        if (responseCode.equals("00")){
-//            List<Response> responses = transaction.getResponses ( );
-//            responses.add (sendRequest.getResponse ());
-//            transaction.setStatus ( "Возвращен" );
-//            return ResponseEntity.status( HttpStatus.OK).body("okay");
-//        }else{
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseCode);
-//        }
-
     }
 
 //    @GetMapping("/search-result")
@@ -168,7 +140,7 @@ public class CommersantController {
     public String searchTransactions(@RequestParam(required = false, name = "id") String id,
                                      @RequestParam(required = false, name = "amount") Integer amount,
                                      @RequestParam(required = false, name = "shopName") String shopName,
-                                     RedirectAttributes attributes){
+                                     RedirectAttributes attributes) {
         TransactionSearchDTO searchDTO = new TransactionSearchDTO();
 
         searchDTO.setId(id);
@@ -178,7 +150,7 @@ public class CommersantController {
         System.out.println(amount);
         System.out.println(shopName);
 
-        attributes.addFlashAttribute ( "searchKey", searchDTO );
+        attributes.addFlashAttribute("searchKey", searchDTO);
         return "redirect:/search-result?size=10&page=1";
     }
 }

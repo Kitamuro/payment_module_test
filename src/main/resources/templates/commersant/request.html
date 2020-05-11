@@ -18,22 +18,26 @@
          <div th:text="${error}"></div>
       </div>
    <div class = "block center" th:if="${error} == null">
-      <h2>Возврат платежа</h2>
-      <div>
-         <td th:text="${'Подтвердите возврат платежа на сумму ' + transactionAmount + ' тенге'}"></td>
+      <div th:if="${type} == 'REFUND'">
+         <h2>Возврат платежа</h2>
+         <div th:text="${'Подтвердите возврат платежа на сумму ' + amount + ' тенге'}"></div>
       </div>
-      <div class="flex center">
+      <div th:if="${type} == 'AUTH'">
+         <h2>Авторизация платежа</h2>
+         <div th:text="${'Подтвердите авторизацию платежа на сумму ' + amount + ' тенге'}"></div>
+      </div>
+         <div class="flex center">
          <div>
-            <form action="/transactions">
+            <form action="/orders">
                <button  type="submit">отменить</button>
             </form>
          </div>
       <div id="btn-reverse">
          <form action="/confirm" method="post">
          <input type="hidden" th:value="${orderId}" name="orderId">
-         <input type="hidden" th:value="${shopName}" name="shopName">
-         <input type="hidden" th:value="${transactionAmount}" name="transactionAmount">
-         <button   type="submit"> вернуть</button>
+         <input type="hidden" th:value="${type}" name="type">
+         <input type="hidden" th:value="${amount}" name="amount">
+         <button type="submit"> подтвердить</button>
       </form>
       </div>
 

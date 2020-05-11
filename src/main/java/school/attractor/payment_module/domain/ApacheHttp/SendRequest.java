@@ -15,9 +15,9 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import school.attractor.payment_module.domain.transaction.Transaction;
+import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,28 +25,34 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendRequest {
+class SendRequest {
 
-    private Response response;
+    private ResponseDTO responseDTO;
+    private Request request;
     private List<NameValuePair> params = new ArrayList<> ( );
     private String bankUrl = "https://test-ecom.atfbank.kz:5443/cgi-bin/cgi_link";
 
-    public SendRequest(Transaction transaction, String transactionAmount, String trType) {
-        String htmlString = BankCommunicator ( transaction, transactionAmount, trType);
-        response = parseResponse ( htmlString );
+
+    SendRequest(Transaction transaction, String trType) {
+        String htmlString = BankCommunicator ( transaction, trType);
+        parseResponse ( htmlString);
     }
 
-    String BankCommunicator(Transaction transaction, String transactionAmount, String trType) {
+
+    private String BankCommunicator(Transaction transaction, String trType) {
         final CloseableHttpClient httpclient = HttpClients.createDefault ( );
         final HttpPost httpPost = new HttpPost ( bankUrl );
-        if(trType.equals ( "24" ) || trType.equals ( "21" )){
-            params = addParam ( transaction, transactionAmount, trType );
+        if(trType.equals ( "14" ) || trType.equals ( "21" )){
+            params = addParam ( transaction, trType );
         } else {
             params = addParamForAuth ( transaction, trType );
         }
         try {
             httpPost.setEntity ( new UrlEncodedFormEntity ( params ) );
-        } catch (UnsupportedEncodingException e) {
+            UrlEncodedFormEntity requestEntity = new UrlEncodedFormEntity ( params );
+            String htmlRequest = EntityUtils.toString ( requestEntity );
+            request = Request.from ( htmlRequest,transaction );
+        } catch (IOException e) {
             e.printStackTrace ( );
         }
         try (CloseableHttpResponse response = httpclient.execute ( httpPost )) {
@@ -58,48 +64,33 @@ public class SendRequest {
         return "";
     }
 
-
-    Response parseResponse(String htmlString){
+    private void parseResponse(String htmlString){
+             String responseHtml= htmlString.split ( "(\\bhost\\b)" )[2].split ( "</" )[0].substring ( 3 );
              Document html = Jsoup.parse ( htmlString );
-             System.out.println ( "html = " + html );
-             String[] substring = htmlString.split ( "(\\bwindow.location.href\\b)" )[1].split ( "\\b&\\b" );
-             String rcCode = substring[3].split ( "\\bRC\\b" )[1].replaceAll ( "[^\\w \\xC0-\\xFF]","" );
-        if(rcCode.equals ( "00" ) && html.title ().equals ( "Transaction approved" )) {
-            String trAm = getStringData( substring, 5, "AMOUNT" );
-            String trCcy = getStringData( substring, 6, "CUR" );
-            String transRef = getStringData( substring, 9, "REF" );
-            String intTrRef = getStringData( substring, 10, "INT_REF" );
-            String aprCode = getStringData( substring, 1, "RES" );
-            consolePrint(htmlString, trAm, trCcy, transRef, intTrRef, aprCode,rcCode);
-            return buildResponseSuccessful (trAm, trCcy, transRef, intTrRef, aprCode, rcCode);
+        if(html.title ().equals ( "Transaction approved" )) {
+            String transRef = htmlString.split ( "(\\bREF\\b)" )[1].split ( "\\bINT_REF\\b" )[0].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
+            String intTrRef = htmlString.split ( "\\bINT_REF\\b" )[1].split ( "\\bAC\\b" )[0].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );;
+            consolePrint(htmlString, transRef, intTrRef);
+            buildResponseDTO(responseHtml, transRef, intTrRef, TransactionStatus.APPROVED );
         }else{
-            return buildResponseFail ( rcCode );
+            buildResponseDTO ( responseHtml, "", "", TransactionStatus.REFUSED );
         }
     }
 
-    private Response buildResponseFail(String rcCode) {
-        return response = Response.builder()
-                .rcCode ( rcCode )
-                .build();
+    private void buildResponseDTO(String htmlString, String transRef, String intTrRef, TransactionStatus TransactionStatus) {
+        responseDTO = ResponseDTO.builder ( ).
+                RetrievalReferenceNumber(transRef).
+                InternalReferenceNumber ( intTrRef ).
+                responseHtml (htmlString  ).
+                status ( TransactionStatus ).
+                build ();
     }
 
-    private Response buildResponseSuccessful(String trAm, String trCcy, String transRef, String intTrRef, String aprCode, String rcCode) {
-            return response = Response.builder ( )
-                    .transactionAmount ( Double.parseDouble ( trAm )/100 )
-                    .transactionCcy ( trCcy )
-                    .RetrievalReferenceNumber ( transRef )
-                    .internalReferenceNumber ( intTrRef )
-                    .approvalCode ( aprCode )
-                    .rcCode ( rcCode )
-                    .build ( );
-    }
-
-    private List<NameValuePair> addParam(Transaction transaction, String transactionAmount, String trType) {
-        Response transactionResponse = transaction.getResponses ( ).get ( 0 );
-        params.add(new BasicNameValuePair ( "RRN", transactionResponse.getRetrievalReferenceNumber () ));
-        params.add(new BasicNameValuePair (  "INT_REF", transactionResponse.getInternalReferenceNumber ()));
-        params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrder ().getId().toString() ));
-        params.add ( new BasicNameValuePair ( "AMOUNT", transactionAmount ) );
+    private List<NameValuePair> addParam(Transaction transaction, String trType) {
+        params.add(new BasicNameValuePair ( "RRN", transaction.getOrder ().getRetrievalReferenceNumber () ));
+        params.add(new BasicNameValuePair (  "INT_REF", transaction.getOrder ().getInternalReferenceNumber ()));
+        params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrder ().getOrderId () ));
+        params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf (transaction.getAmount ())));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
         params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
@@ -107,17 +98,17 @@ public class SendRequest {
     }
 
     private List<NameValuePair> addParamForAuth(Transaction transaction, String trType) {
-        params.add ( new BasicNameValuePair ( "CARD", transaction.getCARD () ) );
-        params.add ( new BasicNameValuePair ( "EXP", transaction.getEXP () ) );
-        params.add ( new BasicNameValuePair ( "EXP_YEAR", transaction.getEXP_YEAR () ) );
-        params.add ( new BasicNameValuePair ( "CVC2", transaction.getCVC2 () ) );
+        params.add ( new BasicNameValuePair ( "CARD", transaction.getOrder ().getCARD () ) );
+        params.add ( new BasicNameValuePair ( "EXP", transaction.getOrder ().getEXP () ) );
+        params.add ( new BasicNameValuePair ( "EXP_YEAR", transaction.getOrder ().getEXP_YEAR () ) );
+        params.add ( new BasicNameValuePair ( "CVC2", transaction.getOrder ().getCVC2 () ) );
         params.add ( new BasicNameValuePair ( "CVC2_RC", "1" ) );
         params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf(transaction.getAmount () ) ));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "DESC", "Merchant_test" ) );
         params.add ( new BasicNameValuePair ( "MERCHANT", "ECOMM001" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
-        params.add ( new BasicNameValuePair ( "ORDER", transaction.getOrder ().getId().toString() ) );
+        params.add ( new BasicNameValuePair ( "ORDER", transaction.getOrder().getOrderId () ) );
         params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
         params.add ( new BasicNameValuePair ( "EMAIL", "test@atfbank.kz" ) );
         params.add ( new BasicNameValuePair ( "MERCH_GMT", "+6" ) );
@@ -131,14 +122,10 @@ public class SendRequest {
         System.out.println ( "data = " + data );
         return data;
     }
-    private void consolePrint(String htmlString, String trAm, String trCcy, String transRef, String intTrRef, String apprCode, String rcCode) {
+    private void consolePrint(String htmlString, String transRef, String intTrRef) {
         System.out.println ( "whole message from the Bank = " + htmlString );
-        System.out.println ( "Transaction amount = " + trAm );
-        System.out.println ( "Transaction currency = " + trCcy );
         System.out.println ( "Transaction reference number = " + transRef );
         System.out.println ( "Internal Transaction number = " + intTrRef );
-        System.out.println ( "Bank's approval code = " + apprCode );
-        System.out.println ( "RC CODE = " + rcCode );
     }
 
 }

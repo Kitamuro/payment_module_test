@@ -133,15 +133,12 @@
 
     function addFormRefund(orderDTO) {
         const html = `
-                    <div class="form-refund">
+                    <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="${orderDTO.shopName}" name="shopName">
-                    <div class="input-field">
-                    <input class="transaction-amount" type="number" value="${orderDTO.amount}" name="transactionAmount" oninput="validateSum(value)" >
-                    <label class="transaction-amount-placeholder" for="name">Введите сумму:</label>
-                    </div>
-                        <button class="button-return" id="returnButton" type="submit">Вернуть</button>
+                    <input type="number" value="${orderDTO.amount}" placeholder="введите сумму" name="transactionAmount" oninput="validateSum(value)" >
+                    <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
         const div = document.createElement('div');

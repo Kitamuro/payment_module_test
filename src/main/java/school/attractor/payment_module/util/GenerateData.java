@@ -18,10 +18,12 @@ class GenerateData {
         for (int i = 0; i < 30; i++) {
             int randomAmount = random.nextInt(80000);
             int randomId = random.nextInt(5000);
+            int randomOrderId = random.nextInt ( 100000 ) + 999999;
             String name = userName.get(random.nextInt(userName.size()));
 
             Order test = Order.builder()
                     .id(randomId)
+                    .orderId ( String.valueOf ( randomOrderId ) )
                     .shopName(shops.get(random.nextInt(shops.size())))
                     .userName(name)
                     .status(TransactionStatus.APPROVED)
@@ -36,8 +38,17 @@ class GenerateData {
                     .date(new Date())
                     .build();
             orders.add(test);
-            if (i % 3 == 0) {
+            if (i % 6 == 0) {
                 test.setStatus(TransactionStatus.REFUSED);
+            }
+            if (i % 3 == 0) {
+                test.setStatus(TransactionStatus.RESERVED);
+            }
+            if (i % 4 == 0) {
+                test.setStatus(TransactionStatus.PARTIAL_REFUND);
+            }
+            if (i % 5 == 0) {
+                test.setStatus(TransactionStatus.TOTAL_REFUND);
             }
         }
         return orders;
@@ -55,14 +66,7 @@ class GenerateData {
 
             Transaction test = Transaction.builder()
                     .amount((randomAmount))
-                    .CARD("2214-3112-333-0987-5672")
-                    .cardHolderName(userName.get(random.nextInt(userName.size())))
-                    .CVC2("7800")
-                    .EXP("20/20")
-                    .email("test@test")
-                    .userName(userName.get(random.nextInt(userName.size())))
                     .date(new Date())
-                    .shopName(shops.get(random.nextInt(shops.size())))
                     .status(TransactionStatus.APPROVED)
                     .build();
             transactions.add(test);
