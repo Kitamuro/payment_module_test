@@ -83,16 +83,10 @@ public class CommersantController {
 
 
     @PostMapping("/confirm")
-    public String confirmReverse(@RequestParam int orderId, @RequestParam int amount, @RequestParam String type,
+    public String confirmReverse(@RequestParam int orderId, @RequestParam int amount, @RequestParam TransactionType type,
                                  RedirectAttributes attributes) {
         Order order = orderService.findById ( orderId );
-        TransactionType trType;
-        if(type.equals ( "0" )){
-            trType = TransactionType.REFUND;
-        }else{
-            trType = TransactionType.AUTH;
-        }
-        Transaction transaction = transactionService.makeTransaction ( order, amount, trType );
+        Transaction transaction = transactionService.makeTransaction ( order, amount, type );
         String trStatus = responseService.sendRequest ( transaction);
         order.getTransactions ().add(transaction);
         orderService.change ( order );

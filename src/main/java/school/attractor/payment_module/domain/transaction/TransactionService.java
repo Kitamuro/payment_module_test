@@ -52,20 +52,6 @@ public class TransactionService {
 //    }
 
     public Transaction makeTransaction(Order order, int transactionAmount, TransactionType type) {
-        switch (type) {
-            case REFUND:
-                return buildTransaction ( order, -transactionAmount, TransactionType.REFUND);
-            case PAYMENT:
-                return buildTransaction ( order, transactionAmount, TransactionType.PAYMENT);
-            case HOLD:
-                return buildTransaction ( order, transactionAmount, TransactionType.HOLD);
-            default:
-                return buildTransaction ( order, transactionAmount, TransactionType.AUTH);
-        }
-
-    }
-
-    private Transaction buildTransaction(Order order, int transactionAmount, TransactionType type) {
         Transaction transaction = Transaction.builder()
                 .order ( order )
                 .amount(transactionAmount)
@@ -76,4 +62,5 @@ public class TransactionService {
         change ( transaction );
         return transaction;
     }
+
 }

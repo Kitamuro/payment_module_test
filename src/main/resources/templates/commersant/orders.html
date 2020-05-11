@@ -140,7 +140,7 @@
                     <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="0" name="type">
+                    <input type="hidden" value="REFUND" name="type">
                     <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
                     </form>
@@ -155,7 +155,7 @@
                     <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="3" name="type">
+                    <input type="hidden" value="AUTH" name="type">
                     <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">подтвердить</button>
                     </form>

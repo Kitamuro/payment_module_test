@@ -18,11 +18,11 @@
          <div th:text="${error}"></div>
       </div>
    <div class = "block center" th:if="${error} == null">
-      <div th:if="${type} == '0'">
+      <div th:if="${type} == 'REFUND'">
          <h2>Возврат платежа</h2>
          <div th:text="${'Подтвердите возврат платежа на сумму ' + amount + ' тенге'}"></div>
       </div>
-      <div th:if="${type} == '3'">
+      <div th:if="${type} == 'AUTH'">
          <h2>Авторизация платежа</h2>
          <div th:text="${'Подтвердите авторизацию платежа на сумму ' + amount + ' тенге'}"></div>
       </div>

@@ -87,24 +87,14 @@ class SendRequest {
     }
 
     private List<NameValuePair> addParam(Transaction transaction, String trType) {
-        String amount = getAmount ( trType, transaction.getAmount ( ) );
         params.add(new BasicNameValuePair ( "RRN", transaction.getOrder ().getRetrievalReferenceNumber () ));
         params.add(new BasicNameValuePair (  "INT_REF", transaction.getOrder ().getInternalReferenceNumber ()));
         params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrder ().getOrderId () ));
-        params.add ( new BasicNameValuePair ( "AMOUNT", amount));
+        params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf (transaction.getAmount ())));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
         params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
         return params;
-    }
-
-    private String getAmount(String trType, int amount) {
-        if(trType.equals ( "21" )){
-            return String.valueOf(amount);
-        } else {
-            int positive = amount * (-1);
-            return String.valueOf ( positive );
-        }
     }
 
     private List<NameValuePair> addParamForAuth(Transaction transaction, String trType) {
