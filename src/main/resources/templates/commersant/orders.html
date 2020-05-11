@@ -73,7 +73,11 @@
                     <td th:text="${order.amount} "></td>
                     <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден
                     </td>
-                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Возвращен</td>
+                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
+                    <td th:if="${order.status.name() =='NEW'}"><i class="circle-status declined"></i> В ожидании</td>
+                    <td th:if="${order.status.name() =='RESERVED'}"><i class="circle-status declined"></i>Зарезервирован</td>
+                    <td th:if="${order.status.name() =='PARTIAL_REFUND'}"><i class="circle-status declined"></i>Частично возвращен</td>
+                    <td th:if="${order.status.name() =='TOTAL_REFUND'}"><i class="circle-status declined"></i>Возвращен</td>
                 </tr>
                 </tbody>
             </table>
@@ -153,7 +157,7 @@
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="3" name="type">
                     <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button id="returnButton" type="submit">вернуть</button>
+                    <button id="returnButton" type="submit">подтвердить</button>
                     </form>
                     </div>`;
         const div = document.createElement('div');
@@ -185,11 +189,9 @@
             const formDiv = addFormRefund(orderDTO);
             amount.after(formDiv)
         }
-        if(orderDTO.status === 'HOLD') {
+        if(orderDTO.status === 'RESERVED') {
             const formDivAuth = addFormAuth(orderDTO);
-            const formDivRefund = addFormRefund(orderDTO);
             amount.after(formDivAuth);
-            amount.after(formDivRefund)
         }
 
         let closeIcon = window['close-icon'];

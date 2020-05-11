@@ -1,5 +1,6 @@
 package school.attractor.payment_module.domain.ApacheHttp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     @OneToOne
     Transaction transaction;
 
@@ -27,6 +29,7 @@ public class Request {
 
     @Column
     String htmlString;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
 
     public  static Request from(String  htmlString, Transaction transaction) {
         return Request.builder ( )

@@ -1,5 +1,6 @@
 package school.attractor.payment_module.domain.transaction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.item.ItemDTO;
@@ -17,7 +18,7 @@ public class TransactionDTO {
     private int id;
 
     private OrderDTO order;
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private int amount;
     private String currency;
     private TransactionType type;
