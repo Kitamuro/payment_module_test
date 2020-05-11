@@ -1,7 +1,6 @@
 package school.attractor.payment_module.domain.transaction;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,12 +29,12 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("response")
     private Response response;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("request")
     private Request request;
 
     @Column(length = 30)
@@ -57,7 +56,6 @@ public class Transaction {
     private TransactionType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonManagedReference
     private Order order;
 
 
