@@ -185,11 +185,11 @@
                                ${orderDTO.transactions.map(transaction => `<div> ${dateFormat(transaction.date)} ${transaction.type}</div>`).join('')}
                            </div>`.trim();
         const amount = document.getElementsByClassName('amount')[0];
-        if (orderDTO.status === 'APPROVED') {
+        if (orderDTO.status === 'APPROVED' || orderDTO.status === 'PARTIAL_REFUND') {
             const formDiv = addFormRefund(orderDTO);
             amount.after(formDiv)
         }
-        if(orderDTO.status === 'RESERVED') {
+        if(orderDTO.status === 'RESERVED' ) {
             const formDivAuth = addFormAuth(orderDTO);
             amount.after(formDivAuth);
         }
