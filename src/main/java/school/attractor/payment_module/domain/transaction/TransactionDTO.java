@@ -16,22 +16,16 @@ import java.util.List;
 @Data
 public class TransactionDTO {
     private int id;
-
-    private OrderDTO order;
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private int amount;
     private String currency;
     private TransactionType type;
-
     private TransactionStatus status;
-
     private Date date;
 
     public static TransactionDTO from(Transaction transaction) {
         return builder()
                 .amount(transaction.getAmount())
                 .status(transaction.getStatus())
-                .order(OrderDTO.from(transaction.getOrder()))
                 .type(transaction.getType())
                 .date(transaction.getDate()).build();
 

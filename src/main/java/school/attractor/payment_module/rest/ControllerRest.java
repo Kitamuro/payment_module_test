@@ -27,7 +27,7 @@ public class ControllerRest {
     private final OrderService orderService;
 
     @PostMapping("/pay")
-    public ResponseEntity mainController(@Valid @RequestBody OrderDTO orderDTO) {
+    public ResponseEntity mainController(@RequestBody OrderDTO orderDTO) {
         System.out.println(orderDTO);
         Order order = orderService.save ( orderDTO );
         Transaction transaction = transactionService.makeTransaction ( order, orderDTO.getAmount (), orderDTO.getType () );
@@ -37,16 +37,14 @@ public class ControllerRest {
         if (trStatus.equals ( "SUCCESS" )){
             return ResponseEntity.status(HttpStatus.OK).body("okay");
         }else{
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("NOT OK");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NOT OK");
         }
     }
 
     @GetMapping("/orders/{id}")
     public OrderDTO transactionData(@PathVariable Integer id) {
         try {
-            OrderDTO order = orderService.findByOrderId(id);
-            order.setCard("1111 **** **** 1111");
-            return order;
+            return orderService.findByOrderId(id);
         } catch (OrderNotFound e) {
             return null;
         }
