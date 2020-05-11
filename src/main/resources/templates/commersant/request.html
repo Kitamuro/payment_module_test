@@ -20,7 +20,7 @@
    <div class = "block center" th:if="${error} == null">
       <h2>Возврат платежа</h2>
       <div>
-         <td th:text="${'Подтвердите возврат платежа на сумму ' + refundAmount + ' тенге'}"></td>
+         <td th:text="${'Подтвердите возврат платежа на сумму ' + amount + ' тенге'}"></td>
       </div>
       <div class="flex center">
          <div>
@@ -32,7 +32,7 @@
          <form action="/confirm" method="post">
          <input type="hidden" th:value="${orderId}" name="orderId">
          <input type="hidden" th:value="${type}" name="type">
-         <input type="hidden" th:value="${refundAmount}" name="refundAmount">
+         <input type="hidden" th:value="${amount}" name="amount">
          <button type="submit"> вернуть</button>
       </form>
       </div>

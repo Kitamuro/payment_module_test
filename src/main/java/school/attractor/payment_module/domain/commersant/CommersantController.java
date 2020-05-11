@@ -63,11 +63,11 @@ public class CommersantController {
     }
 
     @PostMapping("/sendRequest")
-    public String sendRequest(Model model, @RequestParam int orderId, @RequestParam int refundAmount, @RequestParam String type,
+    public String sendRequest(Model model, @RequestParam int orderId, @RequestParam int amount, @RequestParam String type,
                               RedirectAttributes attributes) {
         attributes.addFlashAttribute ( "type", type );
         attributes.addFlashAttribute ( "orderId", orderId );
-        attributes.addFlashAttribute ( "refundAmount", refundAmount );
+        attributes.addFlashAttribute ( "amount", amount );
         return "redirect:/send";
     }
 
@@ -83,7 +83,7 @@ public class CommersantController {
 
 
     @PostMapping("/confirm")
-    public String confirmReverse(@RequestParam int orderId, @RequestParam int refundAmount, @RequestParam String type,
+    public String confirmReverse(@RequestParam int orderId, @RequestParam int amount, @RequestParam String type,
                                  RedirectAttributes attributes) {
         Order order = orderService.findById ( orderId );
         TransactionType trType;
@@ -92,7 +92,7 @@ public class CommersantController {
         }else{
             trType = TransactionType.AUTH;
         }
-        Transaction transaction = transactionService.makeTransaction ( order, refundAmount, trType );
+        Transaction transaction = transactionService.makeTransaction ( order, amount, trType );
         String trStatus = responseService.sendRequest ( transaction);
         order.getTransactions ().add(transaction);
         orderService.change ( order );

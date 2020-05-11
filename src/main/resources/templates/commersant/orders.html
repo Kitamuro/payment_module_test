@@ -137,7 +137,7 @@
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="0" name="type">
-                    <input type="number"  placeholder="введите сумму" name="refundAmount" oninput="validateSum(value)" >
+                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
@@ -152,7 +152,7 @@
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="3" name="type">
-                    <input type="number"  placeholder="введите сумму" name="refundAmount" oninput="validateSum(value)" >
+                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
@@ -182,7 +182,7 @@
                            </div>`.trim();
         const amount = document.getElementsByClassName('amount')[0];
         if (orderDTO.status === 'APPROVED') {
-            const formDiv = addFormRefund(transaction);
+            const formDiv = addFormRefund(orderDTO);
             amount.after(formDiv)
         }
         if(orderDTO.status === 'HOLD') {
