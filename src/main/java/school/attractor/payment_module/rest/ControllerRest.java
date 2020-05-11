@@ -28,7 +28,7 @@ public class ControllerRest {
     private final OrderService orderService;
 
     @PostMapping("/pay")
-    public ResponseEntity mainController(@Valid @RequestBody OrderDTO orderDTO) throws IOException {
+    public ResponseEntity mainController(@RequestBody OrderDTO orderDTO) throws IOException {
         Order order = orderService.save ( orderDTO );
         Transaction transaction = transactionService.makeTransaction ( order, orderDTO.getAmount (), orderDTO.getType () );
         String trStatus = responseService.sendRequest(transaction);

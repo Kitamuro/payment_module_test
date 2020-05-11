@@ -18,7 +18,7 @@ public class TransactionDTO {
     private int id;
 
     private OrderDTO order;
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+
     private int amount;
     private String currency;
     private TransactionType type;
