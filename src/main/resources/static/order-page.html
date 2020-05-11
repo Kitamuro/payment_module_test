@@ -238,12 +238,12 @@
 
             //Отправляем форму оплаты с информацией о карте и покупателе
             let formData = new FormData(purchaseForm);
-            let transaction = Object.fromEntries(formData);
+            let order = Object.fromEntries(formData);
 
             let response = await fetch(url, {
                 method: "post",
                 headers: {"Content-Type": "application/json;charset=utf-8"},
-                body: JSON.stringify(transaction)
+                body: JSON.stringify(order)
             });
             //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
             if (response.status === 422) {
@@ -283,7 +283,7 @@
                     element.hide();
                 }, 3000);
             }
-            if (response.status === 403) {
+            if (response.status === 404) {
                 putLoadingBar(progressBarHtml);
                 let element = lv.create(document.getElementById("progressBar"));
 
@@ -333,7 +333,6 @@
 
 
 </script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </body>
 </html>

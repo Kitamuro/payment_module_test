@@ -54,10 +54,10 @@ public class Transaction {
     @Column
     private TransactionType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "order_id")
     @JsonManagedReference
     private Order order;
-
 
     public  static Transaction from(TransactionDTO transactionDTO) {
         return  Transaction.builder()
@@ -65,7 +65,6 @@ public class Transaction {
                 .status(transactionDTO.getStatus())
                 .type(transactionDTO.getType())
                 .date(transactionDTO.getDate())
-                .order(Order.from(transactionDTO.getOrder()))
                 .build();
     }
 }

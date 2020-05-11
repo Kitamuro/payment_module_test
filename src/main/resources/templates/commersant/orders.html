@@ -182,7 +182,7 @@
                            <div class="row"> <div>Почта</div>  <div> ${orderDTO.email} </div> </div>
                            <div>  История платежей </div>
                            <div>
-                              ${orderDTO.transactions.map(transaction => `<div> ${dateFormat(transaction.date)} ${transaction.type}</div>`).join('')}
+                               ${orderDTO.transactions.map(transaction => `<div> ${dateFormat(transaction.date)} ${transaction.type}</div>`).join('')}
                            </div>`.trim();
         const amount = document.getElementsByClassName('amount')[0];
         if (orderDTO.status === 'APPROVED') {
