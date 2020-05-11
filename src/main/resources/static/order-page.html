@@ -27,16 +27,16 @@
         <div> Тип оплаты:</div>
         <div class="checkbox-input">
             <label>
-                <input type="radio" class="checkbox hidden" name="type" value="2" required>
+                <input type="radio" class="checkbox hidden" name="type" value="HOLD" required>
                 <span class="right checkbox-text"> Hold </span>
             </label>
             <label>
-                <input type="radio" class="checkbox hidden" name="type" value="1" checked required>
+                <input type="radio" class="checkbox hidden" name="type" value="PAYMENT" checked required>
                 <span class="left checkbox-text"> Instant </span>
             </label>
         </div>
         <input type="hidden" name="shopName" value="Example Shop">
-        <input type="hidden" name="status" value="1">
+        <input type="hidden" name="status" value="NEW">
         <div>
             <div> ФИО</div>
             <input name="userName" value="test" type="text" required>
@@ -138,14 +138,14 @@
                 </div>
 
                 <div class="form-card form-field">
-                    <input name="CARD" class="cc-number" value="5169397117346753" type="text" placeholder="Номер карты"
+                    <input name="card" class="cc-number" value="5169397117346753" type="text" placeholder="Номер карты"
                            required minlength="15"
                            maxlength="16" size="16">
                 </div>
 
                 <div class="form-date form-field">
                     <div class="date-val">
-                        <select name="EXP" class="expiry-month" required>
+                        <select name="exp" class="expiry-month" required>
                             <option class="trans-label_month" value="" default="default" selected="selected">Месяц</option>
                             <option value="1">01</option>
                             <option value="2">02</option>
@@ -161,7 +161,7 @@
                             <option value="12">12</option>
                         </select>
                         <span>/</span>
-                        <select name="EXP_YEAR" class="expiry-year" required>
+                        <select name="exp_year" class="expiry-year" required>
                             <option class="trans-label_year" value="" default="" selected="selected">Год</option>
                             <option value="2020">20</option>
                             <option value="2021">21</option>
@@ -198,7 +198,7 @@
             <div class="back-card">
                 <div class="back-card-line"></div>
                 <div class="form-sec-code form-field">
-                    <input name="CVC2" type="password" inputmode="numeric" minlength="2" maxlength="3" size="3"
+                    <input name="cvc2" type="password" inputmode="numeric" minlength="2" maxlength="3" size="3"
                            placeholder="Код" required>
                 </div>
             </div>

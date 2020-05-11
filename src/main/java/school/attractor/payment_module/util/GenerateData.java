@@ -31,10 +31,10 @@ class GenerateData {
                     .residual(randomAmount)
                     .email("test@test")
                     .cardHolderName(name)
-                    .CARD("1111 1111 1111 1111")
-                    .EXP("01")
-                    .EXP_YEAR("20")
-                    .CVC2("202")
+                    .card("1111 1111 1111 1111")
+                    .exp("01")
+                    .exp_year("20")
+                    .cvc2("202")
                     .date(new Date())
                     .build();
             orders.add(test);
