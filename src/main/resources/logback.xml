@@ -1,17 +1,24 @@
 <configuration>
 
-    <property name="LOGS" value="./logs" />
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file> ${LOGS}/test.log </file>
-        <append> true </append>
+    <property name="LOG__DIR" value="./logs"/>
+    <property name="LOG__FILE" value="Log"/>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${LOG__DIR}/${LOG__FILE}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG__DIR}/${LOG__FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%-4relative[%thread]%-5level %logger{35} - %msg%n</pattern>
         </encoder>
+
     </appender>
 
-
     <root level="debug">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>
