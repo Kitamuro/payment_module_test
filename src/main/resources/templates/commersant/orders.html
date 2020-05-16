@@ -73,7 +73,11 @@
                     <td th:text="${order.amount} "></td>
                     <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден
                     </td>
-                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Возвращен</td>
+                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
+                    <td th:if="${order.status.name() =='NEW'}"><i class="circle-status declined"></i> В ожидании</td>
+                    <td th:if="${order.status.name() =='RESERVED'}"><i class="circle-status declined"></i>Зарезервирован</td>
+                    <td th:if="${order.status.name() =='PARTIAL_REFUND'}"><i class="circle-status declined"></i>Частично возвращен</td>
+                    <td th:if="${order.status.name() =='TOTAL_REFUND'}"><i class="circle-status declined"></i>Возвращен</td>
                 </tr>
                 </tbody>
             </table>
@@ -136,9 +140,24 @@
                     <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="${orderDTO.shopName}" name="shopName">
-                    <input type="number" value="${orderDTO.amount}" placeholder="введите сумму" name="transactionAmount" oninput="validateSum(value)" >
+                    <input type="hidden" value="REFUND" name="type">
+                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" type="submit">вернуть</button>
+                    </form>
+                    </div>`;
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div;
+    }
+
+    function addFormAuth(orderDTO) {
+        const html = `
+                    <div>
+                    <form action="/sendRequest" method="post">
+                    <input type="hidden" value="${orderDTO.id}" name="orderId">
+                    <input type="hidden" value="AUTH" name="type">
+                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
+                    <button id="returnButton" type="submit">подтвердить</button>
                     </form>
                     </div>`;
         const div = document.createElement('div');
@@ -155,7 +174,7 @@
                            <div class="title"> Платежная информация </div>
                            <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
                            <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
-                           <div class="order-title">Спасоб оплаты</div>
+                           <div class="order-title">Спосаб оплаты</div>
                            <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
                            <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
                            <div class="order-title">Информация о покупке</div>
@@ -170,6 +189,11 @@
             const formDiv = addFormRefund(orderDTO);
             amount.after(formDiv)
         }
+        if(orderDTO.status === 'RESERVED') {
+            const formDivAuth = addFormAuth(orderDTO);
+            amount.after(formDivAuth);
+        }
+
         let closeIcon = window['close-icon'];
         closeIcon.addEventListener('click', function () {
             block.hidden = true;

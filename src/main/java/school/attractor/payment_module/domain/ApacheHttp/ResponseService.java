@@ -1,9 +1,7 @@
 package school.attractor.payment_module.domain.ApacheHttp;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionRepository;
@@ -54,14 +52,15 @@ public class ResponseService {
         if (sendRequest.getResponseDTO ( ).getStatus ().equals ( TransactionStatus.APPROVED )) {
             transaction.setStatus ( TransactionStatus.APPROVED );
             transactionRepository.save ( transaction );
-            orderService.setOrderStatus(transaction.getOrder (), transaction);
-            transaction.getOrder ().setInternalReferenceNumber ( sendRequest.getResponseDTO ( ).getInternalReferenceNumber ( ) );
-            transaction.getOrder ().setRetrievalReferenceNumber ( sendRequest.getResponseDTO ( ).getRetrievalReferenceNumber ( ) );
+            orderService.setOrderParam (transaction.getOrder (), transaction, sendRequest.getResponseDTO ( ).getInternalReferenceNumber ( ),sendRequest.getResponseDTO ( ).getRetrievalReferenceNumber ( ) );
             orderService.change(transaction.getOrder ());
             return "SUCCESS";
         }else{
             transaction.setStatus ( TransactionStatus.REFUSED );
             transactionRepository.save ( transaction );
+            if(transaction.getOrder ().getStatus ().equals ( TransactionStatus.NEW )){
+                transaction.getOrder ().setStatus ( TransactionStatus.REFUSED );
+            }
             return "REFUSED";
         }
     }

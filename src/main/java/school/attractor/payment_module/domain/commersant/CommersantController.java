@@ -49,7 +49,7 @@ public class CommersantController {
     public String getTransactions(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
-        Page<Order> orders = orderService.getOrders(PageRequest.of(currentPage - 1, pageSize, Sort.by("date").descending()));
+        Page<Order> orders = orderService.getOrders(PageRequest.of(currentPage - 1, pageSize, Sort.by("id").ascending()));
         model.addAttribute("orders", orders);
         int number = orders.getNumber();
 
@@ -89,6 +89,7 @@ public class CommersantController {
         Transaction transaction = transactionService.makeTransaction ( order, amount, type );
         String trStatus = responseService.sendRequest ( transaction);
         order.getTransactions ().add(transaction);
+        order.setResidual( order.getResidual() - amount);
         orderService.change ( order );
         if (trStatus.equals ( "SUCCESS" )) {
             attributes.addFlashAttribute ( "response", "SUCCESS" );
