@@ -13,6 +13,9 @@
     <title>Операции</title>
 </head>
 
+<script src="js/markups.js"></script>
+<script src="js/utils.js"></script>
+
 <body>
 
 <div th:insert="layout :: header"></div>
@@ -66,13 +69,11 @@
                 </thead>
                 <tbody id="orders">
                 <tr class="order-row" th:each="order , itemStat : ${orders.content}">
-                    <td th:inline="javascript" hidden class="order-obj"> [[${order}]]</td>
                     <td class="order-id" th:text="${order.id}"></td>
                     <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${order.shopName}"></td>
                     <td th:text="${order.amount} "></td>
-                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден
-                    </td>
+                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден</td>
                     <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
                     <td th:if="${order.status.name() =='NEW'}"><i class="circle-status declined"></i> В ожидании</td>
                     <td th:if="${order.status.name() =='RESERVED'}"><i class="circle-status declined"></i>Зарезервирован</td>
@@ -109,103 +110,31 @@
 </body>
 </html>
 
+
 <script>
 
-    let ListOrders = window['orders'];
+    let listOrders = window['orders'];
     let block = window['info-block'];
     let searchElement = window['search-block'];
     let orderDTO;
 
-    ListOrders.addEventListener('click', async function (e) {
-        let markupTransaction = e.target.parentElement;
+    listOrders.addEventListener('click', async function (e) {
         block.hidden = false;
         searchElement.hidden = true;
-        let orderElem = markupTransaction.getElementsByClassName('order-obj')[0].innerHTML;
-        let order = JSON.parse(orderElem);
-        let responseData = await fetch('http://localhost:8080/orders/' + order.id);
+        let markupTransaction = e.target.parentElement;
+        let orderId = markupTransaction.getElementsByClassName('order-id')[0].innerText;
+
+        let responseData = await fetch(`http://localhost:8080/orders/${orderId}`);
+
         let promise = await responseData.json();
         orderDTO = JSON.parse(JSON.stringify(promise));
-
         print(orderDTO);
-
-        let classList = ListOrders.children;
+        let classList = listOrders.children;
         for (let i = 0; i < classList.length; i++) {
             classList[i].classList.remove('active')
         }
         markupTransaction.classList.add("active");
     });
 
-    function addFormRefund(orderDTO) {
-        const html = `
-                    <div>
-                    <form action="/sendRequest" method="post">
-                    <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="REFUND" name="type">
-                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button id="returnButton" type="submit">вернуть</button>
-                    </form>
-                    </div>`;
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        return div;
-    }
 
-    function addFormAuth(orderDTO) {
-        const html = `
-                    <div>
-                    <form action="/sendRequest" method="post">
-                    <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="AUTH" name="type">
-                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button id="returnButton" type="submit">подтвердить</button>
-                    </form>
-                    </div>`;
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        return div;
-    }
-
-    function print(orderDTO) {
-        block.innerHTML = `<div id="close-icon" class="close"> x </div>
-                           <div class="id"> ${orderDTO.id} </div>
-                           <div> Остаток : ${orderDTO.residual} </div>
-                           <div class="status">${orderDTO.status} </div>
-                           <div class="amount">${orderDTO.amount}  TГ </div>
-                           <div class="title"> Платежная информация </div>
-                           <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
-                           <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
-                           <div class="order-title">Спосаб оплаты</div>
-                           <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
-                           <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
-                           <div class="order-title">Информация о покупке</div>
-                           <div class="row"> <div>Телефон</div>  <div>${orderDTO.phone} </div> </div>
-                           <div class="row"> <div>Почта</div>  <div> ${orderDTO.email} </div> </div>
-                           <div>  История платежей </div>
-                           <div>
-                               ${orderDTO.transactions.map(transaction => `<div> ${dateFormat(transaction.date)} <span> ${transaction.amount} тг </span> ${transaction.type}  </div>`).join('')}
-                           </div>`.trim();
-        const amount = document.getElementsByClassName('amount')[0];
-        if (orderDTO.status === 'APPROVED' || orderDTO.status === 'PARTIAL_REFUND') {
-            const formDiv = addFormRefund(orderDTO);
-            amount.after(formDiv)
-        }
-        if(orderDTO.status === 'RESERVED' ) {
-            const formDivAuth = addFormAuth(orderDTO);
-            amount.after(formDivAuth);
-        }
-
-        let closeIcon = window['close-icon'];
-        closeIcon.addEventListener('click', function () {
-            block.hidden = true;
-            searchElement.hidden = false;
-        })
-    }
-
-    function validateSum(value) {
-        document.getElementById("returnButton").disabled = value > orderDTO.amount;
-    }
-
-    function dateFormat(date) {
-        return new Date(date).toLocaleString();
-    }
 </script>
