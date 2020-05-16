@@ -26,11 +26,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -91,29 +86,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -133,17 +105,6 @@
                     <skipTests>${tests.skip}</skipTests>
                 </configuration>
             </plugin>
-
-            <!--    JIB     -->
-<!--            <plugin>-->
-<!--                <groupId>com.google.cloud.tools</groupId>-->
-<!--                <artifactId>jib-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <to>-->
-<!--                        <image>{image.path}</image>-->
-<!--                    </to>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
 
         </plugins>
     </build>

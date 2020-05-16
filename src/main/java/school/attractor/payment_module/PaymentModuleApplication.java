@@ -1,18 +1,16 @@
 package school.attractor.payment_module;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import school.attractor.payment_module.domain.commersant.CommersantController;
+
 
 @SpringBootApplication
+@Slf4j
 public class PaymentModuleApplication {
 
-    private static Logger logger = LoggerFactory.getLogger(CommersantController.class);
-
     public static void main(String[] args) {
-        logger.info("log");
+        log.info("log");
         SpringApplication.run(PaymentModuleApplication.class, args);
     }
 
