@@ -21,7 +21,7 @@
 <div th:insert="layout :: header"></div>
 <div class="container">
     <div id="search-block" class="s007">
-        <form action="/search" method="post" id="search-form">
+        <form action="/search-orders" method="post" id="search-form">
             <div class="inner-form">
                 <div class="basic-search">
                     <div class="input-field">
@@ -40,7 +40,21 @@
                             <input class="extra-input" name="shopName" type="text" placeholder="Название магазина"/>
                         </div>
                         <div class="advance-input">
-                            <input class="extra-input" type="number" name="amount" placeholder="Сумма"/>
+                            <input type="number" name="amount" placeholder="Сумма от"/>
+                        </div>
+                        <div class="advance-input">
+                            <input type="number" name="amount" placeholder="Сумма до"/>
+                        </div>
+                        <div class="advance-input">
+                            <select name="status" class="advance-input-select">
+                                <option value="" default="default" selected="selected">Статус</option>
+                                <option value="APPROVED">Подтвержден</option>
+                                <option value="NEW">В ожидании</option>
+                                <option value="RESERVED">Зарезервирован</option>
+                                <option value="REFUSED">Отклонен</option>
+                                <option value="PARTIAL_REFUND">Частично возвращен</option>
+                                <option value="TOTAL_REFUND">Возвращен</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -87,7 +101,7 @@
     <div hidden id="info-block" class="info-block"></div>
 
 </div>
-<div class="flex-row">
+<div th:if="${searchPagination} != 'true'" class="flex-row">
     <div th:if="${number > 0}" class="pagination">
         <a th:href="@{/orders(size=${orders.size}, page=${number})}"
            th:text="назад"
@@ -101,6 +115,24 @@
     </div>
     <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
         <a th:href="@{/transactions(size=${orders.size}, page=${number}+2)}"
+           th:text="вперед"
+           th:class="${number==orders.number + 2} ? active"></a>
+    </div>
+</div>
+<div th:if="${searchPagination} == 'true'" class="flex-row" >
+    <div th:if="${number > 0}" class="pagination">
+        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo}, status = ${searchStatus},size=${orders.size}, page=${number})}"
+           th:text="назад"
+           th:class="${number==orders.number - 1} ? active"></a>
+    </div>
+    <div th:if="${orders.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},status = ${searchStatus},size=${orders.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==orders.number + 1} ? active"></a>
+    </div>
+    <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
+        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},status = ${searchStatus},size=${orders.size}, page=${number}+2)}"
            th:text="вперед"
            th:class="${number==orders.number + 2} ? active"></a>
     </div>
