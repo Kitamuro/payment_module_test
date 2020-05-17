@@ -1,11 +1,13 @@
 function addFormRefund(orderDTO) {
     const html = `
-                    <div>
+                    <div >
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="REFUND" name="type">
-                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button id="returnButton" type="submit">вернуть</button>
+                    <div class = "flex-row">
+                    <input class="input-refund" type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
+                    <button class = "input-refund returnButton" type="submit">вернуть</button>
+                    </div>
                     </form>
                     </div>`;
     const div = document.createElement('div');
@@ -37,7 +39,7 @@ function print(orderDTO) {
                            <div class="title"> Платежная информация </div>
                            <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
                            <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
-                           <div class="order-title">Спосаб оплаты</div>
+                           <div class="order-title">Способ оплаты</div>
                            <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
                            <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
                            <div class="order-title">Информация о покупке</div>
