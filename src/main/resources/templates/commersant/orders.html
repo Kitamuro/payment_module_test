@@ -96,6 +96,9 @@
                 </tr>
                 </tbody>
             </table>
+            <div th:if="${orders.isEmpty()==true}">
+                <h5 class="text-center">По выбранным фильтрам операций не найдено</h5>
+            </div>
         </div>
     </div>
     <div hidden id="info-block" class="info-block"></div>
