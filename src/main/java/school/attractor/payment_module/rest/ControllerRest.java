@@ -15,6 +15,7 @@ import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 
 @CrossOrigin
@@ -27,8 +28,7 @@ public class ControllerRest {
     private final OrderService orderService;
 
     @PostMapping("/pay")
-    public ResponseEntity mainController(@RequestBody OrderDTO orderDTO) {
-        System.out.println(orderDTO);
+    public ResponseEntity mainController(@Valid @RequestBody OrderDTO orderDTO) throws IOException {
         Order order = orderService.save ( orderDTO );
         Transaction transaction = transactionService.makeTransaction ( order, orderDTO.getAmount (), orderDTO.getType () );
         String trStatus = responseService.sendRequest(transaction);
@@ -37,14 +37,16 @@ public class ControllerRest {
         if (trStatus.equals ( "SUCCESS" )){
             return ResponseEntity.status(HttpStatus.OK).body("okay");
         }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NOT OK");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("NOT OK");
         }
     }
 
     @GetMapping("/orders/{id}")
     public OrderDTO transactionData(@PathVariable Integer id) {
         try {
-            return orderService.findByOrderId(id);
+            OrderDTO order = orderService.findByOrderId(id);
+            order.setCard ("1111 **** **** 1111");
+            return order;
         } catch (OrderNotFound e) {
             return null;
         }

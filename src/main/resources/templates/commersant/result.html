@@ -30,6 +30,10 @@
                         <div class="icon-wrap">
                             <span class="basic-search-title">ПОИСК</span>
                         </div>
+                        <div class="totalVar">
+                        <span th:utext="${totalAmountSum} + 'тг'"></span>
+                        <span th:utext="${totalQuantity} + 'заказов'"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="advance-search">
@@ -216,6 +220,8 @@
         }, false);
     }
 </script>
+
+
 
 
 </html>

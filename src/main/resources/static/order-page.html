@@ -27,16 +27,16 @@
         <div> Тип оплаты:</div>
         <div class="checkbox-input">
             <label>
-                <input type="radio" class="checkbox hidden" name="type" value="HOLD" required>
+                <input type="radio" class="checkbox hidden" name="type" value="2" required>
                 <span class="right checkbox-text"> Hold </span>
             </label>
             <label>
-                <input type="radio" class="checkbox hidden" name="type" value="PAYMENT" checked required>
+                <input type="radio" class="checkbox hidden" name="type" value="1" checked required>
                 <span class="left checkbox-text"> Instant </span>
             </label>
         </div>
         <input type="hidden" name="shopName" value="Example Shop">
-        <input type="hidden" name="status" value="NEW">
+        <input type="hidden" name="status" value="1">
         <div>
             <div> ФИО</div>
             <input name="userName" value="test" type="text" required>
@@ -238,12 +238,12 @@
 
             //Отправляем форму оплаты с информацией о карте и покупателе
             let formData = new FormData(purchaseForm);
-            let order = Object.fromEntries(formData);
+            let transaction = Object.fromEntries(formData);
 
             let response = await fetch(url, {
                 method: "post",
                 headers: {"Content-Type": "application/json;charset=utf-8"},
-                body: JSON.stringify(order)
+                body: JSON.stringify(transaction)
             });
             //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
             if (response.status === 422) {
@@ -283,7 +283,7 @@
                     element.hide();
                 }, 3000);
             }
-            if (response.status === 404) {
+            if (response.status === 403) {
                 putLoadingBar(progressBarHtml);
                 let element = lv.create(document.getElementById("progressBar"));
 
@@ -333,6 +333,7 @@
 
 
 </script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </body>
 </html>
