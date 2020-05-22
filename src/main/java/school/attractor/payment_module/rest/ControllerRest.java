@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
+import school.attractor.payment_module.domain.commersant.CommersantRegistrationDataDTO;
 import school.attractor.payment_module.domain.exception.OrderNotFound;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.order.OrderDTO;
@@ -50,5 +51,12 @@ public class ControllerRest {
         } catch (OrderNotFound e) {
             return null;
         }
+    }
+
+    @PostMapping("/registration")
+    public String  newCommersant(@RequestBody  @Valid CommersantRegistrationDataDTO data) {
+
+        System.out.println(data);
+        return  null;
     }
 }
