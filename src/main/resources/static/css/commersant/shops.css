@@ -1,0 +1,220 @@
+.shop {
+    min-width: 1000px;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: start;
+    font-family: 'Roboto', sans-serif;
+}
+
+.shop form {
+    width: 100%;
+    max-width: 800px;
+    margin: 0;
+}
+
+.shop form .inner-form .input-field {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.shop form .inner-form .input-field input {
+    border: 0;
+    background: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px 32px 10px 70px;
+    font-size: 18px;
+    border-radius: 3px;
+    height: 70px;
+    color: #555;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.shop form .inner-form .input-field input.placeholder {
+    color: #999;
+    font-size: 18px;
+}
+
+.shop form .inner-form .input-field input:-moz-placeholder {
+    color: #999;
+    font-size: 18px;
+}
+
+.shop form .inner-form .input-field input::-webkit-input-placeholder {
+    color: #999;
+    font-size: 18px;
+}
+
+.shop form .inner-form .advance-shop .row{
+    margin: 30px 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+.shop-button{
+    width: 800px;
+    margin: 20px;
+}
+
+.create-btn {
+    min-width: 100px;
+    height: 40px;
+    padding: 0 40px;
+    white-space: nowrap;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    transition: all .2s ease-out, color .2s ease-out;
+    border: 1px solid #ffdd2d;
+    background: #ffdd2d none;
+    cursor: pointer;
+}
+
+.shop form .inner-form .advance-shop .btn:hover {
+    background: #9fcdff;
+}
+
+.shop form .inner-form .advance-input .btn {
+    min-width: 100px;
+    height: 40px;
+    padding: 0 40px;
+    background: none;
+    white-space: nowrap;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #5b8be1;
+    transition: all .2s ease-out, color .2s ease-out;
+    border: 1px solid #5b8be1;
+    cursor: pointer;
+}
+
+.shop form .inner-form .input-field .btn:hover {
+    background: #9fcdff;
+}
+
+.shop form .inner-form .basic-shop {
+    border-bottom: 1px solid lightgrey;
+    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.basic-shop-title{
+    font-size: 15px;
+    border-bottom: 4px solid #ffc107;
+    padding: 23px 5px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+.shop form .inner-form .basic-shop .input-field {
+    width: 100%;
+}
+
+.shop form .inner-form .basic-shop  .input-field .icon-wrap {
+    min-height: 70px;
+    display: flex;
+    width: 30%;
+    height: 100%;
+}
+
+.shop form .inner-form .basic-shop .input-field .icon-wrap svg {
+    width: 34px;
+    height: 34px;
+    fill: #ccc;
+}
+
+.shop form .inner-form .advance-shop {
+    background: #fff;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+}
+
+.shop form .inner-form .advance-shop .desc {
+    font-size: 20px;
+    color: #999;
+    display: block;
+    margin: 23px 20px;
+}
+
+.shop form .inner-form .advance-shop .column {
+    display: flex;
+    justify-content: space-between;
+    /*align-items: flex-start;*/
+    margin: 0 30px;
+    flex-flow: column;
+}
+
+
+
+.shop form .inner-form .advance-shop input {
+    border: 0;
+    background: rgb(234, 237, 242);
+    padding-left: 10px;
+    display: block;
+    width: 100%;
+    font-size: 15px;
+    border-radius: 5px;
+    height: 50px;
+    color: #000;
+    outline: none;
+    min-width: 300px;
+    margin-top: 7px;
+}
+
+.shop form .inner-form .advance-shop .address input {
+    border: 0;
+    background: rgb(234, 237, 242);
+    padding-left: 10px;
+    display: block;
+    width: 100%;
+    font-size: 15px;
+    border-radius: 5px;
+    height: 50px;
+    color: #000;
+    outline: none;
+    min-width: 150px;
+    margin-top: 7px;
+}
+
+
+
+.shop form .inner-form .advance-input-select{
+    border: 0;
+    background: rgb(234, 237, 242);
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    border-radius: 5px;
+    height: 50px;
+    color: #555;
+    outline: none;
+    min-width: 300px;
+    padding-left: 5px;
+    margin-top: 7px;
+
+}
+
+.create-shop form .input-field input {
+    border: 0;
+    background: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px 32px 10px 70px;
+    font-size: 18px;
+    border-radius: 3px;
+    height: 70px;
+    color: #555;
+}
+
+.shop-margin{
+    margin-top: 15px;
+    margin-bottom: 0;
+}
