@@ -61,4 +61,5 @@ public class ShopDTO {
     private String contactEmail;
     private String contactName;
     private String contactPhone;
+//
 }

@@ -13,4 +13,5 @@ public class ShopService {
     public void createShop(Shop shop) {
         shopRepository.save ( shop );
     }
+//
 }
