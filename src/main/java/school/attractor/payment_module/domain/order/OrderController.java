@@ -4,6 +4,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class OrderController {
         int pageSize = size.orElse ( 10 );
         Page<Order> orders = orderService.getOrders ( PageRequest.of ( currentPage - 1, pageSize, Sort.by ( "date" ).descending ( ) ) );
         model.addAttribute ( "orders", orders );
+        getTotals(model,orderService.getOrders(Pageable.unpaged()));
         addPageNumbers(model, orders);
         return "orders";
     }
@@ -39,6 +41,7 @@ public class OrderController {
     @PostMapping("/search-orders")
     public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam String id, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status){
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of ( 0, 10, Sort.by ( "date" ).descending ( ) ), predicate );
+        getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate));
         addSearchModelAttribute ( model, orders, id, shopName, amount,status );
         return "orders";
    }
@@ -46,6 +49,7 @@ public class OrderController {
     @GetMapping("/search-orders")
     public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page") int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam String id, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status) {
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of(page-1, size), predicate);
+        getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate));
         addSearchModelAttribute ( model, orders,id, shopName, amount,status );
         return "orders";
 
@@ -65,5 +69,12 @@ public class OrderController {
             List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ( ).collect ( Collectors.toList ( ) );
             model.addAttribute ( "pageNumbers", pageNumbers );
         }
+    }
+
+    private void getTotals(Model model, Page<Order> orders){
+        Integer totalAmountSum = orderService.getTotalAmountSum(orders);
+        Integer totalQuantity = orderService.getTotalQuantity(orders);
+        model.addAttribute("totalAmountSum", totalAmountSum);
+        model.addAttribute("totalQuantity", totalQuantity);
     }
 }
