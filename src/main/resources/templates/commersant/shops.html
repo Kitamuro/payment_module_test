@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!---->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/commersant/layout-style.css">
+    <link rel="stylesheet" href="css/commersant/main-page.css">
+    <link rel="stylesheet" href="css/commersant/shops.css">
+    <link href="css/commersant/search.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
+    <title>Магазины</title>
+</head>
+
+<body>
+<div th:insert="layout :: header"></div>
+<div class="container flex-column align-items-center">
+    <div class="shop-button">
+        <button type="submit" class="btn-shop create-btn">Создать магазин</button>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    let shopButton = document.getElementsByClassName('shop-button')[0];
+    document.getElementsByClassName('shop-button')[0].addEventListener("click", function(){
+        let divElement = printInputForm();
+        shopButton.after(divElement);
+    });
+
+    function printInputForm() {
+        const html = `
+        <div class="shop justify-content-center" id="shop-block" >
+            <form action="/shop" method="post" id="shop-form">
+            <div class="inner-form">
+            <div class="basic-shop">
+            <div class="input-field">
+            <div class="icon-wrap">
+            <span class="basic-shop-title">Интернет-магазины</span>
+            </div>
+            </div>
+            </div>
+            <div class="advance-shop">
+            <div class="column">
+            <div class="advance-input">
+            <input id="shop" type="text" name="activity" placeholder="Вид деятельности"/>
+            </div>
+            <div class="advance-input">
+            <input class="extra-input" name="site" type="text" placeholder="Сайт"/>
+            </div>
+            <div class="advance-input">
+            <input type="text" name="account" placeholder="Счет для выплат"/>
+            </div>
+            <div class="advance-input">
+            <input type="email" name="registerEmail" placeholder="Электронная почта для реестров"/>
+            </div>
+            <h4 class="shop-margin">Адрес</h4>
+            <div class="advance-input">
+            <input type="text" name="index" placeholder="Индекс"/>
+            </div>
+            <div class="advance-input">
+            <input type="text" name="region" placeholder="Регион,район"/>
+            </div>
+            <div class="advance-input">
+            <input type="text" name="locality" placeholder="Населенный пункт"/>
+            </div>
+            <div class="advance-input">
+            <input type="text" name="street" placeholder="Улица"/>
+            </div>
+            <div class="flex-row justify-content-between">
+            <div class="address">
+            <input type="text" name="house" placeholder="Дом, строение"/>
+            </div>
+            <div class="address">
+            <input type="text" name="building" placeholder="Корпус"/>
+            </div>
+            <div class="address">
+            <input type="text" name="office" placeholder="Офис"/>
+            </div>
+            </div>
+            <h4 class="shop-margin">Обратная связь с покупателями</h4>
+        <p class="shop-margin">Покупатели увидят эти контакты на платежной форме</p>
+        <div class="advance-input">
+            <input type="tel" name="phoneForCustomer" placeholder="Телефон"/>
+            </div>
+            <div class="advance-input">
+            <input type="email" name="emailForCustomer" placeholder="Электронная почта"/>
+            </div>
+            <h4 class="shop-margin">Контактное лицо</h4>
+        <div class="advance-input">
+            <input type="text" name="contactName" placeholder="Фамилия, Имя, Отчество"/>
+            </div>
+            <div class="advance-input">
+            <input type="tel" name="contactPhone" placeholder="Телефон"/>
+            </div>
+            <div class="advance-input">
+            <input type="email" name="contactEmail" placeholder="Электронная почта"/>
+            </div>
+            <div class="flex-row justify-content-around shop-margin">
+            <div class="advance-input">
+               <button type="submit" class="btn-shop create-btn">Сохранить</button>
+            </div>
+            <div class="advance-input">
+                 <button type="reset" class="btn-delete btn" id="delete">Отменить</button>
+            </div>
+            </div>
+            </div>
+            </div>
+            </form>
+            </div>
+
+            </div>`.trim();
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div;
+    }
+</script>
