@@ -79,6 +79,17 @@
             body: JSON.stringify(transaction)
         });
 
+        let responseMessage = await response.text();
+
+        if (responseMessage === 'Validation Successful') {
+            form.hidden = true;
+            let text = 'Регистрация прошла успешно';
+            document.body.append(text);
+        } else  {
+            form.hidden = true;
+            let text = responseMessage;
+            document.body.append(text);
+        }
     });
 
     form.addEventListener('click', function (e) {
