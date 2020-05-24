@@ -89,7 +89,7 @@ class SendRequest {
     private List<NameValuePair> addParam(Transaction transaction, String trType) {
         params.add(new BasicNameValuePair ( "RRN", transaction.getOrder ().getRetrievalReferenceNumber () ));
         params.add(new BasicNameValuePair (  "INT_REF", transaction.getOrder ().getInternalReferenceNumber ()));
-        params.add ( new BasicNameValuePair ( "ORDER",  transaction.getOrder ().getOrderId () ));
+        params.add ( new BasicNameValuePair ( "ORDER",  String.valueOf(transaction.getOrder ().getOrderId () )));
         params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf (transaction.getAmount ())));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
@@ -98,17 +98,17 @@ class SendRequest {
     }
 
     private List<NameValuePair> addParamForAuth(Transaction transaction, String trType) {
-        params.add ( new BasicNameValuePair ( "CARD", transaction.getOrder ().getCard() ) );
-        params.add ( new BasicNameValuePair ( "EXP", transaction.getOrder ().getExp() ) );
-        params.add ( new BasicNameValuePair ( "EXP_YEAR", transaction.getOrder ().getExp_year () ) );
-        params.add ( new BasicNameValuePair ( "CVC2", transaction.getOrder ().getCvc2() ) );
+        params.add ( new BasicNameValuePair ( "CARD", String.valueOf(transaction.getOrder ().getCard() ) ));
+        params.add ( new BasicNameValuePair ( "EXP", String.valueOf(transaction.getOrder ().getExp() ) ));
+        params.add ( new BasicNameValuePair ( "EXP_YEAR", String.valueOf(transaction.getOrder ().getExp_year () ) ));
+        params.add ( new BasicNameValuePair ( "CVC2", String.valueOf(transaction.getOrder ().getCvc2() ) ));
         params.add ( new BasicNameValuePair ( "CVC2_RC", "1" ) );
         params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf(transaction.getAmount () ) ));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
         params.add ( new BasicNameValuePair ( "DESC", "Merchant_test" ) );
         params.add ( new BasicNameValuePair ( "MERCHANT", "ECOMM001" ) );
         params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
-        params.add ( new BasicNameValuePair ( "ORDER", transaction.getOrder().getOrderId () ) );
+        params.add ( new BasicNameValuePair ( "ORDER", String.valueOf(transaction.getOrder().getOrderId () ) ));
         params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
         params.add ( new BasicNameValuePair ( "EMAIL", "test@atfbank.kz" ) );
         params.add ( new BasicNameValuePair ( "MERCH_GMT", "+6" ) );

@@ -23,7 +23,7 @@ class GenerateData {
 
             Order test = Order.builder()
                     .id(randomId)
-                    .orderId ( String.valueOf ( randomOrderId ) )
+                    .orderId (randomOrderId )
                     .shopName(shops.get(random.nextInt(shops.size())))
                     .userName(name)
                     .status(TransactionStatus.APPROVED)
@@ -31,10 +31,10 @@ class GenerateData {
                     .residual(randomAmount)
                     .email("test@test")
                     .cardHolderName(name)
-                    .card("1111 1111 1111 1111")
-                    .exp("01")
-                    .exp_year("20")
-                    .cvc2("202")
+                    .card(1111111111111111L)
+                    .exp(01)
+                    .exp_year(20)
+                    .cvc2(202)
                     .date(new Date())
                     .build();
             orders.add(test);
