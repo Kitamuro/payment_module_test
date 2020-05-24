@@ -5,9 +5,13 @@ package school.attractor.payment_module.rest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
+import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.commersant.CommersantRegistrationDataDTO;
+import school.attractor.payment_module.domain.commersant.CommersantService;
 import school.attractor.payment_module.domain.exception.OrderNotFound;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.order.OrderDTO;
@@ -15,8 +19,10 @@ import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 
 @CrossOrigin
@@ -27,6 +33,7 @@ public class ControllerRest {
     private final TransactionService transactionService;
     private final ResponseService responseService;
     private final OrderService orderService;
+    private final CommersantService commersantService;
 
     @PostMapping("/pay")
     public ResponseEntity mainController(@Valid @RequestBody OrderDTO orderDTO) throws IOException {
@@ -54,9 +61,24 @@ public class ControllerRest {
     }
 
     @PostMapping("/registration")
-    public String  newCommersant(@RequestBody  @Valid CommersantRegistrationDataDTO data) {
+    public String  newCommersant(@RequestBody  @Valid CommersantRegistrationDataDTO data,
+                                 BindingResult result, HttpServletResponse response) {
+        if(result.hasErrors()) {
+            StringBuilder errorMessage  = new StringBuilder();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            List<ObjectError> errors = result.getAllErrors();
+            for (ObjectError  e :  errors) {
+                errorMessage.append("ERROR: ").append(e.getDefaultMessage());
+            }
+            return errorMessage.toString();
+        } else {
 
-        System.out.println(data);
-        return  null;
+            CommersantDTO commersantDTO = CommersantDTO.from(data);
+            commersantService.save(commersantDTO);
+
+            return  "Validation Successful";
+        }
+
+
     }
 }

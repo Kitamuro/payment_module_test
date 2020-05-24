@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CommersantRepository extends JpaRepository<Commersant, Integer> {
     @Override
     Optional<Commersant> findById(Integer integer);
+
+
 }

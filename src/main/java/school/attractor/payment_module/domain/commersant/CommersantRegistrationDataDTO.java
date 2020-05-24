@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -14,17 +15,28 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class CommersantRegistrationDataDTO {
 
-    @NotBlank
+    @NotBlank(message = "поле БИК не должно быть пустым")
+    @Size(max=30)
     private String bik;
-    @NotBlank
+
+    @NotBlank(message = "поле БИН не должно быть пустым")
+    @Size(max=30)
     private String bin;
-    @NotBlank
+
+    @NotBlank(message = "Номер удостоверения личности не должно быть пустым")
+    @Size(max=30)
     private String directorIdentityCard;
-    @NotBlank
+
+    @NotBlank(message = "Имя владельца не должно быть пустым")
+    @Size(max=30)
     private String directorName;
-    @NotBlank
+
+    @NotBlank(message = "поле Кбе не должно быть пустым")
+    @Size(max=30)
     private String kbe;
-    @NotBlank
+
+    @NotBlank(message = "Название организации не должно быть пустым")
+    @Size(max=30)
     private String organizationName;
 
 }
