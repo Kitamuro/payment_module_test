@@ -1,7 +1,6 @@
 package school.attractor.payment_module.rest;
 
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +15,12 @@ import school.attractor.payment_module.domain.exception.OrderNotFound;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderService;
+import school.attractor.payment_module.domain.transaction.NewOrderDetails;
 import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 
@@ -36,16 +35,29 @@ public class ControllerRest {
     private final CommersantService commersantService;
 
     @PostMapping("/pay")
-    public ResponseEntity mainController(@Valid @RequestBody OrderDTO orderDTO) throws IOException {
-        Order order = orderService.save ( orderDTO );
-        Transaction transaction = transactionService.makeTransaction ( order, orderDTO.getAmount (), orderDTO.getType () );
-        String trStatus = responseService.sendRequest(transaction);
-        order.getTransactions ().add(transaction);
-        orderService.change ( order );
-        if (trStatus.equals ( "SUCCESS" )){
+    public ResponseEntity<String> mainController(@Valid @RequestBody NewOrderDetails newOrderDetails,
+                                                 HttpServletResponse response, BindingResult result) {
+        if (result.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            List<ObjectError> errors = result.getAllErrors();
+            for (ObjectError e : errors) {
+                errorMessage.append("ERROR: ").append(e.getDefaultMessage());
+            }
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.toString());
+        } else {
+            Order order = Order.from(newOrderDetails);
+//            Transaction transaction = transactionService.makeTransaction(order, order.getAmount(), order.getType());
+            orderService.save(order);
+////            String trStatus = responseService.sendRequest(transaction);
+////            order.getTransactions().add(transaction);
+////            orderService.change(order);
+////            if (trStatus.equals("SUCCESS")) {
+////                return ResponseEntity.status(HttpStatus.OK).body("okay");
+////            } else {
+////                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("NOT OK");
+////            }
             return ResponseEntity.status(HttpStatus.OK).body("okay");
-        }else{
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("NOT OK");
         }
     }
 
@@ -53,7 +65,6 @@ public class ControllerRest {
     public OrderDTO transactionData(@PathVariable Integer id) {
         try {
             OrderDTO order = orderService.findByOrderId(id);
-            order.setCard ("1111 **** **** 1111");
             return order;
         } catch (OrderNotFound e) {
             return null;
@@ -61,13 +72,13 @@ public class ControllerRest {
     }
 
     @PostMapping("/registration")
-    public String  newCommersant(@RequestBody  @Valid CommersantRegistrationDataDTO data,
-                                 BindingResult result, HttpServletResponse response) {
-        if(result.hasErrors()) {
-            StringBuilder errorMessage  = new StringBuilder();
+    public String newCommersant(@RequestBody @Valid CommersantRegistrationDataDTO data,
+                                BindingResult result, HttpServletResponse response) {
+        if (result.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             List<ObjectError> errors = result.getAllErrors();
-            for (ObjectError  e :  errors) {
+            for (ObjectError e : errors) {
                 errorMessage.append("ERROR: ").append(e.getDefaultMessage());
             }
             return errorMessage.toString();
@@ -76,7 +87,7 @@ public class ControllerRest {
             CommersantDTO commersantDTO = CommersantDTO.from(data);
             commersantService.save(commersantDTO);
 
-            return  "Validation Successful";
+            return "Validation Successful";
         }
 
 
