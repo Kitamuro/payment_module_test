@@ -1,6 +1,7 @@
 package school.attractor.payment_module.domain.order;
 
 import lombok.*;
+import school.attractor.payment_module.domain.transaction.NewOrderDetails;
 import school.attractor.payment_module.domain.transaction.TransactionDTO;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
 import school.attractor.payment_module.domain.transaction.TransactionType;
@@ -39,21 +40,21 @@ public class OrderDTO {
 //    @NotBlank(message = "Введите номер существующей карты")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные данные карты")
 //    @Size(min = 16, max = 16, message = "Вы ввели неправильную карту")
-    private String card;
+    private long card;
 
 //    @NotBlank(message = "Введите правильный месяц истечения срока вашей карты")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные данные месяца")
 //    @Size(min = 1, max = 2)
-    private String exp;
+    private int exp;
 
 //    @NotBlank(message = "Введите правильный год истечения срока вашей карты")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильный данные года")
 //    @Size(min = 4, max = 4)
-    private String exp_year;
+    private int exp_year;
 
 //    @NotBlank(message = "Введите правильный код на обратной стороне карты")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильный код")
-    private String cvc2;
+    private int cvc2;
 
     @Positive
     @Min(1)
@@ -62,7 +63,7 @@ public class OrderDTO {
     private TransactionStatus status;
     private TransactionType type;
     private List<TransactionDTO> transactions = new ArrayList<> (  );
-    private String orderId;
+    private Integer orderId;
 
 
     public static OrderDTO from(Order order) {
@@ -84,4 +85,6 @@ public class OrderDTO {
                 .transactions(order.getTransactions().stream().map(TransactionDTO::from).collect(Collectors.toList()))
                 .build();
     }
+
+
 }
