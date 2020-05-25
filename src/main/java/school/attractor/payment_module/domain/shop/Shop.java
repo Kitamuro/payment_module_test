@@ -26,10 +26,13 @@ public class Shop {
     private Commersant commersant;
 
     @Column
+    private int hold;
+
+    @Column
     private BusinessActivity activity;
 
     @Column
-    private String site;
+    private String siteName;
 
     @Column
     private String registerEmail;
@@ -67,14 +70,33 @@ public class Shop {
     @Column
     private String contactEmail;
 
-
-//
-
-
-
-
+   @Column
+    private String contactName;
+   @Column
+    private String contactPhone;
 
 
+    public static Shop from(ShopDTO shopDTO) {
+        return  Shop.builder()
+                .commersant ( shopDTO.getCommersant () )
+                .activity(shopDTO.getActivity ())
+                .siteName(shopDTO.getSiteName ())
+                .registerEmail(shopDTO.getRegisterEmail ())
+                .account(shopDTO.getAccount ())
+                .index(shopDTO.getIndex ())
+                .region(shopDTO.getRegion ())
+                .locality(shopDTO.getLocality ())
+                .street(shopDTO.getStreet ())
+                .building(shopDTO.getBuilding ())
+                .house(shopDTO.getHouse ())
+                .office(shopDTO.getOffice ())
+                .phoneForCustomer(shopDTO.getPhoneForCustomer ())
+                .emailForCustomer(shopDTO.getEmailForCustomer ())
+                .contactEmail(shopDTO.getContactEmail ())
+                .contactName(shopDTO.getContactName ())
+                .contactPhone(shopDTO.getContactPhone ())
+                .build ();
+    }
 
 
 }
