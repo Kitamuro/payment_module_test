@@ -1,15 +1,23 @@
-/**/
+
 .shop {
-    min-width: 1000px;
+    min-width: 1200px;
     display: flex;
-    /*justify-content: center;*/
     align-items: start;
     font-family: 'Roboto', sans-serif;
 }
 
+.shop-flex{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    width: 900px;
+    box-shadow: inset 0 -1px 0 0 #e7e8ea;
+}
+
 .shop form {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0;
 }
 
@@ -60,24 +68,7 @@ input[type=number]::-webkit-outer-spin-button {
     justify-content: space-around;
     align-items: flex-start;
 }
-.shop-button{
-    width: 800px;
-    margin: 20px;
-}
 
-.create-btn {
-    min-width: 100px;
-    height: 40px;
-    padding: 0 40px;
-    white-space: nowrap;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    transition: all .2s ease-out, color .2s ease-out;
-    border: 1px solid #ffdd2d;
-    background: #ffdd2d none;
-    cursor: pointer;
-}
 
 .shop form .inner-form .advance-shop .btn:hover {
     background: #9fcdff;
@@ -101,35 +92,13 @@ input[type=number]::-webkit-outer-spin-button {
     background: #9fcdff;
 }
 
-.shop form .inner-form .basic-shop {
-    border-bottom: 1px solid lightgrey;
-    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
-}
 
-.basic-shop-title{
-    font-size: 15px;
-    border-bottom: 4px solid #ffc107;
-    padding: 23px 5px;
-    margin-left: 30px;
-    font-weight: bold;
-}
 
 .shop form .inner-form .basic-shop .input-field {
     width: 100%;
 }
 
-.shop form .inner-form .basic-shop  .input-field .icon-wrap {
-    min-height: 70px;
-    display: flex;
-    width: 30%;
-    height: 100%;
-}
 
-.shop form .inner-form .basic-shop .input-field .icon-wrap svg {
-    width: 34px;
-    height: 34px;
-    fill: #ccc;
-}
 
 .shop form .inner-form .advance-shop {
     background: #fff;
@@ -218,4 +187,228 @@ input[type=number]::-webkit-outer-spin-button {
 .shop-margin{
     margin-top: 15px;
     margin-bottom: 0;
+}
+.shop-button{
+    width: 800px;
+    margin: 20px;
+}
+
+.create-btn {
+    min-width: 100px;
+    height: 40px;
+    padding: 0 40px;
+    white-space: nowrap;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    transition: all .2s ease-out, color .2s ease-out;
+    border: 1px solid #ffdd2d;
+    background: #ffdd2d none;
+    cursor: pointer;
+}
+.shop-box {
+    width: 400px;
+    margin: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    padding: 10px;
+    position: relative;
+}
+
+.shop-check-box {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 15px;
+    background: lightblue;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+.shop-checkbox-color{
+    background:#5b8be1 ;
+}
+
+.basic-shop {
+     border-bottom: 1px solid lightgrey;
+     box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+ }
+
+.basic-shop-title{
+    font-size: 15px;
+    padding: 23px 5px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+.basic-shop-title-border {
+    border-bottom: 4px solid #ffc107;
+}
+
+.icon-wrap {
+    min-height: 70px;
+    display: flex;
+    width: 30%;
+    height: 100%;
+}
+
+.icon-wrap svg {
+    width: 34px;
+    height: 34px;
+    fill: #ccc;
+}
+
+.shop-menu-row{
+    padding: 5px 20px;
+    display: flex;
+    justify-content:flex-end;
+}
+.shop-menu {
+    display: flex;
+    justify-content: center;
+    width: 800px;
+}
+
+.check-margin{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.check-font-label{
+    font-size: 15px;
+    line-height: 15px;
+    color: rgba(0, 0, 0, 0.54);;
+}
+
+.check-row {
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+    position: relative;
+    table-layout: fixed;
+    overflow: visible;
+    margin-bottom: 10px;
+}
+
+.check-label {
+    display: table-cell;
+    vertical-align: top;
+    width: 206px;
+    padding-top: 6px;
+    border-spacing: 0 5px;
+    padding-bottom: 5px;
+}
+
+.check-control{
+    display: table-cell;
+    vertical-align: top;
+    /*width: 100%;*/
+    font-size: 15px;
+    color:#5b8be1;
+    border-spacing: 0 5px;
+    padding: 5px 10px 5px 0;
+}
+
+.check-box {
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0 10px 0;
+}
+
+#shop-block {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 30px;
+    display: flex;
+}
+
+.shop-block-left{
+    width: 600px;
+    margin: 0px 30px 0px 0px;
+}
+.shop-block-right{
+    width: 300px;
+    margin: 0;
+}
+
+.hold-box{
+    background: white;
+    border:1px solid #e7e8ea;;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.hold-font-desc{
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    color: rgba(0, 0, 0, 0.54);;
+}
+
+.radio-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radio-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .radio-checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a yellow background */
+.radio-container input:checked ~ .radio-checkmark {
+    background-color: #ffdd2d;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .radio-checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .radio-checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: black;
 }

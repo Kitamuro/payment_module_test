@@ -19,10 +19,10 @@ public class ShopDTO {
     private Commersant commersant;
 
 
-    private String activity;
+    private BusinessActivity activity;
 
 
-    private String site;
+    private String siteName;
 
 
     private String registerEmail;
@@ -61,5 +61,5 @@ public class ShopDTO {
     private String contactEmail;
     private String contactName;
     private String contactPhone;
-//
+
 }

@@ -39,14 +39,6 @@ public class CommersantController {
         return "main";
     }
 
-//    @GetMapping("/transactions")
-//    public String transaction(Model model) {
-//        model.addAttribute("transactions", GenerateData.addTransaction());
-//        return "transactions";
-//    }
-
-
-
     @PostMapping("/sendRequest")
     public String sendRequest(Model model, @RequestParam int orderId, @RequestParam int amount, @RequestParam String type,
                               RedirectAttributes attributes) {
@@ -84,60 +76,5 @@ public class CommersantController {
         return "redirect:/reversePage";
     }
 
-//    @GetMapping("/search-result")
-//    public String getSearchingTransactions(@RequestParam("page")Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
-//                                           @ModelAttribute("searchKey") TransactionSearchDTO searchDTO, Model model,
-//                                           @RequestParam(required = false, name = "id") String id,
-//                                           @RequestParam(required = false, name = "amount")  Integer amount,
-//                                           @RequestParam(required = false, name = "shopName") String shopName){
-//        int currentPage = page.orElse ( 1 );
-//        int pageSize = size.orElse ( 10 );
-//        if (page.get() > 1) {
-//            if (id != null) {
-//                searchDTO.setId(id);
-//            }
-//            if (amount != null) {
-//                searchDTO.setAmount(amount);
-//            }
-//            if (shopName != null) {
-//                searchDTO.setShopName(shopName);
-//            }
-////            if (amount != null){
-////                searchDTO.setAmount(amount);
-////            }
-//        }
-//
-//        Page<Transaction> transactions = transactionService.searchTransactions ( searchDTO);
-//        model.addAttribute ( "transactions", transactions );
-//        model.addAttribute("searchKey", searchDTO);
-//        int number = transactions.getNumber ( );
-//        transactions.getSize ();
-//        model.addAttribute ( "number", number );
-//        int totalPages = transactions.getTotalPages ();
-//        if(totalPages > 0){
-//            List<Integer> pageNumbers = IntStream.rangeClosed ( 1, totalPages ).boxed ().collect( Collectors.toList());
-//            model.addAttribute ( "pageNumbers", pageNumbers );
-//        }
-//
-//        return "result";
-//    }
-
-    @PostMapping("/search")
-    public String searchTransactions(@RequestParam(required = false, name = "id") String id,
-                                     @RequestParam(required = false, name = "amount") Integer amount,
-                                     @RequestParam(required = false, name = "shopName") String shopName,
-                                     RedirectAttributes attributes) {
-        TransactionSearchDTO searchDTO = new TransactionSearchDTO();
-
-        searchDTO.setId(id);
-        searchDTO.setShopName(shopName);
-        searchDTO.setAmount(amount);
-        System.out.println(id);
-        System.out.println(amount);
-        System.out.println(shopName);
-
-        attributes.addFlashAttribute("searchKey", searchDTO);
-        return "redirect:/search-result?size=10&page=1";
-    }
 }
 
