@@ -1,23 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-
-    <link rel="stylesheet" href="css/commersant/layout-style.css">
-    <link rel="stylesheet" href="css/commersant/main-page.css">
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
-    <link href="css/commersant/search.css" rel="stylesheet"/>
-    <title>Операции</title>
-</head>
+<head th:include="layout :: head"> </head>
 
 <body>
-
 
 <div th:insert="layout :: header"></div>
 
@@ -137,19 +123,17 @@
 
 <script th:inline="javascript">
 
-    let windowElement = window['transactions'];
-    let block = window['info-block'];
-    let searchElement = window['search-block'];
 
-    windowElement.addEventListener('click', function (e) {
+
+    transactionBlock.addEventListener('click', function (e) {
         let markupTransaction = e.target.parentElement;
 
         let transactionElem = markupTransaction.getElementsByClassName('transaction-obj')[0].innerHTML;
         let transaction = JSON.parse(transactionElem);
 
         print(transaction);
-        block.hidden = false;
-        searchElement.hidden = true;
+        infoBlock.hidden = false;
+        searchBlock.hidden = true;
 
         print(transaction);
 
@@ -176,7 +160,7 @@
     }
 
     function print(transaction) {
-        block.innerHTML = ` <div id="close-icon" class="close"> x </div>
+        infoBlock.innerHTML = ` <div id="close-icon" class="close"> x </div>
                     <div class="transaction-id"> ${transaction.id} </div>
                     <div class="transaction-status">${transaction.status} </div>
                     <div class="transaction-amount">${transaction.amount}  TГ </div>
@@ -197,8 +181,8 @@
         }
         let closeIcon = window['close-icon'];
         closeIcon.addEventListener('click', function () {
-            block.hidden = true;
-            searchElement.hidden = false;
+            infoBlock.hidden = true;
+            searchBlock.hidden = false;
         })
     }
 </script>

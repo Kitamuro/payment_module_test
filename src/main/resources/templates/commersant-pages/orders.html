@@ -1,17 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <link href="css/commersant/search.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="css/commersant/layout-style.css">
-    <link rel="stylesheet" href="css/commersant/main-page.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
-    <title>Операции</title>
-</head>
+<head th:include="layout :: head"> </head>
 
 <body>
 
@@ -146,105 +136,11 @@
 
 <div th:insert="layout ::footer"></div>
 </body>
+
+<script src="src-commersant-pages/js/variables.js"></script>
+<script src="src-commersant-pages/js/main.js"></script>
+<script src="src-commersant-pages/js/markup.js"></script>
+<script src="src-commersant-pages/js/utils.js"></script>
+
 </html>
 
-<script>
-
-    let ListOrders = window['orders'];
-    let block = window['info-block'];
-    let searchElement = window['search-block'];
-    let orderDTO;
-
-    ListOrders.addEventListener('click', async function (e) {
-        let markupTransaction = e.target.parentElement;
-        block.hidden = false;
-        searchElement.hidden = true;
-        let orderElem = markupTransaction.getElementsByClassName('order-obj')[0].innerHTML;
-        let order = JSON.parse(orderElem);
-        let responseData = await fetch('http://localhost:8080/orders/' + order.id);
-        let promise = await responseData.json();
-        orderDTO = JSON.parse(JSON.stringify(promise));
-
-        print(orderDTO);
-
-        let classList = ListOrders.children;
-        for (let i = 0; i < classList.length; i++) {
-            classList[i].classList.remove('active')
-        }
-        markupTransaction.classList.add("active");
-    });
-
-    function addFormRefund(orderDTO) {
-        const html = `
-                    <div>
-                    <form action="/sendRequest" method="post">
-                    <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="REFUND" name="type">
-                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button id="returnButton" type="submit">вернуть</button>
-                    </form>
-                    </div>`;
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        return div;
-    }
-
-    function addFormAuth(orderDTO) {
-        const html = `
-                    <div>
-                    <form action="/sendRequest" method="post">
-                    <input type="hidden" value="${orderDTO.id}" name="orderId">
-                    <input type="hidden" value="AUTH" name="type">
-                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button id="returnButton" type="submit">подтвердить</button>
-                    </form>
-                    </div>`;
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        return div;
-    }
-
-    function print(orderDTO) {
-        block.innerHTML = `<div id="close-icon" class="close"> x </div>
-                           <div class="id"> ${orderDTO.orderId} </div>
-                           <div> Остаток : ${orderDTO.residual} </div>
-                           <div class="status">${orderDTO.status} </div>
-                           <div class="amount">${orderDTO.amount}  TГ </div>
-                           <div class="title"> Платежная информация </div>
-                           <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
-                           <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
-                           <div class="order-title">Спосаб оплаты</div>
-                           <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
-                           <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
-                           <div class="order-title">Информация о покупке</div>
-                           <div class="row"> <div>Телефон</div>  <div>${orderDTO.phone} </div> </div>
-                           <div class="row"> <div>Почта</div>  <div> ${orderDTO.email} </div> </div>
-                           <div>  История платежей </div>
-                           <div>
-                               ${orderDTO.transactions.map(transaction => `<div> ${dateFormat(transaction.date)} <span> ${transaction.amount} тг </span> ${transaction.type}  </div>`).join('')}
-                           </div>`.trim();
-        const amount = document.getElementsByClassName('amount')[0];
-        if (orderDTO.status === 'APPROVED' || orderDTO.status === 'PARTIAL_REFUND') {
-            const formDiv = addFormRefund(orderDTO);
-            amount.after(formDiv)
-        }
-        if(orderDTO.status === 'RESERVED' ) {
-            const formDivAuth = addFormAuth(orderDTO);
-            amount.after(formDivAuth);
-        }
-
-        let closeIcon = window['close-icon'];
-        closeIcon.addEventListener('click', function () {
-            block.hidden = true;
-            searchElement.hidden = false;
-        })
-    }
-
-    function validateSum(value) {
-        document.getElementById("returnButton").disabled = value > orderDTO.amount;
-    }
-
-    function dateFormat(date) {
-        return new Date(date).toLocaleString();
-    }
-</script>

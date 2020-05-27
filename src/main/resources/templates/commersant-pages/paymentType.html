@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="css/commersant/layout-style.css">
-    <link rel="stylesheet" href="css/commersant/main-page.css">
-    <link rel="stylesheet" href="css/commersant/shops.css">
-    <link href="css/commersant/search.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
-    <title>Способ оплаты</title>
-</head>
+
+<head th:include="layout :: head"> </head>
+
 <body>
 <div>
     <div th:insert="layout :: header"></div>

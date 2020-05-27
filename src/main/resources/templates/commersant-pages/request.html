@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="layout :: head"> </head>
+<body>
+
+<div th:insert="layout :: header"></div>
+<div class="main">
+    <div th:if="${error} != null">
+        <div th:text="${error}"></div>
+    </div>
+    <div class="block center" th:if="${error} == null">
+        <div th:if="${type} == 'REFUND'">
+            <h2>Возврат платежа</h2>
+            <div th:text="${'Подтвердите возврат платежа на сумму ' + amount + ' тенге'}"></div>
+        </div>
+        <div th:if="${type} == 'AUTH'">
+            <h2>Авторизация платежа</h2>
+            <div th:text="${'Подтвердите авторизацию платежа на сумму ' + amount + ' тенге'}"></div>
+        </div>
+        <div class="flex center">
+            <div>
+                <form action="/orders">
+                    <button type="submit">отменить</button>
+                </form>
+            </div>
+            <div id="btn-reverse">
+                <form action="/confirm" method="post">
+                    <input type="hidden" th:value="${orderId}" name="orderId">
+                    <input type="hidden" th:value="${type}" name="type">
+                    <input type="hidden" th:value="${amount}" name="amount">
+                    <button type="submit"> подтвердить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:insert="layout ::footer"></div>
+</body>
+</html>
+

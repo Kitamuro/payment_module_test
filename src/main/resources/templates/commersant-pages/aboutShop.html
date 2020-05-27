@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="layout :: head"> </head>
+
+<body>
+<div>
+    <div th:insert="layout :: header"></div>
+    <div th:if="${shop!= null}" class="shop-flex">
+        <div class="shop-margin font-weight-bold" th:text="${shop.siteName}"></div>
+        <div class="shop-menu justify-content-end">
+            <div class="basic-shop-title basic-shop-title-border"><a href="/aboutShop">О магазине</a></div>
+            <div class="basic-shop-title"><a href="/paymentType">Способ оплаты</a></div>
+            <div class="basic-shop-title"><a href="">Терминалы</a></div>
+        </div>
+    </div>
+    <div th:if="${shop!= null}" class="shop justify-content-center">
+        <div id="shop-block">
+            <div class="shop-block-left">
+                <div class="column">
+                    <h4 class="check-margin">Общая информация</h4>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Сайт</span></div>
+                        <div class="check-control" th:text="${shop.siteName}"></div>
+                    </div>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Вид деятельности</span></div>
+                        <div class="check-control" th:text="#{${shop.activity}}"></div>
+                    </div>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Регион приема платежей</span></div>
+                        <div class="check-control" th:text="${shop.region}"></div>
+                    </div>
+                </div>
+                <div class="column">
+                    <h4 class="check-margin">Контакты</h4>
+                    <div class="check-box">
+                        <div class="check-font-label"><span>Электронная почта для реестров</span></div>
+                        <div class="check-control" th:text="${shop.registerEmail}"></div>
+                    </div>
+                    <div class="check-box">
+                        <div class="check-font-label"><span>Адрес</span></div>
+                        <div class="check-control"
+                             th:text="${shop.region} + ', ' + ${shop.index} + ', ' + ${shop.locality} + ', ' + ${shop.street} + ', ' + ${shop.house} + ', ' + ${shop.building} + ', ' + ${shop.office}"></div>
+                    </div>
+                    <div class="check-box">
+                        <div class="check-font-label"><span>Обратная связь с покупателями</span></div>
+                        <div class="check-control" th:text="${shop.phoneForCustomer}"></div>
+                        <div class="check-control" th:text="${shop.emailForCustomer}"></div>
+                    </div>
+                    <div class="check-box">
+                        <div class="check-font-label"><span>Контактное лицо</span></div>
+                        <div class="check-control" th:text="${shop.contactName}"></div>
+                        <div class="check-control" th:text="${shop.contactPhone}"></div>
+                        <div class="check-control" th:text="${shop.contactEmail}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="shop-block-right">
+                <div class="column">
+                    <h4 class="check-margin">Счет для выплат</h4>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>АО "АТФБанк"</span></div>
+                        <div class="check-control" th:text="${shop.account}"></div>
+                    </div>
+                    <h4 class="check-margin">Обороты, KZT</h4>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Сегодня</span></div>
+                        <div class="check-control" th:text="0"></div>
+                    </div>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Вчера</span></div>
+                        <div class="check-control" th:text="0"></div>
+                    </div>
+                </div>
+                <div class="column">
+                    <h4 class="check-margin">Лимиты, KZT</h4>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Разовые операции</span></div>
+                        <div class="check-control" th:text="0"></div>
+                    </div>
+                    <div class="check-row">
+                        <div class="check-label check-font-label"><span>Операции по карте в сутки</span></div>
+                        <div class="check-control" th:text="0"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
