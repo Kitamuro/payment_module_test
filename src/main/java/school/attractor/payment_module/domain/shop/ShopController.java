@@ -22,14 +22,14 @@ public class ShopController {
         if(shops.size ()!=0){
             model.addAttribute ( "shop", shops.get ( 0)  );
         }
-        return "shops/shops.html";
+        return "shops";
     }
 
     @PostMapping("/shops")
     public String createShop(ShopDTO shopDTO){
         System.out.println ("shop" + shopDTO );
         shopService.createShop ( shopDTO );
-        return "shops/shops.html";
+        return "shops";
     }
 
     @GetMapping("/aboutShop")
@@ -38,7 +38,7 @@ public class ShopController {
         if(shops.size ()!=0){
             model.addAttribute ( "shop", shops.get ( 0)  );
         }
-        return "shops/aboutShop.html";
+        return "aboutShop";
     }
 
     @GetMapping("/paymentType")
@@ -47,12 +47,12 @@ public class ShopController {
         if(shops.size ()!=0){
             model.addAttribute ( "shop", shops.get ( 0)  );
         }
-        return "shops/paymentType";
+        return "paymentType";
     }
 
     @PostMapping("/paymentType")
     public String changePaymentType (@RequestParam int shopId, @RequestParam int hold ){
         System.out.println (shopId + hold );
-        return "shops/paymentType";
+        return "paymentType";
     }
 }

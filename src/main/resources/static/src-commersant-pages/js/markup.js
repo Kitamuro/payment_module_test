@@ -1,13 +1,11 @@
 function addFormRefund(orderDTO) {
     const html = `
-                    <div >
+                    <div>
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="REFUND" name="type">
-                    <div class = "flex-row">
-                    <input class="input-refund" type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
-                    <button class = "input-refund returnButton" type="submit">вернуть</button>
-                    </div>
+                    <input type="number"  placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
+                    <button id="returnButton" type="submit">вернуть</button>
                     </form>
                     </div>`;
     const div = document.createElement('div');
@@ -31,15 +29,15 @@ function addFormAuth(orderDTO) {
 }
 
 function print(orderDTO) {
-    block.innerHTML = `<div id="close-icon" class="close"> x </div>
-                           <div class="id"> ${orderDTO.id} </div>
+    infoBlock.innerHTML = `<div id="close-icon" class="close"> x </div>
+                           <div class="id"> ${orderDTO.orderId} </div>
                            <div> Остаток : ${orderDTO.residual} </div>
                            <div class="status">${orderDTO.status} </div>
                            <div class="amount">${orderDTO.amount}  TГ </div>
                            <div class="title"> Платежная информация </div>
                            <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
                            <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
-                           <div class="order-title">Способ оплаты</div>
+                           <div class="order-title">Спосаб оплаты</div>
                            <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
                            <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
                            <div class="order-title">Информация о покупке</div>
@@ -61,7 +59,7 @@ function print(orderDTO) {
 
     let closeIcon = window['close-icon'];
     closeIcon.addEventListener('click', function () {
-        block.hidden = true;
-        searchElement.hidden = false;
+        infoBlock.hidden = true;
+        searchBlock.hidden = false;
     })
 }
