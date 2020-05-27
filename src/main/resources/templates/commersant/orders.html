@@ -85,7 +85,7 @@
                 <tbody id="orders">
                 <tr class="order-row" th:each="order , itemStat : ${orders.content}">
                     <td th:inline="javascript" hidden class="order-obj"> [[${order}]]</td>
-                    <td class="order-id" th:text="${order.id}"></td>
+                    <td class="order-id" th:text="${order.orderId}"></td>
                     <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${order.shopName}"></td>
                     <td th:text="${order.amount} "></td>
@@ -206,7 +206,7 @@
 
     function print(orderDTO) {
         block.innerHTML = `<div id="close-icon" class="close"> x </div>
-                           <div class="id"> ${orderDTO.id} </div>
+                           <div class="id"> ${orderDTO.orderId} </div>
                            <div> Остаток : ${orderDTO.residual} </div>
                            <div class="status">${orderDTO.status} </div>
                            <div class="amount">${orderDTO.amount}  TГ </div>
