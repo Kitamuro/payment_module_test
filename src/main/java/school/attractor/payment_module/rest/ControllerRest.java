@@ -14,9 +14,9 @@ import school.attractor.payment_module.domain.commersant.CommersantService;
 import school.attractor.payment_module.domain.exception.OrderNotFound;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.order.OrderDTO;
+import school.attractor.payment_module.domain.order.OrderDetailsDTO;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.NewOrderDetails;
-import school.attractor.payment_module.domain.transaction.Transaction;
 import school.attractor.payment_module.domain.transaction.TransactionService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -62,12 +62,12 @@ public class ControllerRest {
     }
 
     @GetMapping("/orders/{id}")
-    public OrderDTO transactionData(@PathVariable Integer id) {
+    public OrderDetailsDTO transactionData(@PathVariable Integer id) {
         try {
             OrderDTO order = orderService.findByOrderId(id);
-            return order;
+            return OrderDetailsDTO.from(order);
         } catch (OrderNotFound e) {
-            return null;
+            return  null;
         }
     }
 
