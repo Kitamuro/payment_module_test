@@ -22,7 +22,7 @@ services:
 
 
   payment_module: # наш образ приложения
-    build: .  # название образа (здесь уже образ из DockerHub)
+    image: kitamuro/attractor:latest  # название образа (здесь уже образ из DockerHub)
     networks: # связи так как приложение должно иметь возможность скажем так из бд - приложение - фронт
       - backend
       - frontend
