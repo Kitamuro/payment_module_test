@@ -1,4 +1,4 @@
-version: "3.8" # Версия docker-compose
+version: "3.1" # Версия docker-compose
 networks: # наши связи для подключения бэк и фронт
   backend:
     driver: bridge # соединение побочной ветви скажем так
