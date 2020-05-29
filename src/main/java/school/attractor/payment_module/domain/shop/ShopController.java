@@ -27,7 +27,7 @@ public class ShopController {
         if(shops.size ()!=0){
             model.addAttribute ( "shop", shops.get ( 0)  );
         }
-        return "shops/shops.html";
+        return "shops.html";
     }
 
     @PostMapping("/shops")
