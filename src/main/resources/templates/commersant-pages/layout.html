@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="src-commersant-pages/css/layout-style.css">
+    <link rel="stylesheet" href="src-commersant-pages/css/main-page.css">
+    <link rel="stylesheet" href="src-commersant-pages/css/search.css">
+    <link rel="stylesheet" href="src-commersant-pages/css/shops.css">
+</head>
+
+<body>
+<header th:fragment="header" class="header">
+    <div class="row flex-row space-between">
+        <div class="logo"></div>
+        <div class="menu">
+            <div> <a href="/">Главная</a></div>
+            <div> <a href="/orders">Операции</a></div>
+            <div> <a href="">Счета</a></div>
+            <div> <a href="">Возмещения</a></div>
+            <div> <a href="/shops">Магазины</a></div>
+            <div> <a href="">Помощь</a></div>
+        </div>
+        <div>
+        <div th:if="${user} != null">
+                <form action="/user/logout" method="post">
+                    <input id = "token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button class="service-login">Ввыйти</button>
+                </form>
+        </div>
+        <div th:unless="${user} != null">
+            <a class="service-registration" href = "/user/register">Регистрация</a>
+            <a class="service-login" href="/user/login">Ввойти</a>
+        </div>
+        </div>
+        <div class="icon fa fa-bars w3-large">   </div>
+    </div>
+</header>
+
+<footer th:fragment="footer" class="footer">
+    <div> attractor-school almaty 2020</div>
+</footer>
+
+</body>
+
+</html>

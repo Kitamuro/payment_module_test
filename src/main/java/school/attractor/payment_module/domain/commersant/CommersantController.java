@@ -17,6 +17,7 @@ import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +36,16 @@ public class CommersantController {
     private final ResponseService responseService;
 
     @GetMapping("/")
-    public String hello(Model model) {
+    public String hello(Model model, Principal principal) {
+        if(principal !=null){
+            model.addAttribute ( "user", principal.getName () );
+        }
         return "main";
+    }
+
+    @GetMapping("/profile")
+    public String profilePage(){
+        return "commersant-registration-page";
     }
 
     @PostMapping("/sendRequest")

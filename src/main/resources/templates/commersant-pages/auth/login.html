@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/src-commersant-pages/css/login.css">
+    <link rel="stylesheet" href="/src-commersant-pages/css/shops.css">
+    <link rel="stylesheet" href="/src-commersant-pages/css/main-page.css">
+
+</head>
+<body>
+<div class="container flex">
+<div class="login-box">
+    <div th:if="${error} == 'true'" class="login-margin">
+        <p>Неверный пароль или логин!</p>
+    </div>
+    <div class="login-header"><p>Ввойти в сервис</p> </div>
+    <form action="/user/login" method="post" class="login-form">
+    <div class="login-margin">
+        <input id = "token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    </div>
+    <div class="login-margin">
+        <input type="text" name="username" placeholder="Email" required autofocus>
+    </div>
+    <div class="login-margin">
+        <input type="password" name="password" placeholder="Пароль" required>
+    </div>
+        <div class="login-margin">
+            <button type="submit" class="create-btn">Сохранить</button>
+        </div>
+    </form>
+
+</div>
+</div>
+</body>
+</html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,13 +28,14 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/orders")
-    public String getOrders(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String getOrders(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, Principal principal) {
         int currentPage = page.orElse ( 1 );
         int pageSize = size.orElse ( 10 );
         Page<Order> orders = orderService.getOrders ( PageRequest.of ( currentPage - 1, pageSize, Sort.by ( "date" ).descending ( ) ) );
         model.addAttribute ( "orders", orders );
         getTotals(model,orderService.getOrders(Pageable.unpaged()));
         addPageNumbers(model, orders);
+        addUserAttribute(model, principal);
         return "orders";
     }
 
@@ -47,10 +49,11 @@ public class OrderController {
    }
 
     @GetMapping("/search-orders")
-    public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page") int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam String id, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status) {
+    public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page") int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam String id, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal) {
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of(page-1, size), predicate);
         getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate));
         addSearchModelAttribute ( model, orders,id, shopName, amount,status );
+        addUserAttribute(model, principal);
         return "orders";
 
     }
@@ -77,4 +80,11 @@ public class OrderController {
         model.addAttribute("totalAmountSum", totalAmountSum);
         model.addAttribute("totalQuantity", totalQuantity);
     }
+
+    private void addUserAttribute(Model model, Principal principal) {
+        if ( principal != null ) {
+            model.addAttribute ( "user", principal.toString ( ) );
+        }
+    }
 }
+

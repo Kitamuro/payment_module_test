@@ -1,14 +1,9 @@
 package school.attractor.payment_module.domain.transaction;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
-import school.attractor.payment_module.domain.commersant.CommersantDTO;
-import school.attractor.payment_module.domain.item.ItemDTO;
-import school.attractor.payment_module.domain.order.OrderDTO;
 
-import javax.validation.constraints.*;
+import lombok.*;
 import java.util.Date;
-import java.util.List;
+
 
 
 @AllArgsConstructor

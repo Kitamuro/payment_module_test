@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: head"> </head>
+<body>
+
+<div th:insert="layout :: header"></div>
+<div class="container">
+    <div id="search-block" class="s007">
+        <form action="/search-orders" method="post" id="search-form">
+            <div class="inner-form">
+                <div class="basic-search">
+                    <div class="input-field">
+                        <div class="icon-wrap">
+                            <span class="basic-search-title">ПОИСК</span>
+                        </div>
+                        <div class="totalVar">
+                            <span th:utext="${totalAmountSum} + ' тг'"></span>
+                            <span th:utext="${totalQuantity} + ' заказов'"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="advance-search">
+                    <span class="desc">Расширенный поиск</span>
+                    <div class="column">
+                        <div class="advance-input">
+                            <input id="search" type="number" name="id" placeholder="Поиск по № заказа"/>
+                        </div>
+                        <div class="advance-input">
+                            <input class="extra-input" name="shopName" type="text" placeholder="Название магазина"/>
+                        </div>
+                        <div class="advance-input">
+                            <input type="number" name="amount" placeholder="Сумма от"/>
+                        </div>
+                        <div class="advance-input">
+                            <input type="number" name="amount" placeholder="Сумма до"/>
+                        </div>
+                        <div class="advance-input">
+                            <select name="status" class="advance-input-select">
+                                <option value="" default="default" selected="selected">Статус</option>
+                                <option value="APPROVED">Подтвержден</option>
+                                <option value="NEW">В ожидании</option>
+                                <option value="RESERVED">Зарезервирован</option>
+                                <option value="REFUSED">Отклонен</option>
+                                <option value="PARTIAL_REFUND">Частично возвращен</option>
+                                <option value="TOTAL_REFUND">Возвращен</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <div class="row">
+                        <div class="input-field">
+                            <button type="submit" class="btn-search btn">Искать</button>
+                        </div>
+                        <div class="input-field">
+                            <button type="reset" class="btn-delete btn" id="delete">Очистить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="flex">
+        <div class="main">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                <tr class="table-title">
+                    <th scope="col">№ Заказа</th>
+                    <th scope="col">Дата и время</th>
+                    <th scope="col">Магазин</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col">Статус</th>
+                </tr>
+                </thead>
+                <tbody id="orders">
+                <tr class="order-row" th:each="order , itemStat : ${orders.content}">
+                    <td th:inline="javascript" hidden class="order-obj"> [[${order}]]</td>
+                    <td class="order-id" th:text="${order.orderId}"></td>
+                    <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${order.shopName}"></td>
+                    <td th:text="${order.amount} "></td>
+                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден
+                    </td>
+                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
+                    <td th:if="${order.status.name() =='NEW'}"><i class="circle-status declined"></i> В ожидании</td>
+                    <td th:if="${order.status.name() =='RESERVED'}"><i class="circle-status declined"></i>Зарезервирован</td>
+                    <td th:if="${order.status.name() =='PARTIAL_REFUND'}"><i class="circle-status declined"></i>Частично возвращен</td>
+                    <td th:if="${order.status.name() =='TOTAL_REFUND'}"><i class="circle-status declined"></i>Возвращен</td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:if="${orders.isEmpty()==true}">
+                <h5 class="text-center">По выбранным фильтрам операций не найдено</h5>
+            </div>
+        </div>
+    </div>
+    <div hidden id="info-block" class="info-block"></div>
+
+</div>
+<div th:if="${searchPagination} != 'true'" class="flex-row">
+    <div th:if="${number > 0}" class="pagination">
+        <a th:href="@{/orders(size=${orders.size}, page=${number})}"
+           th:text="назад"
+           th:class="${number==orders.number - 1} ? active"></a>
+    </div>
+    <div th:if="${orders.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/orders(size=${orders.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==orders.number + 1} ? active"></a>
+    </div>
+    <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
+        <a th:href="@{/transactions(size=${orders.size}, page=${number}+2)}"
+           th:text="вперед"
+           th:class="${number==orders.number + 2} ? active"></a>
+    </div>
+</div>
+<div th:if="${searchPagination} == 'true'" class="flex-row" >
+    <div th:if="${number > 0}" class="pagination">
+        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo}, status = ${searchStatus},size=${orders.size}, page=${number})}"
+           th:text="назад"
+           th:class="${number==orders.number - 1} ? active"></a>
+    </div>
+    <div th:if="${orders.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},status = ${searchStatus},size=${orders.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==orders.number + 1} ? active"></a>
+    </div>
+    <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
+        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},status = ${searchStatus},size=${orders.size}, page=${number}+2)}"
+           th:text="вперед"
+           th:class="${number==orders.number + 2} ? active"></a>
+    </div>
+</div>
+
+<div th:insert="layout ::footer"></div>
+</body>
+
+<script src="src-commersant-pages/js/variables.js"></script>
+<script src="src-commersant-pages/js/main.js"></script>
+<script src="src-commersant-pages/js/markup.js"></script>
+<script src="src-commersant-pages/js/utils.js"></script>
+</html>
+
