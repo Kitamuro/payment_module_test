@@ -13,7 +13,7 @@
 <body>
 <div class="container flex">
 <div class="login-box">
-    <div th:if="${error} != 'true'" class="login-margin">
+    <div th:if="${error} == 'true'" class="login-margin">
         <p>Неверный пароль или логин!</p>
     </div>
     <div class="login-header"><p>Ввойти в сервис</p> </div>

@@ -96,3 +96,15 @@ a:hover {
     margin-left: 70px;
 
 }
+
+.service-registration{
+    background-color: #3e4757; border-radius: 5px 5px 5px 5px;
+    color: white; font-family: Georgia, arial, serif;
+    font-size: 16px; padding: 3px 10px;
+}
+
+.service-login{
+    background-color:  #ffdd2d; border-radius: 5px 5px 5px 5px;
+    color: black; font-family: Georgia, arial, serif;
+    font-size: 16px; padding: 3px 10px;
+}

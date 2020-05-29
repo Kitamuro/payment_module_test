@@ -23,4 +23,8 @@ public class UserSecurityService {
                 .build();
         userRepository.save(user);
     }
+
+    public User getUser(String userEmail) {
+        return userRepository.findByEmail ( userEmail ).orElseThrow ( ()->new UserNotFoundException ( "User is not found" ) );
+    }
 }

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:include="layout :: head"> </head>
-
 <body>
 
 <div th:insert="layout :: header"></div>
@@ -48,6 +46,7 @@
                             </select>
                         </div>
                     </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <div class="row">
                         <div class="input-field">
                             <button type="submit" class="btn-search btn">Искать</button>
@@ -141,6 +140,5 @@
 <script src="src-commersant-pages/js/main.js"></script>
 <script src="src-commersant-pages/js/markup.js"></script>
 <script src="src-commersant-pages/js/utils.js"></script>
-
 </html>
 

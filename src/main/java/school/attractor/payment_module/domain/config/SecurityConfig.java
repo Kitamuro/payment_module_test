@@ -27,14 +27,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure (HttpSecurity httpSecurity) throws Exception{
         httpSecurity.formLogin ()
                 .loginPage ( "/user/login" )
-                .failureUrl ( "/user/login?error=true" );
-
+                .failureUrl ( "/user/login?error=true" )
+                .defaultSuccessUrl ( "/" );
 
         httpSecurity.logout ()
                 .logoutUrl ( "/user/logout" )
                 .logoutSuccessUrl ( "/" )
                 .clearAuthentication ( true )
                 .invalidateHttpSession ( true );
+
+        httpSecurity.authorizeRequests()
+                .antMatchers("/profile");
+
+
+        httpSecurity.authorizeRequests ()
+                .antMatchers ( "/orders")
+                .authenticated ();
+
+
+        httpSecurity.authorizeRequests ()
+                .antMatchers ( "/shops/**" )
+                .authenticated ();
 
         httpSecurity.authorizeRequests ()
                 .anyRequest ()

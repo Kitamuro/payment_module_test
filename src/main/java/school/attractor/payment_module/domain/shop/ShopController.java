@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -22,10 +23,13 @@ public class ShopController {
     private ShopService shopService;
 
     @GetMapping("/shops")
-    public String getShops (Model model){
+    public String getShops (Model model, Principal principal){
         List<Shop> shops = shopService.getShops ( );
         if(shops.size ()!=0){
             model.addAttribute ( "shop", shops.get ( 0)  );
+        }
+        if(principal !=null){
+            model.addAttribute ( "user", principal.getName () );
         }
         return "shops.html";
     }

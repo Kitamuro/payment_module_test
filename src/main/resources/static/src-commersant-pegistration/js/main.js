@@ -8,7 +8,8 @@ FORM.addEventListener("submit", async function (e) {
 
     let response = await fetch(REG_URL, {
         method: "post",
-        headers: {"Content-Type": "application/json;charset=utf-8"},
+        headers: {"Content-Type": "application/json;charset=utf-8",
+            'X-CSRF-token': token, cookie: 'crumb=' + token},
         body: JSON.stringify(registrationData)
     });
 

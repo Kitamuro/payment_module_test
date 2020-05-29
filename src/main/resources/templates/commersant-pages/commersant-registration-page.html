@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Document</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="/src-commersant-pegistration/styles/style.css">
 </head>
 <body>
 
@@ -52,8 +55,8 @@
 </div>
 
 </body>
-<script src="js/variables.js"></script>
-<script src="js/main.js"></script>
+<script src="/src-commersant-pegistration/js/variables.js"></script>
+<script src="/src-commersant-pegistration/js/main.js"></script>
 
 </html>
 
