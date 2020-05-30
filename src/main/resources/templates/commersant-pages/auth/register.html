@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/src-commersant-pages/css/login.css">
-    <link rel="stylesheet" href="/src-commersant-pages/css/shops.css">
-    <link rel="stylesheet" href="/src-commersant-pages/css/main-page.css">
+<head th:include="layout :: head"> </head>
+<link rel="stylesheet" href="src-commersant-pegistration/styles/style.css">
 
-</head>
-<body class="no-scroll">
-<div th:if ="${message != null}">
-    <p th:text="${message}"></p>
-</div>
-<div class="flex justify-content-center">
-    <div>
-        <div th:if ="${errors} != null">
-            <p>Вы неверно заполнили форму регистрации!</p>
-            <div th:each="fieldError : ${errors}">
-                <p th:text = "${fieldError.field}"></p>
-            </div>
-        </div>
+<body>
+
+<div class="flex-container">
+
+    <div class="registration-title">
+        Регистрация
     </div>
-</div>
-<div class="container flex">
-    <div class="login-box">
-        <div class="login-header"><p>Форма регистрации пользователя в сервисе</p> </div>
-        <form action="/user/register" method="post" class="login-form">
-            <div class="login-margin">
-                <input id = "token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <div class="form-wrapper">
+        <form id="form" action="/registration"  method="post" class="form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div class="input-group">
+                <input class="input-field" name="name" required>
+                <label class="input-label"> ФИО  </label>
             </div>
-            <div class="login-margin">
-                <input type="email" name="email" placeholder="Email" required autofocus>
+
+            <div class="input-group">
+                <input class="input-field" name="email" required>
+                <label class="input-label"> Email </label>
             </div>
-            <div class="login-margin">
-                <input type="password" name="password" placeholder="Пароль" required>
+
+            <div class="input-group">
+                <input class="input-field" name="password" required>
+                <label class="input-label"> Пароль </label>
             </div>
-            <div class="login-margin">
-                <button type="submit" class="create-btn">Сохранить</button>
+
+            <div class="flex-row">
+                 <a class="btn btn-reset" href="/" > Войти  </a>
+                <button class="btn btn-submit" type="submit"> Зарегистрироваться </button>
             </div>
+
         </form>
     </div>
 </div>
 </body>
+
+<script src="src-commersant-pages/js/registration-post.js"> </script>
+
 </html>
