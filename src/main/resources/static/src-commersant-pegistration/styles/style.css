@@ -1,3 +1,4 @@
+
 .input-group {
     position: relative;
     width: 448px;
@@ -5,6 +6,7 @@
 
 .form {
     max-width: 448px;
+    box-sizing: border-box;
 }
 
 .form div {
@@ -13,8 +15,8 @@
 
 .input-field {
     margin: 0;
-    padding: 0;
     border: 0;
+    padding-left: 7px;
     font-size: inherit;
     line-height: inherit;
     font-weight: inherit;
@@ -25,41 +27,65 @@
     flex: 1 1 0;
     width: 100%;
     height: 59px;
-    border-radius: inherit;
+    border-radius: 6px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     background: #ecf1f7;
 }
 
+.input-field:hover {
+    background: #f1f6fc;
+}
+
+
 .input-label {
     position: absolute;
-    top: 10px;
-    left: 5px;
+    top: 15px;
+    left: 7px;
     color: #79818c;
     overflow: hidden;
+    font-family: pragmatica, serif;
+}
+
+
+
+.btn {
+    display: inline-block;
+    font-family: pragmatica, haas, serif;
+    color: #333;
+    height: 55px;
+    width: 160px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-items: center;
+    padding: 17px;
 }
 
 
 .btn-submit {
-    height: 55px;
-    width: 160px;
-    background: #ffd242;
-    border: none;
-    outline: none;
+    background: #ffdd2d;;
+}
+
+.btn-reset {
+    background: #ecf1f7;
 }
 
 
-.btn-reset {
-    height: 55px;
-    width: 160px;
-    background: #d3d8de;
-    border: none;
-    outline: none;
+.btn-submit:hover {
+    background: #ffcd33;
+}
+
+.btn-reset:hover {
+    background: #e2e8ee;
 }
 
 .flex-row {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .form-wrapper {
