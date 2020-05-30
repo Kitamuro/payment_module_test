@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
 import school.attractor.payment_module.domain.commersant.CommersantDTO;
 import school.attractor.payment_module.domain.commersant.CommersantRegistrationDataDTO;
 import school.attractor.payment_module.domain.commersant.CommersantService;
@@ -17,7 +16,6 @@ import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderDetailsDTO;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.NewOrderDetails;
-import school.attractor.payment_module.domain.transaction.TransactionService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,8 +27,6 @@ import java.util.List;
 @RestController
 public class ControllerRest {
 
-    private final TransactionService transactionService;
-    private final ResponseService responseService;
     private final OrderService orderService;
     private final CommersantService commersantService;
 
