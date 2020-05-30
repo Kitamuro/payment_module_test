@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="">
 <head th:include="layout :: head"> </head>
-<link rel="stylesheet" href="src-commersant-pegistration/styles/style.css">
+
 
 <body>
 
@@ -25,7 +25,7 @@
             </div>
 
             <div class="flex-row">
-                <a class="btn btn-reset" href="/registration" > Зарегистрироваться</a>
+                <a class="btn btn-reset" href="/user/register" > Зарегистрироваться</a>
                 <button class="btn btn-submit" type="submit"> Войти </button>
             </div>
 
@@ -33,7 +33,7 @@
     </div>
 </div>
 </body>
-<script src="src-commersant-pegistration/js/variables.js"> </script>
-<script src="src-commersant-pegistration/js/main.js"> </script>
+
+<script th:src="@{/js/commersant/effects-for-form.js}"></script>
 
 </html>
