@@ -22,16 +22,14 @@ public class ShopController {
 
     private ShopService shopService;
 
+
     @GetMapping("/shops")
     public String getShops (Model model, Principal principal){
-        List<Shop> shops = shopService.getShops ( );
+        List<Shop> shops = shopService.getShops (principal );
         if(shops.size ()!=0){
-            model.addAttribute ( "shop", shops.get ( 0)  );
+            model.addAttribute ( "shops", shops  );
         }
-        if(principal !=null){
-            model.addAttribute ( "user", principal.getName () );
-        }
-        return "shops.html";
+        return "shops";
     }
 
     @PostMapping("/shops")
@@ -42,38 +40,31 @@ public class ShopController {
             for (ObjectError e : errors) {
                 model.addAttribute("errors", e.getDefaultMessage());
             }
-            return "shops/shops.html";
+            return "shops.html";
         } else {
             System.out.println ("shop" + shopDTO );
             shopService.createShop ( shopDTO );
-            return "shops/shops.html";
+            return "shops.html";
         }
-
-
     }
 
-
     @GetMapping("/aboutShop")
-    public String getShop (Model model){
-        List<Shop> shops = shopService.getShops ( );
-        if(shops.size ()!=0){
-            model.addAttribute ( "shop", shops.get ( 0)  );
-        }
-        return "shops/about-shop.html";
+    public String getShop (Model model, @RequestParam Integer shopId){
+        Shop shop = shopService.getShop ( shopId );
+        model.addAttribute ( "shop", shop);
+        return "about-shop.html";
     }
 
     @GetMapping("/paymentType")
-    public String getShopPaymentType (Model model){
-        List<Shop> shops = shopService.getShops ( );
-        if(shops.size ()!=0){
-            model.addAttribute ( "shop", shops.get ( 0)  );
-        }
-        return "shops/paymentType";
+    public String getShopPaymentType (Model model, @RequestParam Integer shopId){
+        Shop shop = shopService.getShop ( shopId );
+        model.addAttribute ( "shop", shop);
+        return "paymentType";
     }
 
     @PostMapping("/paymentType")
     public String changePaymentType (@RequestParam int shopId, @RequestParam int hold ){
         System.out.println (shopId + hold );
-        return "shops/paymentType";
+        return "paymentType";
     }
 }

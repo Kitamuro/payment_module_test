@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import school.attractor.payment_module.domain.commersant.BusinessActivity;
 import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.commersant.CommersantRepository;
 import school.attractor.payment_module.domain.order.OrderRepository;
@@ -32,25 +33,29 @@ public class FillData {
             Shop sulpak = Shop.builder ( )
                     .siteName ( "Sulpak" )
                     .commersant ( commersant1 )
+                    .activity ( BusinessActivity.SALE_OF_ELECTRONICS )
                     .build ( );
             Shop technodom = Shop.builder ( )
                     .siteName ( "Технодом" )
                     .commersant ( commersant1 )
+                    .activity ( BusinessActivity.SALE_OF_ELECTRONICS )
                     .build ( );
 
             Shop aliexpress = Shop.builder ( )
                     .siteName ( "Aliexpress" )
                     .commersant ( commersant2 )
+                    .activity ( BusinessActivity.SALE_OF_CLOTHING )
                     .build ( );
             Shop lamoda = Shop.builder ( )
                     .siteName ( "Lamoda" )
                     .commersant ( commersant2 )
+                    .activity ( BusinessActivity.SALE_OF_CLOTHING )
                     .build ( );
             shopRepository.save(sulpak );
             shopRepository.save (  technodom);
             shopRepository.save(aliexpress);
             shopRepository.save (lamoda  );
-            orderRepository.saveAll(GenerateData.addOrdersForCommersant1 (sulpak, technodom));
+            orderRepository.saveAll( GenerateData.addOrdersForCommersant1 (sulpak, technodom));
             orderRepository.saveAll ( GenerateData.addOrdersForCommersant2 ( aliexpress, lamoda ) );
         };
     }

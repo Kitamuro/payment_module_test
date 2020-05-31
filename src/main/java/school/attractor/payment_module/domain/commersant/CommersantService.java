@@ -4,12 +4,18 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+
 @Service
 @AllArgsConstructor
 public class CommersantService {
 
     private CommersantRepository commersantRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public Commersant findByPrincipal(Principal principal){
+       return commersantRepository.findByEmail ( principal.getName ( ) ).orElseThrow (()->new CommersantNotFoundException ( "" ) );
+    }
 
     public CommersantDTO getCommersant(int id) {
         Commersant commersant = commersantRepository.findById(id).orElseThrow();

@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface ShopRepository  extends JpaRepository<Shop, Integer> {
 
-    List<Shop> findByCommersant(Commersant commersant);
+    List<Shop> findAllByCommersant(Commersant commersant);
+
 
 }
