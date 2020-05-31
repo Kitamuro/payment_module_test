@@ -6,7 +6,7 @@ let orderDTO;
 
 
 const BASE_URL = 'http://localhost:8080/';
-const SHOP_URL = `${BASE_URL}/aboutShop`;
+const SHOP_URL = `${BASE_URL}aboutShop`;
 const ORDER_URL = `${BASE_URL}/orders/`;
 
 const FORM = window['form'];

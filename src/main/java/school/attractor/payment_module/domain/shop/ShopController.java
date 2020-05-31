@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -48,15 +45,15 @@ public class ShopController {
         }
     }
 
-    @GetMapping("/aboutShop")
-    public String getShop (Model model, @RequestParam Integer shopId){
+    @GetMapping("/aboutShop/{shopId}")
+    public String getShop (Model model, @PathVariable Integer shopId){
         Shop shop = shopService.getShop ( shopId );
         model.addAttribute ( "shop", shop);
         return "about-shop.html";
     }
 
     @GetMapping("/paymentType")
-    public String getShopPaymentType (Model model, @RequestParam Integer shopId){
+    public String getShopPaymentType (Model model, @RequestParam("shopId") Integer shopId){
         Shop shop = shopService.getShop ( shopId );
         model.addAttribute ( "shop", shop);
         return "paymentType";
