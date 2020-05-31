@@ -66,7 +66,7 @@ public class ShopDTO {
     @NotBlank(message = "Введите имя сайта")
     private String contactName;
 
-    @NotBlank(message = "Введите номер офиса")
+    @NotBlank(message = "Введите номер телефона")
     @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона")
     @Size(min = 15, max = 15, message = "Вы ввели неправильное количество цифр")
     private String contactPhone;

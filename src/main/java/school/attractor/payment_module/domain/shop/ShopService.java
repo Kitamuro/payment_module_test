@@ -29,6 +29,6 @@ public class ShopService {
     }
 
     public Shop getShop(Integer shopId) {
-        return shopRepository.findById ( shopId ).orElseThrow ( ()->new ShopNotFoundException() );
+        return shopRepository.findById ( shopId ).orElseThrow ( () -> new ShopNotFoundException() );
     }
 }
