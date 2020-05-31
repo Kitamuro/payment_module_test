@@ -27,7 +27,7 @@ services:
       - backend
       - frontend
     environment: # здесь мы указываем переменные среды для подключения к образу базы данных
-      - DB_CONNECTION=jdbc:postgresql://db:5432/payment_module # здесь вместо localhost мы используем бд образа потому что мы не связаны теперь с локальной бд
+      - DB_CONNECTION=postgresql://db:5432 # здесь вместо localhost мы используем бд образа потому что мы не связаны теперь с локальной бд
       - DB_USERNAME=postgres
       - DB_PASSWORD=12345
     depends_on: # здесь указываем зависимость нашей образа бд
