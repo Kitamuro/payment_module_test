@@ -70,4 +70,6 @@ public class ShopDTO {
     @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона")
     @Size(min = 15, max = 15, message = "Вы ввели неправильное количество цифр")
     private String contactPhone;
+
+
 }

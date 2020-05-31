@@ -31,16 +31,10 @@
             <div> <a href="">Помощь</a></div>
         </div>
         <div>
-        <div th:if="${user} != null">
-                <form action="/user/logout" method="post">
+                <form action="/logout" method="post">
                     <input id = "token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <button class="service-login">Ввыйти</button>
                 </form>
-        </div>
-        <div th:unless="${user} != null">
-            <a class="service-registration" href = "/user/register">Регистрация</a>
-            <a class="service-login" href="/user/login">Ввойти</a>
-        </div>
         </div>
         <div class="icon fa fa-bars w3-large">   </div>
     </div>

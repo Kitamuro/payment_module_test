@@ -31,29 +31,26 @@ public class OrderController {
     public String getOrders(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, Principal principal) {
         int currentPage = page.orElse ( 1 );
         int pageSize = size.orElse ( 10 );
-        Page<Order> orders = orderService.getOrders ( PageRequest.of ( currentPage - 1, pageSize, Sort.by ( "date" ).descending ( ) ) );
+        Page<Order> orders = orderService.getOrders ( PageRequest.of ( currentPage - 1, pageSize, Sort.by ( "date" ).descending ( ) ), principal );
         model.addAttribute ( "orders", orders );
-        getTotals(model,orderService.getOrders(Pageable.unpaged()));
+        getTotals(model,orderService.getOrders(Pageable.unpaged(), principal));
         addPageNumbers(model, orders);
-        addUserAttribute(model, principal);
         return "orders";
     }
 
-    //Predicate is obtained directly out of the HttpRequest, using the @QuerydslPredicate annotation.
     @PostMapping("/search-orders")
-    public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam String id, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status){
-        Page<Order> orders = orderService.getSearchOrders ( PageRequest.of ( 0, 10, Sort.by ( "date" ).descending ( ) ), predicate );
-        getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate));
+    public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam String id, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal){
+        Page<Order> orders = orderService.getSearchOrders ( PageRequest.of ( 0, 10, Sort.by ( "date" ).descending ( ) ), predicate, principal );
+        getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate, principal));
         addSearchModelAttribute ( model, orders, id, shopName, amount,status );
         return "orders";
    }
 
     @GetMapping("/search-orders")
     public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page") int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam String id, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal) {
-        Page<Order> orders = orderService.getSearchOrders ( PageRequest.of(page-1, size), predicate);
-        getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate));
+        Page<Order> orders = orderService.getSearchOrders ( PageRequest.of(page-1, size), predicate, principal);
+        getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate, principal));
         addSearchModelAttribute ( model, orders,id, shopName, amount,status );
-        addUserAttribute(model, principal);
         return "orders";
 
     }
@@ -81,10 +78,5 @@ public class OrderController {
         model.addAttribute("totalQuantity", totalQuantity);
     }
 
-    private void addUserAttribute(Model model, Principal principal) {
-        if ( principal != null ) {
-            model.addAttribute ( "user", principal.toString ( ) );
-        }
-    }
 }
 
