@@ -73,7 +73,7 @@
                 </thead>
                 <tbody id="orders">
                 <tr class="order-row" th:each="order , itemStat : ${orders.content}">
-                    <td th:inline="javascript" hidden class="order-obj"> [[${order}]]</td>
+
                     <td class="order-id" th:text="${order.orderId}"></td>
                     <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${order.shopName}"></td>
@@ -136,9 +136,9 @@
 <div th:insert="layout ::footer"></div>
 </body>
 
-<script src="src-commersant-pages/js/variables.js"></script>
-<script src="src-commersant-pages/js/main.js"></script>
-<script src="src-commersant-pages/js/markup.js"></script>
-<script src="src-commersant-pages/js/utils.js"></script>
+<script src="../../static/js/commersant/variables.js"></script>
+<script src="../../static/js/commersant/main.js"></script>
+<script src="../../static/js/commersant/markup.js"></script>
+<script src="../../static/js/commersant/utils.js"></script>
 </html>
 

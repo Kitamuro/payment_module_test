@@ -26,7 +26,7 @@ public class UserSecurityController {
         if(!model.containsAttribute ( "user" )){
             model.addAttribute ( "user", new UserRegisterForm () );
         }
-        return "auth/register";
+        return "registration";
     }
 
     @PostMapping("/register")
@@ -48,7 +48,7 @@ public class UserSecurityController {
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false, defaultValue = "false") Boolean error, Model model){
         model.addAttribute ( "error", error );
-        return "auth/login";
+        return "login";
     }
 
 

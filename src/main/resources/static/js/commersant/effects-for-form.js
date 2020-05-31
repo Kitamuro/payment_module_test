@@ -1,4 +1,6 @@
 
+const FORM = window['form'];
+
 FORM.addEventListener("submit", async function (e) {
     e.preventDefault();
     e.stopPropagation();

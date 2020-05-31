@@ -43,10 +43,6 @@ public class CommersantController {
         return "main";
     }
 
-    @GetMapping("/profile")
-    public String profilePage(){
-        return "commersant-registration-page";
-    }
 
     @PostMapping("/sendRequest")
     public String sendRequest(Model model, @RequestParam int orderId, @RequestParam int amount, @RequestParam String type,

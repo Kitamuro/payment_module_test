@@ -59,7 +59,7 @@ public class ShopController {
         if(shops.size ()!=0){
             model.addAttribute ( "shop", shops.get ( 0)  );
         }
-        return "shops/aboutShop.html";
+        return "shops/about-shop.html";
     }
 
     @GetMapping("/paymentType")
