@@ -1,28 +1,28 @@
 
 const FORM = window['form'];
-
-FORM.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    let formData = new FormData(FORM);
-    let registrationData = Object.fromEntries(formData);
-
-    let response = await fetch(REG_URL, {
-        method: "post",
-        headers: {"Content-Type": "application/json;charset=utf-8",
-            'X-CSRF-token': token, cookie: 'crumb=' + token},
-        body: JSON.stringify(registrationData)
-    });
-
-    let responseMessage = await response.text();
-
-    if (responseMessage === VALIDATION_SUCCESS) {
-        validationSuccess()
-    } else  {
-        validationUnsuccess(responseMessage)
-    }
-});
+//
+// FORM.addEventListener("submit", async function (e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//
+//     let formData = new FormData(FORM);
+//     let registrationData = Object.fromEntries(formData);
+//
+//     let response = await fetch(REG_URL, {
+//         method: "post",
+//         headers: {"Content-Type": "application/json;charset=utf-8",
+//             'X-CSRF-token': token, cookie: 'crumb=' + token},
+//         body: JSON.stringify(registrationData)
+//     });
+//
+//     let responseMessage = await response.text();
+//
+//     if (responseMessage === VALIDATION_SUCCESS) {
+//         validationSuccess()
+//     } else  {
+//         validationUnsuccess(responseMessage)
+//     }
+// });
 
 FORM.addEventListener('click', function (e) {
     let input = e.target;

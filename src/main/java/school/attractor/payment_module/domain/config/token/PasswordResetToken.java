@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import school.attractor.payment_module.domain.User.User;
+import school.attractor.payment_module.domain.commersant.Commersant;
 
 import javax.persistence.*;
 
@@ -24,6 +24,6 @@ public class PasswordResetToken {
     @Column
     private String token;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-    private User user;
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Commersant.class)
+    private Commersant user;
 }

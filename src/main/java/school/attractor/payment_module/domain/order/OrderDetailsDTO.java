@@ -1,6 +1,8 @@
 package school.attractor.payment_module.domain.order;
 
 import lombok.*;
+import school.attractor.payment_module.domain.shop.Shop;
+import school.attractor.payment_module.domain.shop.ShopDTO;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
 import school.attractor.payment_module.domain.transaction.TransactionType;
 
@@ -17,7 +19,7 @@ public class OrderDetailsDTO {
 
     private int id;
 
-    private String shopName;
+    private ShopDTO shopDTO;
 
     private String userName;
 
@@ -48,7 +50,6 @@ public class OrderDetailsDTO {
         return OrderDetailsDTO.builder()
                 .id(order.getId())
                 .orderId(order.getOrderId())
-                .shopName(order.getShopName())
                 .userName(order.getUserName())
                 .email(order.getEmail())
                 .date(order.getDate())
@@ -65,7 +66,7 @@ public class OrderDetailsDTO {
         return OrderDetailsDTO.builder()
                 .id(order.getId())
                 .orderId(order.getOrderId())
-                .shopName(order.getShopName())
+                .shopDTO(order.getShopDTO ())
                 .userName(order.getUserName())
                 .email(order.getEmail())
                 .date(order.getDate())

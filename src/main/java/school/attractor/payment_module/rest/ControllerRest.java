@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import school.attractor.payment_module.domain.commersant.CommersantDTO;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.attractor.payment_module.domain.commersant.CommersantAlreadyRegisteredException;
 import school.attractor.payment_module.domain.commersant.CommersantRegistrationDataDTO;
 import school.attractor.payment_module.domain.commersant.CommersantService;
 import school.attractor.payment_module.domain.exception.OrderNotFound;
@@ -28,7 +29,7 @@ import java.util.List;
 public class ControllerRest {
 
     private final OrderService orderService;
-    private final CommersantService commersantService;
+
 
     @PostMapping("/pay")
     public ResponseEntity<String> mainController(@Valid @RequestBody NewOrderDetails newOrderDetails,
@@ -69,7 +70,7 @@ public class ControllerRest {
 
     @PostMapping("/registration")
     public String newCommersant(@RequestBody @Valid CommersantRegistrationDataDTO data,
-                                BindingResult result, HttpServletResponse response) {
+                                BindingResult result, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -79,13 +80,8 @@ public class ControllerRest {
             }
             return errorMessage.toString();
         } else {
-
-            CommersantDTO commersantDTO = CommersantDTO.from(data);
-            commersantService.save(commersantDTO);
-
             return "Validation Successful";
         }
-
-
     }
+
 }

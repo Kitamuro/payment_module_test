@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -14,6 +15,15 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommersantRegistrationDataDTO {
+
+    @NotBlank
+    @Email
+    private String email="";
+
+    @NotBlank
+    @Size(min = 6, max = 24, message = "Length must be >= 6 and <= 24")
+    private String password = "";
+
 
     @NotBlank(message = "поле БИК не должно быть пустым")
     @Size(max=30)
