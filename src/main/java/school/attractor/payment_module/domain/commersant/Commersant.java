@@ -87,15 +87,6 @@ public class Commersant {
                 .build();
     }
 
-    public void setFields(CommersantDTO commersantDTO){
-        setOrganizationName(commersantDTO.getOrganizationName());
-        setBik (commersantDTO.getBik());
-        setBin(commersantDTO.getBin());
-        setDirectorIdentityCard(commersantDTO.getDirectorIdentityCard());
-        setDirectorName ((commersantDTO.getDirectorName()));
-        setKbe(commersantDTO.getKbe());
-    }
-
 }
 
 

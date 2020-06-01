@@ -28,7 +28,8 @@ public class Shop {
     private Commersant commersant;
 
     @Column
-    private int hold;
+    @Builder.Default
+    private int hold = 1;
 
     @Column
     private BusinessActivity activity;

@@ -29,6 +29,12 @@ public class ShopService {
     }
 
     public Shop getShop(Integer shopId) {
-        return shopRepository.findById ( shopId ).orElseThrow ( () -> new ShopNotFoundException() );
+        return shopRepository.findById ( shopId ).orElseThrow ( ShopNotFoundException::new );
+    }
+
+    public void changePaymentType(int shopId, int hold) {
+        Shop shop = shopRepository.findById ( shopId ).orElseThrow ( ShopNotFoundException::new );
+        shop.setHold ( hold );
+        shopRepository.save ( shop );
     }
 }

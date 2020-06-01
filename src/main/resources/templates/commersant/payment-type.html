@@ -16,6 +16,7 @@
     </div>
     <div th:if ="${shop!= null}" class="shop justify-content-center " >
         <form action="/paymentType" method="post" id="shop-block">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="column">
                     <h4 class="check-margin">Списание средств</h4>
                     <div class="flex-row">

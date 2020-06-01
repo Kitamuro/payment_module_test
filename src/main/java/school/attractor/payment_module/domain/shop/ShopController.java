@@ -52,16 +52,17 @@ public class ShopController {
         return "about-shop.html";
     }
 
-    @GetMapping("/paymentType")
-    public String getShopPaymentType (Model model, @RequestParam("shopId") Integer shopId){
+    @GetMapping("/paymentType/{shopId}")
+    public String getShopPaymentType (Model model, @PathVariable("shopId") Integer shopId){
         Shop shop = shopService.getShop ( shopId );
         model.addAttribute ( "shop", shop);
-        return "paymentType";
+        return "payment-type";
     }
 
     @PostMapping("/paymentType")
     public String changePaymentType (@RequestParam int shopId, @RequestParam int hold ){
+        shopService.changePaymentType(shopId, hold);
         System.out.println (shopId + hold );
-        return "paymentType";
+        return "shops";
     }
 }

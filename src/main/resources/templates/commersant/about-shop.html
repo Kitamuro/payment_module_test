@@ -11,7 +11,7 @@
         <div class="shop-menu justify-content-end">
             <div class="basic-shop-title basic-shop-title-border"><a href="/aboutShop">О магазине</a></div>
             <div class="basic-shop-title">
-                <a th:href="@{/paymentType(shopId=${shop.id})}">Способ оплаты</a></div>
+                <a th:href="@{/paymentType/{shopId}(shopId=${shop.id})}">Способ оплаты</a></div>
             <div class="basic-shop-title"><a href="">Терминалы</a></div>
         </div>
     </div>
