@@ -13,8 +13,7 @@
      </div>
     <tbody id="shops">
         <div th:each="shop: ${shops}">
-            <div class="shop-box">
-            <input id="shopId" type = "hidden" th:value="${shop.id}">
+            <div class="shop-box" th:onclick="|window.location.href='@{/aboutShop/{shopId}(shopId=${shop.id})}'|" >                
             <div class="shop-margin font-weight-bold" th:text="${shop.siteName}"></div>
             <div class="shop-margin" th:text="#{${shop.activity}}"></div>
             <div class="shop-check-box"><i class="circle-status shop-checkbox-color"></i><span>Проверяем</span></div>
@@ -25,21 +24,21 @@
 </body>
 
 <script>
-
     let shopButton = document.getElementsByClassName('shop-button')[0];
-
-    const shopId = document.getElementById('shopId').value;
-
+    // const shopId = document.getElementById('shopId').value;
     shopButton.addEventListener("click", function(){
         let divElement = printInputForm();
         shopButton.after(divElement);
     });
-
     let shopBox = document.getElementsByClassName('shop-box')[0];
 
-    shopBox.addEventListener("click", async function (e) {
-        window.open(`${SHOP_URL}/${shopId}`);
-    });
+    // async function getShop(shopId){
+    //     window.open(SHOP_URL/shopId);
+    // }
+    // shopBox.addEventListener("click", async function (e) {
+    //
+    //     window.open(`${SHOP_URL}/${shopId}`);
+    // });
 
     function printInputForm() {
         const html = `
