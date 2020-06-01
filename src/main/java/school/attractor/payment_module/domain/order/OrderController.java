@@ -39,18 +39,18 @@ public class OrderController {
     }
 
     @PostMapping("/search-orders")
-    public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam String id, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal){
+    public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam String orderId, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal){
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of ( 0, 10, Sort.by ( "date" ).descending ( ) ), predicate, principal );
         getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate, principal));
-        addSearchModelAttribute ( model, orders, id, shopName, amount,status );
+        addSearchModelAttribute ( model, orders, orderId, shopName, amount,status );
         return "orders";
    }
 
     @GetMapping("/search-orders")
-    public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page") int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam String id, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal) {
+    public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page") int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam String orderId, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, Principal principal) {
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of(page-1, size), predicate, principal);
         getTotals(model,orderService.getSearchOrders(Pageable.unpaged(), predicate, principal));
-        addSearchModelAttribute ( model, orders,id, shopName, amount,status );
+        addSearchModelAttribute ( model, orders, orderId, shopName, amount,status );
         return "orders";
 
     }

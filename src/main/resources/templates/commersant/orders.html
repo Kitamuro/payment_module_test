@@ -23,7 +23,7 @@
                     <span class="desc">Расширенный поиск</span>
                     <div class="column">
                         <div class="advance-input">
-                            <input id="search" type="number" name="id" placeholder="Поиск по № заказа"/>
+                            <input id="search" type="number" name="orderId" placeholder="Поиск по № заказа"/>
                         </div>
                         <div class="advance-input">
                             <input class="extra-input" name="shopName" type="text" placeholder="Название магазина"/>
@@ -78,8 +78,7 @@
                     <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${order.shopName}"></td>
                     <td th:text="${order.amount} "></td>
-                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден
-                    </td>
+                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден</td>
                     <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
                     <td th:if="${order.status.name() =='NEW'}"><i class="circle-status declined"></i> В ожидании</td>
                     <td th:if="${order.status.name() =='RESERVED'}"><i class="circle-status declined"></i>Зарезервирован</td>
@@ -136,9 +135,9 @@
 <div th:insert="layout ::footer"></div>
 </body>
 
-<script src="../../static/js/commersant/variables.js"></script>
-<script src="../../static/js/commersant/main.js"></script>
-<script src="../../static/js/commersant/markup.js"></script>
-<script src="../../static/js/commersant/utils.js"></script>
+<script src="js/commersant/variables.js"></script>
+<script src="js/commersant/main.js"></script>
+<script src="js/commersant/markup.js"></script>
+<script src="js/commersant/utils.js"></script>
 </html>
 

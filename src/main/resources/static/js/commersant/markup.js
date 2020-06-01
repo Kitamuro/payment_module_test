@@ -28,7 +28,7 @@ function addFormAuth(orderDTO) {
     return div;
 }
 
-function print(orderDTO) {
+function printOrder(orderDTO) {
     infoBlock.innerHTML = `<div id="close-icon" class="close"> x </div>
                            <div class="order-label"> Заказ </div>
                            <div class="orderId"> № ${orderDTO.orderId} </div>
