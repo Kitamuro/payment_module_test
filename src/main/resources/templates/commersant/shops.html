@@ -13,7 +13,7 @@
      </div>
     <tbody id="shops">
         <div th:each="shop: ${shops}">
-            <div class="shop-box" th:onclick="|window.location.href='@{/aboutShop/{shopId}(shopId=${shop.id})}'|" >                
+            <div class="shop-box" th:onclick="|window.location.href='@{shops/about/{shopId}(shopId=${shop.id})}'|" >
             <div class="shop-margin font-weight-bold" th:text="${shop.siteName}"></div>
             <div class="shop-margin" th:text="#{${shop.activity}}"></div>
             <div class="shop-check-box"><i class="circle-status shop-checkbox-color"></i><span>Проверяем</span></div>

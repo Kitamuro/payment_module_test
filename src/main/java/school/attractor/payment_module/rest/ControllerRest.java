@@ -61,7 +61,7 @@ public class ControllerRest {
     @GetMapping("/orders/{id}")
     public OrderDetailsDTO transactionData(@PathVariable Integer id) {
         try {
-            OrderDTO order = orderService.findByOrderId(id);
+            OrderDTO order = orderService.findByCommersantOrderId(id);
             return OrderDetailsDTO.from(order);
         } catch (OrderNotFound e) {
             return  null;

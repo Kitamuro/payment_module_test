@@ -45,7 +45,7 @@ public class ShopController {
         }
     }
 
-    @GetMapping("/aboutShop/{shopId}")
+    @GetMapping("shops/about/{shopId}")
     public String getShop (Model model, @PathVariable Integer shopId){
         Shop shop = shopService.getShop ( shopId );
         model.addAttribute ( "shop", shop);
