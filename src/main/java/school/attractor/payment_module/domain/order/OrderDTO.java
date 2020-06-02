@@ -22,7 +22,7 @@ public class OrderDTO {
     private int id;
     private String shopName;
 
-    private ShopDTO shopDTO;
+    private String shopDTO;
 
     @NotBlank(message = "Введите ваше полное имя")
     private String userName;
@@ -74,6 +74,7 @@ public class OrderDTO {
                 .id(order.getId())
                 .orderId(order.getOrderId ())
                 .userName(order.getUserName())
+                .shopName(order.getShop().getSiteName())
                 .email(order.getEmail())
                 .date(order.getDate())
                 .cardHolderName(order.getCardHolderName())

@@ -31,23 +31,23 @@ public class FillData {
             commersantRepository.save ( commersant1 );
 
             Shop sulpak = Shop.builder ( )
-                    .siteName ( "Sulpak" )
+                    .siteName ( "www.sulpak.kz" )
                     .commersant ( commersant1 )
                     .activity ( BusinessActivity.SALE_OF_ELECTRONICS )
                     .build ( );
             Shop technodom = Shop.builder ( )
-                    .siteName ( "Технодом" )
+                    .siteName ( "www.technodom.kz" )
                     .commersant ( commersant1 )
                     .activity ( BusinessActivity.SALE_OF_ELECTRONICS )
                     .build ( );
 
             Shop aliexpress = Shop.builder ( )
-                    .siteName ( "Aliexpress" )
+                    .siteName ( "www.aliexpress.com" )
                     .commersant ( commersant2 )
                     .activity ( BusinessActivity.SALE_OF_CLOTHING )
                     .build ( );
             Shop lamoda = Shop.builder ( )
-                    .siteName ( "Lamoda" )
+                    .siteName ( "www.lamoda.kz" )
                     .commersant ( commersant2 )
                     .activity ( BusinessActivity.SALE_OF_CLOTHING )
                     .build ( );

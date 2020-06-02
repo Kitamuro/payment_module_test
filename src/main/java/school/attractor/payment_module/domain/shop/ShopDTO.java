@@ -71,5 +71,25 @@ public class ShopDTO {
     @Size(min = 15, max = 15, message = "Вы ввели неправильное количество цифр")
     private String contactPhone;
 
-
+    public static ShopDTO from(Shop shop) {
+     return ShopDTO.builder()
+            .commersant(shop.getCommersant())
+            .activity(shop.getActivity())
+            .siteName(shop.getSiteName())
+            .registerEmail(shop.getRegisterEmail())
+            .account(shop.getAccount())
+            .index(shop.getIndex())
+            .region(shop.getRegion())
+            .locality(shop.getLocality())
+            .street(shop.getStreet())
+            .building(shop.getBuilding())
+            .house(shop.getHouse())
+            .office(shop.getOffice())
+            .phoneForCustomer(shop.getPhoneForCustomer())
+            .emailForCustomer(shop.getEmailForCustomer())
+            .contactEmail(shop.getContactEmail())
+            .contactName(shop.getContactName())
+            .contactPhone(shop.getContactPhone())
+            .build();
+    }
 }

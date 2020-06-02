@@ -14,5 +14,6 @@ const FORM = window['form'];
 const REG_URL = BASE_URL + 'registration-api';
 const VALIDATION_SUCCESS = 'Validation Successful';
 const MESSAGE_SUCCESS = 'Регистрация прошла успешно';
-// let token = document.getElementsByTagName('meta')['_csrf'].getAttribute('content');
+
+let csrf = document.getElementById('csrf').value;
 

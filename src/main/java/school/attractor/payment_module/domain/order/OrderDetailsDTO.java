@@ -19,7 +19,7 @@ public class OrderDetailsDTO {
 
     private int id;
 
-    private ShopDTO shopDTO;
+    private String shopName;
 
     private String userName;
 
@@ -52,6 +52,7 @@ public class OrderDetailsDTO {
                 .orderId(order.getOrderId())
                 .userName(order.getUserName())
                 .email(order.getEmail())
+                .shopName(order.getShop().getSiteName())
                 .date(order.getDate())
                 .cardHolderName(order.getCardHolderName())
                 .card( maskCardNumber(order.getCard(), "####********####"))
@@ -66,8 +67,8 @@ public class OrderDetailsDTO {
         return OrderDetailsDTO.builder()
                 .id(order.getId())
                 .orderId(order.getOrderId())
-                .shopDTO(order.getShopDTO ())
                 .userName(order.getUserName())
+                .shopName(order.getShopName())
                 .email(order.getEmail())
                 .date(order.getDate())
                 .cardHolderName(order.getCardHolderName())

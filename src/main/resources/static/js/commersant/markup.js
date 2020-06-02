@@ -4,6 +4,7 @@ function addFormRefund(orderDTO) {
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="REFUND" name="type">
+                    <input type="hidden" name="_csrf" value="${csrf}">
                     <input type="number" class="refund-input" placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" class="returnButton" type="submit">вернуть</button>
                     </form>
@@ -19,6 +20,7 @@ function addFormAuth(orderDTO) {
                     <form action="/sendRequest" method="post">
                     <input type="hidden" value="${orderDTO.id}" name="orderId">
                     <input type="hidden" value="AUTH" name="type">
+                       <input type="hidden" name="_csrf" value="${csrf}">
                     <input type="number" class="refund-input" placeholder="введите сумму" name="amount" oninput="validateSum(value)" >
                     <button id="returnButton" class="returnButton" type="submit">подтвердить</button>
                     </form>
@@ -38,7 +40,7 @@ function printOrder(orderDTO) {
                            <div class="order-title"> Платежная информация </div>
                            <div class="row"> <div>Дата оплаты</div>  <div> ${dateFormat(orderDTO.date)} </div> </div>
                            <div class="row"> <div>Магазин</div>  <div> ${orderDTO.shopName} </div> </div>
-                           <div class="order-title">Спосаб оплаты</div>
+                           <div class="order-title">Способ оплаты</div>
                            <div class="row"> <div>Карта</div>  <div> ${orderDTO.card} </div> </div>
                            <div class="row"> <div>Покупатель</div>  <div>${orderDTO.cardHolderName}</div></div>
                            <div class="order-title">Информация о покупке</div>

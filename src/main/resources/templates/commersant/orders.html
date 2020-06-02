@@ -46,7 +46,7 @@
                             </select>
                         </div>
                     </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <div class="row">
                         <div class="input-field">
                             <button type="submit" class="btn-search btn">Искать</button>
@@ -76,7 +76,7 @@
 
                     <td class="order-id" th:text="${order.orderId}"></td>
                     <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td th:text="${order.shopName}"></td>
+                    <td th:text="${order.shop.siteName}"></td>
                     <td th:text="${order.amount} "></td>
                     <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден</td>
                     <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
