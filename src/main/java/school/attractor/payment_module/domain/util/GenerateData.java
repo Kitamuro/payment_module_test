@@ -1,12 +1,10 @@
 package school.attractor.payment_module.domain.util;
 
-import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.shop.Shop;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
 import java.util.*;
-
 
 class GenerateData {
 
@@ -21,7 +19,12 @@ class GenerateData {
             int randomId = random.nextInt(5000);
             int randomOrderId = random.nextInt ( 100000 ) + 999999;
             String name = userName.get(random.nextInt(userName.size()));
-
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, -1); // number represents number of days
+            Date yesterday = cal.getTime();
+            cal.add(Calendar.DATE, -2);
+            Date dayBeforeYesterday = cal.getTime ();
             Order test = Order.builder()
                     .id(randomId)
                     .orderId (randomOrderId )
@@ -37,16 +40,20 @@ class GenerateData {
                     .exp(01)
                     .exp_year(20)
                     .cvc2(202)
-                    .date(new Date())
+                    .date( today)
                     .build();
             orders.add(test);
+            if(i%2==0){
+                test.setShop ( shop2 );
+                test.setShopName ( shop2.getSiteName () );
+            }
             if (i % 6 == 0) {
                 test.setStatus( TransactionStatus.REFUSED);
+                test.setDate ( dayBeforeYesterday );
             }
             if (i % 3 == 0) {
                 test.setStatus( TransactionStatus.RESERVED);
-                test.setShop ( shop2 );
-                test.setShopName ( shop2.getSiteName () );
+                test.setDate ( yesterday );
             }
             if (i % 4 == 0) {
                 test.setStatus( TransactionStatus.PARTIAL_REFUND);

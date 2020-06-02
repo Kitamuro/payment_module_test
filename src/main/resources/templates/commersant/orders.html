@@ -35,6 +35,12 @@
                             <input type="number" name="amount" placeholder="Сумма до"/>
                         </div>
                         <div class="advance-input">
+                            <input type="date" name="date"   placeholder="Дата от"/>
+                        </div>
+                        <div class="advance-input">
+                            <input type="date" name="date" placeholder="Дата до"/>
+                        </div>
+                        <div class="advance-input">
                             <select name="status" class="advance-input-select">
                                 <option value="" default="default" selected="selected">Статус</option>
                                 <option value="APPROVED">Подтвержден</option>
@@ -108,25 +114,25 @@
            th:class="${pageNumber==orders.number + 1} ? active"></a>
     </div>
     <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
-        <a th:href="@{/transactions(size=${orders.size}, page=${number}+2)}"
+        <a th:href="@{/orders(size=${orders.size}, page=${number}+2)}"
            th:text="вперед"
            th:class="${number==orders.number + 2} ? active"></a>
     </div>
 </div>
 <div th:if="${searchPagination} == 'true'" class="flex-row" >
     <div th:if="${number > 0}" class="pagination">
-        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo}, status = ${searchStatus},size=${orders.size}, page=${number})}"
+        <a th:href="@{/search-orders(orderId=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo}, date = ${searchDateFrom}, date = ${searchDateTo}, status = ${searchStatus},size=${orders.size}, page=${number})}"
            th:text="назад"
            th:class="${number==orders.number - 1} ? active"></a>
     </div>
     <div th:if="${orders.totalPages > 0}" class="pagination"
          th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},status = ${searchStatus},size=${orders.size}, page=${pageNumber})}"
+        <a th:href="@{/search-orders(orderId=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},date = ${searchDateFrom}, date = ${searchDateTo},status = ${searchStatus},size=${orders.size}, page=${pageNumber})}"
            th:text="${pageNumber}"
            th:class="${pageNumber==orders.number + 1} ? active"></a>
     </div>
     <div th:if="${number > -1} and ${orders.totalPages > number + 1}" class="pagination">
-        <a th:href="@{/search-orders(id=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},status = ${searchStatus},size=${orders.size}, page=${number}+2)}"
+        <a th:href="@{/search-orders(orderId=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo},date = ${searchDateFrom}, date = ${searchDateTo},status = ${searchStatus},size=${orders.size}, page=${number}+2)}"
            th:text="вперед"
            th:class="${number==orders.number + 2} ? active"></a>
     </div>
