@@ -16,6 +16,7 @@ import school.attractor.payment_module.domain.transaction.TransactionStatus;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class OrderController {
     }
 
     @PostMapping("/search-orders")
-    public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam Integer orderId, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") List<Date> date, Principal principal) throws ParseException {
+    public String findAllSearchOrders(@QuerydslPredicate(root = Order.class ) Predicate predicate, Model model, @RequestParam Integer orderId, @RequestParam String shopName, @RequestParam List<Integer> amount, @RequestParam TransactionStatus status, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") List<LocalDate> date, Principal principal) throws ParseException {
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of ( 0, 10, Sort.by ( "date" ).descending ( ) ), predicate, principal );
         getTotals(model,orderService.getAllSearchOrders(predicate, principal));
         addSearchModelAttribute ( model, orders, orderId, shopName, amount,date, status );
@@ -49,14 +50,14 @@ public class OrderController {
     }
 
     @GetMapping("/search-orders")
-    public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page")  int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam Integer orderId, @RequestParam List<Integer> amount, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") List<Date> date, @RequestParam TransactionStatus status, Principal principal) throws ParseException {
+    public String findAllSearchOrdersPaginated(@QuerydslPredicate(root = Order.class) Predicate predicate, @RequestParam("page")  int page, @RequestParam("size") int size, Model model, @RequestParam String shopName, @RequestParam Integer orderId, @RequestParam List<Integer> amount, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") List<LocalDate> date, @RequestParam TransactionStatus status, Principal principal) throws ParseException {
         Page<Order> orders = orderService.getSearchOrders ( PageRequest.of(page-1, size), predicate, principal);
         getTotals(model,orderService.getAllSearchOrders(predicate, principal));
         addSearchModelAttribute ( model, orders, orderId, shopName, amount, date,status );
         return "orders";
 
     }
-    private void addSearchModelAttribute(Model model, Page<Order> orders, Integer orderId, String shopName, List<Integer> amount, List<Date> date, TransactionStatus status) throws ParseException {
+    private void addSearchModelAttribute(Model model, Page<Order> orders, Integer orderId, String shopName, List<Integer> amount, List<LocalDate> date, TransactionStatus status) throws ParseException {
         addPageNumbers(model, orders);
         model.addAttribute ( "searchPagination", "true" ).addAttribute ( "orders", orders );
         model.addAttribute ( "page", 0 ).addAttribute ( "size", 10 );
