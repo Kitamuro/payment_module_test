@@ -1,5 +1,6 @@
 package school.attractor.payment_module.domain.util;
 
+import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.shop.Shop;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
@@ -8,6 +9,7 @@ import java.util.*;
 
 
 class GenerateData {
+
 
     static List<Order> addOrdersForCommersant1(Shop shop1, Shop shop2) {
 

@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="layout :: head"> </head>
+
 <body>
 <div th:insert="layout :: header"></div>
 <div class="container flex-column">
     <div class="shop-button">
+        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button type="submit" class="btn-shop create-btn">Создать магазин</button>
     </div>
     <div class="icon-wrap">
@@ -23,7 +25,9 @@
 </div>
 </body>
 
+
 <script>
+    let csrf = document.getElementById('csrf').value;
     let shopButton = document.getElementsByClassName('shop-button')[0];
     // const shopId = document.getElementById('shopId').value;
     shopButton.addEventListener("click", function(){
@@ -49,6 +53,7 @@
             <div class="advance-shop">
             <div class="column">
             <div class="advance-input">
+             <input type="hidden" name="_csrf" value="${csrf}">
             <input id="shop" type="text" name="activity" placeholder="Вид деятельности"/>
             </div>
             <div class="advance-input">
@@ -121,7 +126,7 @@
         return div;
     }
 </script>
-<script th:src="@{/js/commersant/variables.js}"></script>
+
 
 </html>
 
