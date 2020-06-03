@@ -10,7 +10,7 @@
         <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button type="submit" class="btn-shop create-btn">Создать магазин</button>
     </div>
-    <div class="register-form">
+    <div id="register-form" hidden>
         <div class="shop justify-content-center">
             <form id="shop-form" action="/shops" th:action="@{/shops}" th:object="${shopDTO}" method="post">
                 <div class="inner-form">
@@ -100,9 +100,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
             </form>
         </div>
-
     </div>
     </div>
     <div class="icon-wrap">
@@ -121,21 +122,11 @@
 
 
 <script>
-    let csrf = document.getElementById('csrf').value;
     let shopButton = document.getElementsByClassName('shop-button')[0];
-    // const shopId = document.getElementById('shopId').value;
     shopButton.addEventListener("click", function(){
+        let registerForm = document.getElementById("register-form");
+        registerForm.hidden = registerForm.hidden !== true;
     });
-    let shopBox = document.getElementsByClassName('shop-box')[0];
-
-    // async function getShop(shopId){
-    //     window.open(SHOP_URL/shopId);
-    // }
-    // shopBox.addEventListener("click", async function (e) {
-    //
-    //     window.open(`${SHOP_URL}/${shopId}`);
-    // });
-
 </script>
 
 
