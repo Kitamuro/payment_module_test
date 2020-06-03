@@ -36,23 +36,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication ( true )
                 .invalidateHttpSession ( true );
 
-//        httpSecurity.authorizeRequests()
-//                .antMatchers("/register");
-//        httpSecurity.authorizeRequests ()
-//                .antMatchers ( "/registration-api" );
-//
-//        httpSecurity.authorizeRequests ()
-//                .antMatchers ( "/orders")
-//                .authenticated ();
-//
-//
-//        httpSecurity.authorizeRequests ()
-//                .antMatchers ( "/shops/**" )
-//                .authenticated ();
+        httpSecurity.authorizeRequests ()
+                .antMatchers ( "/login")
+                .permitAll ();
+
+        httpSecurity.authorizeRequests ()
+                .antMatchers ( "/register")
+                .permitAll ();
+
+        httpSecurity.authorizeRequests ()
+                .antMatchers ( "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**")
+                .permitAll ();
 
         httpSecurity.authorizeRequests ()
                 .anyRequest ()
-                .permitAll ();
+                .denyAll ();
     }
 
     @Override
