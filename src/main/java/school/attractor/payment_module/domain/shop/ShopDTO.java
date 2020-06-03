@@ -19,56 +19,58 @@ public class ShopDTO {
     private Commersant commersant;
     private BusinessActivity activity;
 
-    @NotBlank(message = "Введите имя сайта")
+    @NotBlank(message = "Введите название сайта")
     private String siteName;
 
     @Email
-    @NotBlank(message = "Введите корректно email адрес")
+    @NotBlank(message = "Введите email адрес")
     private String registerEmail;
 
-    @NotBlank(message = "Введите корректно счет аккаунта")
+    @NotBlank(message = "Введите счет аккаунта")
     private String account;
 
     @NotBlank(message = "Введите ваш индекс города")
     private String index;
 
-    @NotBlank(message = "Введите ваш регион")
+    @NotBlank(message = "Введите регион")
     private String region;
 
-    @NotBlank(message = "Введите корректно название населенного пункта")
+    @NotBlank(message = "Введите название населенного пункта")
     private String locality;
 
     @NotBlank(message = "Введите существующую улицу")
     private String street;
 
     @NotBlank(message = "Введите номер дома/строения")
+    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильный номер дома/строения")
     private String building;
 
-    @NotBlank(message = "Введите номер дома/строения")
+    @NotBlank(message = "Введите корпус строения")
     private String house;
 
     @NotBlank(message = "Введите номер офиса")
+    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильный номер офиса")
     private String office;
 
-    @NotBlank(message = "Введите номер офиса")
+    @NotBlank(message = "Введите номер покупателя")
     @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона")
-    @Size(min = 15, max = 15, message = "Вы ввели неправильное количество цифр")
+    @Size(min = 11, max = 11, message = "Вы ввели неправильное количество цифр")
     private String phoneForCustomer;
 
     @Email
-    @NotBlank(message = "Введите корректный email адрес")
+    @NotBlank(message = "Введите email адрес")
     private String emailForCustomer;
 
     @Email
-    @NotBlank(message = "Введите корректный email адрес")
+    @NotBlank(message = "Введите email адрес")
     private String contactEmail;
 
-    @NotBlank(message = "Введите имя сайта")
+    @NotBlank(message = "Введите название сайта")
     private String contactName;
 
     @NotBlank(message = "Введите номер телефона")
     @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона")
-    @Size(min = 15, max = 15, message = "Вы ввели неправильное количество цифр")
+    @Size(min = 11, max = 11, message = "Вы ввели неправильное количество цифр")
     private String contactPhone;
 
     public static ShopDTO from(Shop shop) {

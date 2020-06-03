@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -15,13 +17,17 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class ShopController {
+public class ShopController implements WebMvcConfigurer {
 
     private ShopService shopService;
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/shops").setViewName("shops");
+    }
 
     @GetMapping("/shops")
-    public String getShops (Model model, Principal principal){
+    public String getShops (@ModelAttribute("shopDTO") ShopDTO shopDTO, Model model, Principal principal){
         List<Shop> shops = shopService.getShops (principal );
         if(shops.size ()!=0){
             model.addAttribute ( "shops", shops  );
@@ -30,18 +36,14 @@ public class ShopController {
     }
 
     @PostMapping("/shops")
-    public String createShop(@RequestBody @Valid ShopDTO shopDTO, Model model, BindingResult result, HttpServletResponse response){
+    public String createShop(@RequestBody @Valid ShopDTO shopDTO, BindingResult result, Model model){
         if (result.hasErrors()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            List<ObjectError> errors = result.getAllErrors();
-            for (ObjectError e : errors) {
-                model.addAttribute("errors", e.getDefaultMessage());
-            }
-            return "shops.html";
+                model.addAttribute("errors", result.getAllErrors());
+            return "shops";
         } else {
-            System.out.println ("shop" + shopDTO );
+            model.addAttribute("shopDTO", shopDTO);
             shopService.createShop ( shopDTO );
-            return "shops.html";
+            return "redirect:/shops";
         }
     }
 
