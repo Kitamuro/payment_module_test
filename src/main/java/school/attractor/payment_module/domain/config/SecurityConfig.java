@@ -50,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.authorizeRequests ()
                 .anyRequest ()
-                .denyAll ();
+                .fullyAuthenticated ();
+
     }
 
     @Override
