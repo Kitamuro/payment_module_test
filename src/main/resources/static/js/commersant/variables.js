@@ -5,9 +5,9 @@ let transactionBlock = window['transactions'];
 let orderDTO;
 
 
-const BASE_URL = window.location.href;
-const SHOP_URL = `${BASE_URL}`;
-const ORDER_URL = `${BASE_URL}`;
+const BASE_URL = window.location.origin;
+const SHOP_URL = `${BASE_URL}/shop`;
+const ORDER_URL = `${BASE_URL}/orders`;
 
 const FORM = window['form'];
 

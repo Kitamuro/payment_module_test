@@ -35,6 +35,12 @@
 .table {
   color: gray;
 }
+
+.table-title {
+  background-color: rgb(241, 246, 252);
+  text-align: left;
+}
+
 .list {
   padding: 10px 10px 0 200px;
 }
