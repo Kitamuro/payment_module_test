@@ -33,6 +33,9 @@ public class Commersant {
     private String bik;
 
     @NotBlank
+    private String account;
+
+    @NotBlank
     @Size(max=30)
     private String bin;
 
@@ -56,6 +59,7 @@ public class Commersant {
         return  builder()
              .name(commersant.getName())
                 .bik(commersant.getBik())
+                .account(commersant.getAccount())
                 .bin(commersant.getBin())
                 .directorIdentityCard(commersant.getDirectorIdentityCard())
                 .directorName(commersant.getDirectorName())
