@@ -9,6 +9,7 @@ import school.attractor.payment_module.domain.commersant.BusinessActivity;
 import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.commersant.CommersantRepository;
 import school.attractor.payment_module.domain.order.OrderRepository;
+import school.attractor.payment_module.domain.registries.CSVFile;
 import school.attractor.payment_module.domain.shop.Shop;
 import school.attractor.payment_module.domain.shop.ShopRepository;
 
@@ -57,6 +58,8 @@ public class FillData {
             shopRepository.save (lamoda  );
             orderRepository.saveAll( GenerateData.addOrdersForCommersant1 (sulpak, technodom));
             orderRepository.saveAll ( GenerateData.addOrdersForCommersant2 ( aliexpress, lamoda ) );
+            CSVFile csvFile = new CSVFile();
+            csvFile.creatCSVFile(commersantRepository);
         };
     }
 }

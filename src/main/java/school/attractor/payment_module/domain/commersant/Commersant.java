@@ -56,6 +56,9 @@ public class Commersant {
     private String bik;
 
 
+    private String account;
+
+
     @Size(max=30)
     private String bin;
 

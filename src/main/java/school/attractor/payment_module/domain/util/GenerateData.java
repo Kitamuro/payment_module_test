@@ -1,5 +1,6 @@
 package school.attractor.payment_module.domain.util;
 
+import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.order.Order;
 import school.attractor.payment_module.domain.shop.Shop;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
@@ -110,6 +111,27 @@ class GenerateData {
             }
         }
         return orders;
+    }
+
+    static List<Commersant> addCommersants(){
+        Random random = new Random();
+        List<Commersant> commersants = new ArrayList<>();
+        List<String> commersantBik = Arrays.asList("ALFAKZKA", "KCJBKZKX", "NURSKZKX");
+        List<String> commersantAccount = Arrays.asList("KZ949470398990260769", "KZ678560000005917533", "KZ3584902KZ004474351");
+        List<String> commersantBin = Arrays.asList("10140005471", "21040005839", "90140003737");
+        List<String> commersantName = Arrays.asList("Jeff", "Sheldon", "Franklin");
+        for (int i = 0; i < 10; i++) {
+            int randomId = random.nextInt(10);
+            Commersant test = Commersant.builder()
+                    .id(randomId)
+                    .bik(commersantBik.get(random.nextInt(commersantBik.size())))
+                    .account(commersantAccount.get(random.nextInt(commersantAccount.size())))
+                    .bin(commersantBin.get(random.nextInt(commersantBin.size())))
+                    .name(commersantName.get(random.nextInt(commersantName.size())))
+                    .build();
+            commersants.add(test);
+        }
+        return commersants;
     }
 
 }
