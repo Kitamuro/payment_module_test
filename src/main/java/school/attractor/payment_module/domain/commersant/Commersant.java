@@ -1,13 +1,10 @@
 package school.attractor.payment_module.domain.commersant;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 import school.attractor.payment_module.domain.shop.Shop;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -30,50 +27,32 @@ public class Commersant {
     @Column(length = 30)
     private String name;
 
-    @Email
-    @NotBlank
-    @Size(min = 1, max = 128)
-    @Column(length = 128)
-    private String email;
-
-    @NotBlank
-    @Size(min = 6, max = 128)
-    @Column(length = 128)
-    private String password;
-
-    @Column
-    @Builder.Default
-    private boolean enabled = true;
-
-    @NotBlank
-    @Size(min = 1, max = 128)
-    @Column(length = 128)
-    @Builder.Default
-    private String role = "USER";
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "commersant")
     private List<Shop> shops = new ArrayList<> ();
 
+    @NotBlank
     @Size(max=30)
     private String bik;
 
+    private String account;
 
+    @NotBlank
     @Size(max=30)
     private String bin;
 
-
+    @NotBlank
     @Size(max=30)
     private String directorIdentityCard;
 
-
+    @NotBlank
     @Size(max=30)
     private String directorName;
 
-
+    @NotBlank
     @Size(max=30)
     private String kbe;
 
-
+    @NotBlank
     @Size(max=30)
     private String organizationName;
 

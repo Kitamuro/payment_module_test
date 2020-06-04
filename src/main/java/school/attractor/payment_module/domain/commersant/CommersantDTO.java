@@ -28,6 +28,9 @@ public class CommersantDTO {
     private String bik;
 
     @NotBlank
+    private String account;
+
+    @NotBlank
     @Size(max = 30)
     private String bin;
 
@@ -52,6 +55,7 @@ public class CommersantDTO {
                 .name(commersant.getName())
                 .organizationName(commersant.getOrganizationName())
                 .bik(commersant.getBik())
+                .account(commersant.getAccount())
                 .bin(commersant.getBin())
                 .directorIdentityCard(commersant.getDirectorIdentityCard())
                 .directorName(commersant.getDirectorName())
@@ -63,6 +67,7 @@ public class CommersantDTO {
         return builder()
                 .organizationName(data.getOrganizationName())
                 .bik(data.getBik())
+//                .account(data.getAccount())
                 .bin(data.getBin())
                 .directorIdentityCard(data.getDirectorIdentityCard())
                 .directorName(data.getDirectorName())
