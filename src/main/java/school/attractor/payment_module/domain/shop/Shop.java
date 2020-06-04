@@ -9,6 +9,7 @@ import school.attractor.payment_module.domain.commersant.Commersant;
 import school.attractor.payment_module.domain.order.Order;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -71,6 +72,7 @@ public class Shop {
     private String emailForCustomer;
 
     @Column
+    @Email
     private String contactEmail;
 
    @Column

@@ -18,7 +18,13 @@
                         <div class="advance-shop">
                             <div class="column">
                                 <div class="advance-input">
-                                    <input id="shop" type="text" th:field="*{activity}" placeholder="Вид деятельности" autofocus required/>
+                                    <select id = "shop" type="text" th:field="*{activity}" class="advance-input-select" required>
+                                        <option value="" default="default" selected="selected">Вид деятельности</option>
+                                        <option value="SALE_OF_CLOTHING" th:text="#{SALE_OF_CLOTHING}"></option>
+                                        <option value="SALE_OF_ELECTRONICS" th:text="#{SALE_OF_ELECTRONICS}"></option>
+                                        <option value="SHOE_STORE" th:text="#{SALE_OF_ELECTRONICS}"></option>
+                                        <option value="SPORT_CLUB" th:text="#{SPORT_CLUB}"></option>
+                                    </select>
                                 </div>
                                 <div class="advance-input">
                                     <input type="text" th:field="*{siteName}" placeholder="Сайт" required/>
@@ -57,12 +63,10 @@
                                     </div>
                                     <div class="address">
                                         <input type="text" th:field="*{building}" placeholder="Корпус"/>
-                                        <span th:if="${#fields.hasErrors('building')}" th:errors="*{building}">building Error</span>
                                     </div>
                                     <div class="address">
                                         <input type="text" th:field="*{office}" placeholder="Офис" minlength="1"
                                                maxlength="3" size="3"/>
-                                        <span th:if="${#fields.hasErrors('office')}" th:errors="*{office}">office Error</span>
                                     </div>
                                 </div>
                                 <h4 class="shop-margin">Обратная связь с покупателями</h4>

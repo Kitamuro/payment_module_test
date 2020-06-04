@@ -41,15 +41,11 @@ public class ShopDTO {
     @NotBlank(message = "Введите существующую улицу")
     private String street;
 
-    @NotBlank(message = "Введите номер дома/строения")
-    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильный номер дома/строения")
     private String building;
 
     @NotBlank(message = "Введите корпус строения")
     private String house;
 
-    @NotBlank(message = "Введите номер офиса")
-    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильный номер офиса")
     private String office;
 
     @NotBlank(message = "Введите номер покупателя")

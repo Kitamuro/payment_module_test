@@ -5,12 +5,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -36,7 +34,7 @@ public class ShopController implements WebMvcConfigurer {
     }
 
     @PostMapping("/shops")
-    public String createShop(@RequestBody @Valid ShopDTO shopDTO, BindingResult result, Model model){
+    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model){
         if (result.hasErrors()) {
                 model.addAttribute("errors", result.getAllErrors());
             return "shops";
