@@ -34,7 +34,7 @@ public class ShopController implements WebMvcConfigurer {
     }
 
     @PostMapping("/shops")
-    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model){
+    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model, Principal principal){
         if (result.hasErrors()) {
                 model.addAttribute("errors", result.getAllErrors());
             return "shops";
