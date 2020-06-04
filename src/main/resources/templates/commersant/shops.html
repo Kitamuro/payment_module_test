@@ -9,12 +9,12 @@
 <div th:insert="layout :: header"></div>
 <div class="container flex-column">
     <div class="shop-button">
-        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button type="submit" class="btn-shop create-btn">Создать магазин</button>
     </div>
     <div id="register-form" hidden>
         <div class="shop justify-content-center">
             <form id="shop-form" action="/shops" th:action="@{/shops}" th:object="${shopDTO}" method="post">
+                <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <div class="inner-form">
                     <div class="basic-shop">
                         <div class="advance-shop">
@@ -89,7 +89,7 @@
                                     <span th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}">contactName Error</span>
                                 </div>
                                 <div class="advance-input">
-                                    <input type="number" th:field="*{contactPhone}" placeholder="Телефон *" required minlength="12"
+                                    <input type="tel" th:field="*{contactPhone}" placeholder="Телефон *" required minlength="12"
                                            maxlength="12" size="12"/>
                                     <span th:if="${#fields.hasErrors('contactPhone')}" th:errors="*{contactPhone}">contactPhone Error</span>
                                 </div>
@@ -139,7 +139,6 @@
     if(errorsExist){
         registerForm.hidden = false;
     }
-
 </script>
 
 

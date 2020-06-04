@@ -72,7 +72,8 @@ public class Commersant {
 
 
     @Size(max=30)
-    private String kbe;
+    @Builder.Default
+    private String kbe = "19";
 
 
     @Size(max=30)
