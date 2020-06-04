@@ -27,21 +27,20 @@ public class ShopController implements WebMvcConfigurer {
     @GetMapping("/shops")
     public String getShops (@ModelAttribute("shopDTO") ShopDTO shopDTO, Model model, Principal principal){
         List<Shop> shops = shopService.getShops (principal );
-        if(shops.size ()!=0){
+        if(!shops.isEmpty()){
             model.addAttribute ( "shops", shops  );
         }
         return "shops";
     }
 
     @PostMapping("/shops")
-    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model){
-        System.out.println("QWEQWEWWQEQEQWEQE" + shopDTO);
+    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model, Principal principal){
         if (result.hasErrors()) {
                 model.addAttribute("errors", result.getAllErrors());
             return "shops";
         } else {
             model.addAttribute("shopDTO", shopDTO);
-            shopService.createShop ( shopDTO );
+            shopService.createShop ( shopDTO, principal );
             return "redirect:/shops";
         }
     }
