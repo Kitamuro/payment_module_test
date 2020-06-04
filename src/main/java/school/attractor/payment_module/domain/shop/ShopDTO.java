@@ -30,6 +30,7 @@ public class ShopDTO {
     private String account;
 
     @NotBlank(message = "Введите ваш индекс города")
+    @Size(min = 7, max = 7, message = "Вы ввели неправильный формат индекс города - (A55A5A5)")
     private String index;
 
     @NotBlank(message = "Введите регион")
@@ -43,13 +44,13 @@ public class ShopDTO {
 
     private String building;
 
-    @NotBlank(message = "Введите корпус строения")
+    @NotBlank(message = "Введите корпус строения (1А, Б9)")
     private String house;
 
     private String office;
 
     @NotBlank(message = "Введите номер покупателя")
-    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона")
+    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона, например +77071112223")
     @Size(min = 11, max = 11, message = "Вы ввели неправильное количество цифр")
     private String phoneForCustomer;
 
@@ -65,7 +66,7 @@ public class ShopDTO {
     private String contactName;
 
     @NotBlank(message = "Введите номер телефона")
-    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона")
+    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "Вы ввели неправильные номер телефона, например +77071112223")
     @Size(min = 11, max = 11, message = "Вы ввели неправильное количество цифр")
     private String contactPhone;
 

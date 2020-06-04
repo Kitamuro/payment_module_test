@@ -4,6 +4,10 @@
     width: 448px;
 }
 
+.error-block{
+    color: red;
+}
+
 .form {
     max-width: 448px;
     box-sizing: border-box;

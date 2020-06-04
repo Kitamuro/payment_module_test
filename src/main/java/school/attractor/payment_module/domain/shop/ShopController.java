@@ -15,14 +15,9 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class ShopController implements WebMvcConfigurer {
+public class ShopController{
 
     private ShopService shopService;
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/shops").setViewName("shops");
-    }
 
     @GetMapping("/shops")
     public String getShops (@ModelAttribute("shopDTO") ShopDTO shopDTO, Model model, Principal principal){
@@ -35,6 +30,7 @@ public class ShopController implements WebMvcConfigurer {
 
     @PostMapping("/shops")
     public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model, Principal principal){
+        System.out.println(shopDTO);
         if (result.hasErrors()) {
                 model.addAttribute("errors", result.getAllErrors());
             return "shops";

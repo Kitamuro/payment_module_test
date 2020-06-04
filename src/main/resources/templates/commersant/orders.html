@@ -104,7 +104,7 @@
     <div hidden id="info-block" class="info-block"></div>
 
 </div>
-<div th:if="${searchPagination} != 'true'" class="flex-row">
+<div th:if="${searchPagination} != 'true'" class="pagination-block">
     <div th:if="${number > 0}" class="pagination">
         <a th:href="@{/orders(size=${orders.size}, page=${number})}"
            th:text="назад"
@@ -122,7 +122,7 @@
            th:class="${number==orders.number + 2} ? active"></a>
     </div>
 </div>
-<div th:if="${searchPagination} == 'true'" class="flex-row" >
+<div th:if="${searchPagination} == 'true'" class="pagination-block" >
     <div th:if="${number > 0}" class="pagination">
         <a th:href="@{/search-orders(orderId=${searchId},shopName=${searchShopName},amount = ${searchAmountFrom}, amount = ${searchAmountTo}, date = ${searchDateFrom}, date = ${searchDateTo}, status = ${searchStatus},size=${orders.size}, page=${number})}"
            th:text="назад"
