@@ -21,6 +21,8 @@ import java.util.List;
 @Entity
 @Table(name = "commersants")
 public class Commersant {
+//    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
