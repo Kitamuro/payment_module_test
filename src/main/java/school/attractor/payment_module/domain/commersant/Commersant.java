@@ -32,6 +32,8 @@ public class Commersant {
     @Size(max=30)
     private String bik;
 
+    private String account;
+
     @NotBlank
     @Size(max=30)
     private String bin;
