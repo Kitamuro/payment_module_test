@@ -1,0 +1,16 @@
+
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.registration-title {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgba(0,0,0,.8);;
+    padding-top: 40px;
+}

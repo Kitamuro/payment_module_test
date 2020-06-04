@@ -1,6 +1,7 @@
 package school.attractor.payment_module.domain.order;
 
 import lombok.*;
+import school.attractor.payment_module.domain.shop.ShopDTO;
 import school.attractor.payment_module.domain.transaction.NewOrderDetails;
 import school.attractor.payment_module.domain.transaction.TransactionDTO;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 public class OrderDTO {
     private int id;
     private String shopName;
+
+    private String shopDTO;
 
     @NotBlank(message = "Введите ваше полное имя")
     private String userName;
@@ -70,8 +73,8 @@ public class OrderDTO {
         return OrderDTO.builder()
                 .id(order.getId())
                 .orderId(order.getOrderId ())
-                .shopName(order.getShopName())
                 .userName(order.getUserName())
+                .shopName(order.getShop().getSiteName())
                 .email(order.getEmail())
                 .date(order.getDate())
                 .cardHolderName(order.getCardHolderName())

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.Transaction;
-import school.attractor.payment_module.domain.transaction.TransactionRepository;
 import school.attractor.payment_module.domain.transaction.TransactionStatus;
+import school.attractor.payment_module.domain.transaction.TransactionRepository;
 import school.attractor.payment_module.domain.transaction.TransactionType;
 
 @Service

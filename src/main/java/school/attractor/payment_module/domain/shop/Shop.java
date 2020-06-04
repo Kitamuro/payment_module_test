@@ -6,8 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import school.attractor.payment_module.domain.commersant.BusinessActivity;
 import school.attractor.payment_module.domain.commersant.Commersant;
+import school.attractor.payment_module.domain.order.Order;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,7 +29,8 @@ public class Shop {
     private Commersant commersant;
 
     @Column
-    private int hold;
+    @Builder.Default
+    private int hold = 1;
 
     @Column
     private BusinessActivity activity;
@@ -68,12 +72,16 @@ public class Shop {
     private String emailForCustomer;
 
     @Column
+    @Email
     private String contactEmail;
 
    @Column
     private String contactName;
    @Column
     private String contactPhone;
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "shop")
+    private List<Order> orders;
 
 
     public static Shop from(ShopDTO shopDTO) {

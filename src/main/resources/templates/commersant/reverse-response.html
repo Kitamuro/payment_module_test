@@ -1,0 +1,28 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+
+<head th:include="layout :: head">
+   <title>
+      Reverse response page
+   </title>
+</head>
+
+<body>
+<div th:insert="layout :: header"></div>
+<div class="main">
+   <div class = "block center">
+      <h2>Возврат платежа</h2>
+      <td>
+         <span th:if="${response == 'SUCCESS'}"> <img src="/static/images/test-store/yellow-check.png" style="width:60px; height: 70px; margin-right: 20px" alt="yellow-status"/>Возврат произведен успешно!</span>
+         <span th:if="${response == 'REFUSED'}">Извините, операция не прошла</span>
+      </td>
+
+      </div>
+
+</div>
+
+<a href="/orders">Домой </a>
+<div th:insert="layout ::footer"></div>
+</body>
+</html>
+

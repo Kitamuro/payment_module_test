@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
-import school.attractor.payment_module.domain.commersant.CommersantDTO;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.attractor.payment_module.domain.commersant.CommersantAlreadyRegisteredException;
 import school.attractor.payment_module.domain.commersant.CommersantRegistrationDataDTO;
 import school.attractor.payment_module.domain.commersant.CommersantService;
 import school.attractor.payment_module.domain.exception.OrderNotFound;
@@ -17,7 +17,6 @@ import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderDetailsDTO;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.NewOrderDetails;
-import school.attractor.payment_module.domain.transaction.TransactionService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,10 +28,8 @@ import java.util.List;
 @RestController
 public class ControllerRest {
 
-    private final TransactionService transactionService;
-    private final ResponseService responseService;
     private final OrderService orderService;
-    private final CommersantService commersantService;
+
 
     @PostMapping("/pay")
     public ResponseEntity<String> mainController(@Valid @RequestBody NewOrderDetails newOrderDetails,
@@ -64,7 +61,7 @@ public class ControllerRest {
     @GetMapping("/orders/{id}")
     public OrderDetailsDTO transactionData(@PathVariable Integer id) {
         try {
-            OrderDTO order = orderService.findByOrderId(id);
+            OrderDTO order = orderService.findByCommersantOrderId(id);
             return OrderDetailsDTO.from(order);
         } catch (OrderNotFound e) {
             return  null;
@@ -73,7 +70,7 @@ public class ControllerRest {
 
     @PostMapping("/registration")
     public String newCommersant(@RequestBody @Valid CommersantRegistrationDataDTO data,
-                                BindingResult result, HttpServletResponse response) {
+                                BindingResult result, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -83,13 +80,8 @@ public class ControllerRest {
             }
             return errorMessage.toString();
         } else {
-
-            CommersantDTO commersantDTO = CommersantDTO.from(data);
-            commersantService.save(commersantDTO);
-
             return "Validation Successful";
         }
-
-
     }
+
 }

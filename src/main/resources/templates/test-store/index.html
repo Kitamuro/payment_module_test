@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление заказа</title>
+    <link rel="stylesheet" href="../../static/css/test-store/order/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Oxygen|Raleway&display=swap" rel="stylesheetFont">
+    <link rel="stylesheet" href="../../static/vendor/loading-bar/loading-bar.css">
+    <script src="../../static/vendor/loading-bar/loading-bar.js"></script>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="shop-name">
+        ESDP Java-1,2 Project
+    </div>
+    <div class="title-text">
+        Страница для оформления заказа
+    </div>
+</header>
+
+
+<div class="form">
+
+    <form action="/static" id="order-form">
+
+        <div> Тип оплаты:</div>
+        <div class="checkbox-input">
+            <label>
+                <input type="radio" class="checkbox hidden" name="type" value="2" required>
+                <span class="right checkbox-text"> Hold </span>
+            </label>
+            <label>
+                <input type="radio" class="checkbox hidden" name="type" value="1" checked required>
+                <span class="left checkbox-text"> Instant </span>
+            </label>
+        </div>
+        <input type="hidden" name="shopName" value="Example Shop">
+
+        <div>
+            <div> ФИО</div>
+            <input name="userName" value="test" type="text" required>
+        </div>
+        <div>
+            <div> Адрес электронной почты</div>
+            <input name="email" value="test@test.com" type="email" required>
+        </div>
+        <div>
+            <div> Контактный телефон</div>
+            <input name="phone" type="tel" minlength="5" value="7-777-777-77-77" placeholder="7-777-777-77-77"
+                   maxlength="24"
+                   pattern="[[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" required>
+        </div>
+        <div>
+            <div> Номер заказа</div>
+            <input name="orderId" value="1000" type="number" required>
+        </div>
+        <div>
+            <div> Сумма</div>
+            <input name="amount" value="10000" type="number" required>
+        </div>
+
+        <button id="order-button" class="button-submit" type="submit">
+            Оформить заказ
+        </button>
+    </form>
+
+</div>
+<script>
+    let orderButton = document.getElementById("order-button");
+    let orderForm = document.getElementById("order-form");
+    let errorTrigger = null;
+
+    //1. Нажимаем на кнопку "Оформить заказ"
+    orderButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        //Получаем данные с формы заказа покупателя для отправки на сервер и вывода в модальном окне
+        let orderData = new FormData(orderForm);
+        let infoOrder = Object.fromEntries(orderData);
+        //Разметка модальной формы оплаты
+        let purchaseHtml = `<div class="purchase-header">
+            <h1>Payment Modal Form</h1>
+            <span class = "close-button"><img src="../../static/images/test-store/close.svg" alt="close icon"></span>
+        </div>
+        <div class="purchase-container">
+            <div class="customer-info">
+                <div class="customer-short-info">
+                    <div class="customer-info-text">${infoOrder.amount}</div>
+                    <div class="customer-info-currency"><span>&#8376;</span></div>
+                    <div class="extra-info-icon">
+                        <input type="checkbox" class="extra-button">
+                            <svg class="svg-icon" viewBox="0 0 20 20">
+                            <path d="M13.962,8.885l-3.736,3.739c-0.086,0.086-0.201,0.13-0.314,0.13S9.686,12.71,9.6,12.624l-3.562-3.56C5.863,8.892,5.863,8.611,6.036,8.438c0.175-0.173,0.454-0.173,0.626,0l3.25,3.247l3.426-3.424c0.173-0.172,0.451-0.172,0.624,0C14.137,8.434,14.137,8.712,13.962,8.885 M18.406,10c0,4.644-3.763,8.406-8.406,8.406S1.594,14.644,1.594,10S5.356,1.594,10,1.594S18.406,5.356,18.406,10 M17.521,10c0-4.148-3.373-7.521-7.521-7.521c-4.148,0-7.521,3.374-7.521,7.521c0,4.147,3.374,7.521,7.521,7.521C14.148,17.521,17.521,14.147,17.521,10"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="customer-extra-info-container " hidden>
+                    <div class="customer-extra-info">
+                        <div class="customer-extra-info-label">
+                        <ul>
+                            <li><div class="customer-info-text">Магазин</div></li>
+                            <li><div class="customer-info-text">Покупатель</div></li>
+                            <li><div class="customer-info-text">Email</div></li>
+                            <li><div class="customer-info-text">Телефон</div></li>
+                            <li><div class="customer-info-text">Заказ</div>
+                         </ul>
+                        </div>
+                        <div class="customer-extra-info-names">
+                    <ul>
+                        <li><div class="customer-info-text">${infoOrder.shopName}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.userName}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.email}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.phone}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.orderId}</div></li>
+                   </ul>
+                 </div>
+                     </div>
+                </div>
+            </div>
+            <hr>
+            <div class="purchase-block">
+                <form action="/" id="purchase-form">
+                     <input type="hidden" name="type" value="${infoOrder.type}">
+                     <input type="hidden" name="shopName" value=${infoOrder.shopName}>
+                     <input type="hidden" name="userName" value=${infoOrder.userName}>
+                     <input type="hidden" name="email" value=${infoOrder.email}>
+                     <input type="hidden" name="phone" value=${infoOrder.phone}>
+                     <input type="hidden" name="amount" value=${infoOrder.amount}>
+                     <input type="hidden" name="residual" value=${infoOrder.amount}>
+                     <input type="hidden" name="orderId" value=${infoOrder.orderId}>
+                     <input type="hidden" name="status" value=${infoOrder.status}>
+
+                <div class="card-side">
+                     <div class="front-card">
+
+                <div class="form-name form-field">
+                    <input name="cardHolderName" class="cc-name" type="text" placeholder="Имя держателя карты" required autofocus>
+                </div>
+
+                <div class="form-card form-field">
+                    <input name="card" class="cc-number" value="5169397117346753" type="text" placeholder="Номер карты"
+                           required minlength="15"
+                           maxlength="16" size="16">
+                </div>
+
+                <div class="form-date form-field">
+                    <div class="date-val">
+                        <select name="exp" class="expiry-month" required>
+                            <option class="trans-label_month" value="" default="default" selected="selected">Месяц</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                            <option value="5">05</option>
+                            <option value="6">06</option>
+                            <option value="7">07</option>
+                            <option value="8">08</option>
+                            <option value="9">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span>/</span>
+                        <select name="exp_year" class="expiry-year" required>
+                            <option class="trans-label_year" value="" default="" selected="selected">Год</option>
+                            <option value="2020">20</option>
+                            <option value="2021">21</option>
+                            <option value="2022">22</option>
+                            <option value="2023">23</option>
+                            <option value="2024">24</option>
+                            <option value="2025">25</option>
+                            <option value="2026">26</option>
+                            <option value="2027">27</option>
+                            <option value="2028">28</option>
+                            <option value="2029">29</option>
+                            <option value="2030">30</option>
+                            <option value="2031">31</option>
+                            <option value="2032">32</option>
+                            <option value="2033">33</option>
+                            <option value="2034">34</option>
+                            <option value="2035">35</option>
+                            <option value="2036">36</option>
+                            <option value="2037">37</option>
+                            <option value="2038">38</option>
+                            <option value="2039">39</option>
+                            <option value="2040">40</option>
+                            <option value="2041">41</option>
+                            <option value="2042">42</option>
+                            <option value="2043">43</option>
+                            <option value="2044">44</option>
+                            <option value="2045">45</option>
+                            <option value="2046">46</option>
+                            <option value="2047">47</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="back-card">
+                <div class="back-card-line"></div>
+                <div class="form-sec-code form-field">
+                    <input name="cvc2" type="password" inputmode="numeric" minlength="2" maxlength="3" size="3"
+                           placeholder="Код" required>
+                </div>
+            </div>
+        </div>
+                <button type="submit" id="purchase-button"> Оплатить </button>
+
+            </form>
+            </div>
+        </div>`;
+
+        //Создаем элемент и вкладываем в него нашу разметку и добавляем в DOM
+        let html = document.createElement("div");
+        html.setAttribute("class", "purchase");
+        html.innerHTML = purchaseHtml.trim();
+        let placeForPurchase = document.getElementsByTagName("body")[0].children[1];
+        placeForPurchase.prepend(html);
+
+        //Убираем лишние обьекты формы заказа
+        orderForm.hidden = true;
+
+        //Вешаем слушателя на кнопку оплаты в форме оплаты
+        let purchaseForm = document.getElementById("purchase-form");
+        let purchaseDiv = document.getElementsByClassName("purchase")[0];
+        let url = "http://localhost:8080/pay";
+
+
+        //Создание разметки для загрузочной иконки
+        let progressBarHtml = document.createElement("div");
+        progressBarHtml.setAttribute("class", "lv-circles lg lv-mid");
+        progressBarHtml.setAttribute("id", "progressBar");
+
+
+        //2. Нажимаем на кпоку "Оплатить"
+        purchaseForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            //Отправляем форму оплаты с информацией о карте и покупателе
+            let formData = new FormData(purchaseForm);
+            let transaction = Object.fromEntries(formData);
+
+            let response = await fetch(url, {
+                method: "post",
+                headers: {"Content-Type": "application/json;charset=utf-8"},
+                body: JSON.stringify(transaction)
+            });
+            //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
+            if (response.status === 422) {
+                let errors = await response.json();
+                let result = JSON.stringify(errors);
+                //Создаем разметку ошибки с классом "error"
+                let errorHtml = document.createElement("div");
+                errorHtml.setAttribute("class", "error");
+                //Форматируем ответ ошибки
+                let parError = `<p style="color:red">${result.toString().substr(2, (result.length - 4))}</p>`;
+                errorHtml.innerHTML = parError.trim();
+
+                //Создали триггер для проверки на повторную ошибку
+                //Если триггер не равен нынешней ошибке
+                if (errorTrigger !== errors) {
+                    //И если он не пустой
+                    if (errorTrigger !== null) {
+                        //То значит там уже есть ошибка и мы удаляем старую ошибку
+                        let element = document.getElementsByClassName("error")[0];
+                        element.parentNode.removeChild(element);
+                    }
+                    //Если триггер пустой, значит ошибки ранее не было и мы без проверки вставляем ошибку
+                    document.getElementById("purchase-button").before(errorHtml);
+                    errorTrigger = errors;
+                }
+            }
+            if (response.status === 200) {
+                putLoadingBar(progressBarHtml);
+                let element = lv.create(document.getElementById("progressBar"));
+                setTimeout(function () {
+                    //Вставим разметку успешного ответа от банка
+                    element.hide();
+                    let successfulAnswerHtml = `<p>Транзакция прошла успешно!</p>`;
+                    let div = document.createElement("div");
+                    div.innerHTML = successfulAnswerHtml.trim();
+                    purchaseDiv.append(div);
+                    element.hide();
+                }, 3000);
+            }
+            if (response.status === 403) {
+                putLoadingBar(progressBarHtml);
+                let element = lv.create(document.getElementById("progressBar"));
+
+                setTimeout(function () {
+                    //Вставим разметку ошибки от банка
+                    let unsuccessfulAnswerHtml = `<p>Транзакция не удалась!</p>`;
+                    let div = document.createElement("div");
+                    div.innerHTML = unsuccessfulAnswerHtml.trim();
+                    purchaseDiv.append(div);
+                    element.hide();
+                }, 3000);
+            }
+
+        });
+        // setTimeout(function(){
+        //     purchaseBlock.hidden = true;
+        //     orderForm.hidden = false;
+        // }, 8000);
+
+        //Слушатель для кнопки "Доп.информация"
+        let extraButton = document.getElementsByClassName("extra-button")[0];
+        extraButton.addEventListener("click", function (e) {
+            console.log("extra!");
+            let button = document.getElementsByClassName("customer-extra-info-container")[0];
+            if (button.hidden) {
+                document.getElementsByClassName("customer-extra-info-container")[0].hidden = false;
+            } else {
+                document.getElementsByClassName("customer-extra-info-container")[0].hidden = true;
+            }
+        });
+
+        let closeButton = document.getElementsByClassName("close-button")[0];
+        closeButton.addEventListener("click", function (e) {
+            purchaseDiv.remove();
+            orderForm.hidden = false;
+        });
+    });
+
+
+    function putLoadingBar(progressBarHtml) {
+        //Вставляем разметку иконки в DOM
+        document.getElementsByClassName("purchase-container")[0].hidden = true;
+        document.getElementsByClassName("purchase-header")[0].after(progressBarHtml);
+        //Создаем переменную загрузочной иконки
+        //Инициализируем иконку загрузки
+    }
+
+
+</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</body>
+</html>

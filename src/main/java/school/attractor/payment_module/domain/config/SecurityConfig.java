@@ -26,41 +26,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure (HttpSecurity httpSecurity) throws Exception{
         httpSecurity.formLogin ()
-                .loginPage ( "/user/login" )
-                .failureUrl ( "/user/login?error=true" )
+                .loginPage ( "/login" )
+                .failureUrl ( "/login?error=true" )
                 .defaultSuccessUrl ( "/" );
 
         httpSecurity.logout ()
-                .logoutUrl ( "/user/logout" )
-                .logoutSuccessUrl ( "/" )
+                .logoutUrl ( "/logout" )
+                .logoutSuccessUrl ( "/login" )
                 .clearAuthentication ( true )
                 .invalidateHttpSession ( true );
 
-        httpSecurity.authorizeRequests()
-                .antMatchers("/profile");
-
+        httpSecurity.authorizeRequests ()
+                .antMatchers ( "/login")
+                .permitAll ();
 
         httpSecurity.authorizeRequests ()
-                .antMatchers ( "/orders")
-                .authenticated ();
-
+                .antMatchers ( "/register")
+                .permitAll ();
 
         httpSecurity.authorizeRequests ()
-                .antMatchers ( "/shops/**" )
-                .authenticated ();
+                .antMatchers (  "/css/**", "/js/**", "/img/**", "/icon/**", "/vendor/**")
+                .permitAll ();
 
         httpSecurity.authorizeRequests ()
                 .anyRequest ()
-                .permitAll ();
+                .fullyAuthenticated ();
+
     }
 
     @Override
     protected void  configure (AuthenticationManagerBuilder authMB) throws Exception{
         String fetchUsersQuery = "select email, password, enabled"
-                + " from users"
-                + " where email = ?";;
+                + " from commersants"
+                + " where email = ?";
         String fetchRolesQuery = "select email, role"
-                + " from users"
+                + " from commersants"
                 + " where email = ?";
 
         authMB.jdbcAuthentication ()

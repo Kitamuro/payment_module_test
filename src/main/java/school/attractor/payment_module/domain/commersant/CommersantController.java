@@ -1,10 +1,6 @@
 package school.attractor.payment_module.domain.commersant;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,18 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
 import school.attractor.payment_module.domain.order.Order;
-import school.attractor.payment_module.domain.order.OrderDTO;
 import school.attractor.payment_module.domain.order.OrderService;
 import school.attractor.payment_module.domain.transaction.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 @Controller
@@ -34,18 +23,41 @@ public class CommersantController {
     private final TransactionService transactionService;
     private final OrderService orderService;
     private final ResponseService responseService;
+    private final CommersantService commersantService;
 
     @GetMapping("/")
-    public String hello(Model model, Principal principal) {
-        if(principal !=null){
-            model.addAttribute ( "user", principal.getName () );
-        }
+    public String hello() {
         return "main";
     }
 
-    @GetMapping("/profile")
-    public String profilePage(){
-        return "commersant-registration-page";
+    @GetMapping("/login")
+    public String loginPage(@RequestParam(required = false, defaultValue = "false") Boolean error, Model model){
+        model.addAttribute ( "error", error );
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public  String registerPage(Model model){
+        if(!model.containsAttribute ( "commersant" )){
+            model.addAttribute ( "commersant", new CommersantRegistrationDataDTO () );
+        }
+        return "registration";
+    }
+
+    @PostMapping("/register")
+    public String registration(@Valid CommersantRegistrationDataDTO data, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute ( "commersant", data );
+        if(bindingResult.hasFieldErrors (  )){
+            redirectAttributes.addFlashAttribute ( "errors", bindingResult.getFieldErrors ()  );
+            return "redirect:/register";
+        }
+        try {
+            commersantService.register(data);
+        } catch (CommersantAlreadyRegisteredException uarEx) {
+            redirectAttributes.addFlashAttribute ("message", "Commersant already exists.");
+            return "redirect:/register";
+        }
+        return "redirect:/login";
     }
 
     @PostMapping("/sendRequest")

@@ -2,6 +2,7 @@ package school.attractor.payment_module.domain.transaction;
 
 import lombok.*;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import school.attractor.payment_module.domain.shop.Shop;
 
 import javax.validation.constraints.*;
 
@@ -20,6 +21,8 @@ public class NewOrderDetails {
     @NotEmpty
     @Size(min = 2, max = 20)
     private String shopName;
+
+    private Shop shop;
 
     private TransactionType type;
 

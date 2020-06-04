@@ -9,7 +9,7 @@
 }
 
 .pagination a {
-  color: black;
+  color: rgba(0,0,0,.54);
   float: left;
   text-decoration: none;
   padding: 1px 12px 1px 11px;
@@ -23,7 +23,7 @@
 }
 
 .pagination a.active {
-  background-color: black;
+  background-color: rgba(0,0,0,.54);
   color: white;
   border-radius: 2px;
 }
@@ -40,7 +40,7 @@
 }
 .list  div{
   padding: 5px;
-  border: 2px solid black;
+  border: 2px solid rgba(0,0,0,.54);
 }
 
 .flex {
@@ -55,19 +55,22 @@
 
 
 .info-block {
-  padding: 20px;
-  border: 1px solid grey;
-  min-width: 350px;
+  font-family: haas,Arial,sans-serif;
+  padding: 70px;
+  border: 1px solid lightgrey;
+  min-width: 40%;
   /*max-height: 594px;*/
   overflow-y: scroll;
-
+  color: rgba(0,0,0,.54);
 }
 
-.id {
+.orderId {
   font-size: 30px;
   padding-bottom: 10px;
 }
-
+.order-label {
+  text-transform: uppercase;
+}
 .status {
   padding: 5px;
   width:40%;
@@ -77,12 +80,21 @@
 .amount {
   font-size: 25px;
   font-weight: bold;
-  padding: 20px 0;
+  padding: 10px 0;
+  color:  rgba(0, 0, 0, 0.89);
+}
+
+.residual {
+  padding: 10px 0;
+  text-transform: uppercase;
 }
 
 .order-title {
   font-weight: bold;
-  padding-top: 10px;
+  padding-top: 25px;
+  padding-bottom: 7px;
+  color: rgba(0, 0, 0, 0.89);
+  border-bottom: 1px solid rgb(230, 230, 230);
 }
 
 .table-title th {
@@ -98,7 +110,7 @@ td.order-order-id {
 
 td.order-date {
   font-weight: bold;
-  color: black;
+  color:  rgba(0, 0, 0, 0.89);
 }
 
 .order-row {
@@ -143,17 +155,40 @@ td.order-date {
   font-size: 15px;
   border-radius: 5px;
   height: 50px;
-  color: #000;
+  color: rgba(0,0,0,.54);
   outline: none;
   min-width: 150px;
   margin-top: 7px;
 }
 
+.close {
+  font-size: 30px;
+  font-weight: lighter;
+}
+
+.refund-input {
+  width:  50%;
+  padding: 10px;
+  background: rgba(230, 230, 230, 0.71);
+  border: 1px solid rgba(230, 230, 230, 0.89);
+  outline: none;
+}
+.refund-input:hover {
+  background: rgba(240, 240, 240, 0.71);
+}
 .returnButton{
   min-width: 80px;
-  height: auto;
+  width: 35%;
+  height:  40px;
   text-align: center;
   line-height: 1.5;
   margin-left: 10px;
-  font-color: #999;
+  background-color: #ffdd2d;
+  border: 1px solid #ffd72c;
+  outline: none;
 }
+
+.returnButton:hover {
+  background-color: rgba(255, 221, 45, 0.84);
+}
+
