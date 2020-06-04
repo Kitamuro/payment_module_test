@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 
-<head th:include="layout :: head"> </head>
+<head th:include="layout :: head">
+    <title>Shops Page</title>
+</head>
 
 <body>
 <div th:insert="layout :: header"></div>
@@ -68,7 +70,7 @@
                                 <h4 class="shop-margin">Обратная связь с покупателями</h4>
                                 <p class="shop-margin">Покупатели увидят эти контакты на платежной форме</p>
                                 <div class="advance-input">
-                                    <input type="tel" th:field="*{phoneForCustomer}" placeholder="Телефон" required minlength="12"
+                                    <input type="number" th:field="*{phoneForCustomer}" placeholder="Телефон" required minlength="12"
                                            maxlength="12" size="12"/>
                                     <span th:if="${#fields.hasErrors('phoneForCustomer')}" th:errors="*{phoneForCustomer}">phoneForCustomer Error</span>
                                 </div>
@@ -82,7 +84,7 @@
                                     <span th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}">contactName Error</span>
                                 </div>
                                 <div class="advance-input">
-                                    <input type="tel" th:field="*{contactPhone}" placeholder="Телефон" required minlength="12"
+                                    <input type="number" th:field="*{contactPhone}" placeholder="Телефон" required minlength="12"
                                            maxlength="12" size="12"/>
                                     <span th:if="${#fields.hasErrors('contactPhone')}" th:errors="*{contactPhone}">contactPhone Error</span>
                                 </div>
@@ -114,7 +116,7 @@
             <div class="shop-box" th:onclick="|window.location.href='@{shops/about/{shopId}(shopId=${shop.id})}'|" >
             <div class="shop-margin font-weight-bold" th:text="${shop.siteName}"></div>
             <div class="shop-margin" th:text="#{${shop.activity}}"></div>
-            <div class="shop-check-box"><i class="circle-status shop-checkbox-color"></i><span>Проверяем</span></div>
+            <div class="shop-check-box"><em class="circle-status shop-checkbox-color"></em><span>Проверяем</span></div>
             </div>
         </div>
     </tbody>
