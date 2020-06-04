@@ -18,13 +18,18 @@ public class ShopService {
     public CommersantRepository commersantRepository;
 
 
-    public void createShop(ShopDTO shopDTO) {
+    private Commersant findCommersant(Principal principal){
+        return commersantRepository.findByEmail ( principal.getName ( ) ).orElseThrow (()->new CommersantNotFoundException ( "No commersant is found" ) );
+    }
+
+    public void createShop(ShopDTO shopDTO, Principal principal) {
         Shop shop = Shop.from ( shopDTO );
+        shop.setCommersant (findCommersant (  principal));
         shopRepository.save ( shop );
     }
 
     public List<Shop> getShops(Principal principal) {
-        var commersant = commersantRepository.findByEmail ( principal.getName ( ) ).orElseThrow (()->new CommersantNotFoundException ( "" ) );
+        Commersant commersant = findCommersant ( principal );
         return shopRepository.findAllByCommersant (commersant );
     }
 
