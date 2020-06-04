@@ -40,7 +40,7 @@ public class ShopController implements WebMvcConfigurer {
             return "shops";
         } else {
             model.addAttribute("shopDTO", shopDTO);
-            shopService.createShop ( shopDTO );
+            shopService.createShop ( shopDTO, principal );
             return "redirect:/shops";
         }
     }
