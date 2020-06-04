@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout :: head"> </head>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head th:include="layout :: head">
+    <title>Orders Page</title>
+</head>
 <body>
 
 <div th:insert="layout :: header"></div>
@@ -68,6 +70,7 @@
     <div class="flex">
         <div class="main">
             <table class="table table-hover">
+                <caption></caption>
                 <thead class="thead-light">
                 <tr class="table-title">
                     <th scope="col">№ Заказа</th>
@@ -84,12 +87,12 @@
                     <td class="order-date" th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${order.shop.siteName}"></td>
                     <td th:text="${order.amount} "></td>
-                    <td th:if="${order.status.name() =='APPROVED'}"><i class="circle-status success"></i> Подтвержден</td>
-                    <td th:if="${order.status.name() =='REFUSED'}"><i class="circle-status declined"></i> Отклонен</td>
-                    <td th:if="${order.status.name() =='NEW'}"><i class="circle-status declined"></i> В ожидании</td>
-                    <td th:if="${order.status.name() =='RESERVED'}"><i class="circle-status declined"></i>Зарезервирован</td>
-                    <td th:if="${order.status.name() =='PARTIAL_REFUND'}"><i class="circle-status declined"></i>Частично возвращен</td>
-                    <td th:if="${order.status.name() =='TOTAL_REFUND'}"><i class="circle-status declined"></i>Возвращен</td>
+                    <td th:if="${order.status.name() =='APPROVED'}"><em class="circle-status success"></em> Подтвержден</td>
+                    <td th:if="${order.status.name() =='REFUSED'}"><em class="circle-status declined"></em> Отклонен</td>
+                    <td th:if="${order.status.name() =='NEW'}"><em class="circle-status declined"></em> В ожидании</td>
+                    <td th:if="${order.status.name() =='RESERVED'}"><em class="circle-status declined"></em>Зарезервирован</td>
+                    <td th:if="${order.status.name() =='PARTIAL_REFUND'}"><em class="circle-status declined"></em>Частично возвращен</td>
+                    <td th:if="${order.status.name() =='TOTAL_REFUND'}"><em class="circle-status declined"></em>Возвращен</td>
                 </tr>
                 </tbody>
             </table>
