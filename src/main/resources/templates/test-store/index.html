@@ -243,7 +243,8 @@
 
             let response = await fetch(url, {
                 method: "post",
-                headers: {"Content-Type": "application/json;charset=utf-8"},
+                headers: {"Content-Type": "application/json;charset=utf-8" ,
+                    "Access-Control-Allow-Origin" : "*"},
                 body: JSON.stringify(transaction)
             });
             //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно

@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:63342/")
 @AllArgsConstructor
 @RestController
 public class ControllerRest {

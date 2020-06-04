@@ -9,8 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @AllArgsConstructor
@@ -25,7 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure (HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.formLogin ()
+
+
+        httpSecurity.cors().configurationSource(request -> {
+            var cors = new CorsConfiguration();
+            cors.setAllowedOrigins(List.of("http://localhost:63342"));
+            cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS"));
+            cors.setAllowedHeaders(List.of("*"));
+            return cors;
+        }).and()
+                .formLogin ()
                 .loginPage ( "/login" )
                 .failureUrl ( "/login?error=true" )
                 .defaultSuccessUrl ( "/" );
@@ -37,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession ( true );
 
         httpSecurity.authorizeRequests ()
-                .antMatchers ( "/login")
+                .antMatchers ( "/login" , "/pay")
                 .permitAll ();
 
         httpSecurity.authorizeRequests ()
@@ -51,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests ()
                 .anyRequest ()
                 .fullyAuthenticated ();
+
 
     }
 
@@ -69,4 +84,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource ( dataSource );
 
     }
+
 }
