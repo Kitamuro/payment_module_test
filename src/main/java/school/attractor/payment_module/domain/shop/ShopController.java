@@ -34,13 +34,14 @@ public class ShopController implements WebMvcConfigurer {
     }
 
     @PostMapping("/shops")
-    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model, Principal principal){
+    public String createShop(@ModelAttribute @Valid ShopDTO shopDTO, BindingResult result, Model model){
+        System.out.println("QWEQWEWWQEQEQWEQE" + shopDTO);
         if (result.hasErrors()) {
                 model.addAttribute("errors", result.getAllErrors());
             return "shops";
         } else {
             model.addAttribute("shopDTO", shopDTO);
-            shopService.createShop ( shopDTO, principal );
+            shopService.createShop ( shopDTO );
             return "redirect:/shops";
         }
     }
