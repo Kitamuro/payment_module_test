@@ -1,0 +1,19 @@
+.promo {}
+
+.promo-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+
+    font-size: 26px;
+}
+
+.promo-subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+}

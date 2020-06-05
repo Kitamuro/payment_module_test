@@ -1,0 +1,60 @@
+.bg-main {
+    background-color: #f6f6f6;
+}
+
+.main {
+    padding: 100px 0 40px 0;
+    margin: 20px 0;
+    background: no-repeat right  bottom/58% url(../../../images/commersant/pngwave.png);
+ 
+   
+}
+
+.main_title {
+    display: flex;
+    justify-content: left;
+    font-size: 34px;
+    padding-left: 38px;
+    padding-bottom: 20px;
+}
+
+.main-ul {
+    list-style: none;
+}
+
+.main-ul_li {
+    position: relative;
+}
+
+.main-ul_li p {
+    padding-left: 25px;
+}
+
+.main-ul_li::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #ffdd2d;
+    border-radius: 10px;
+}
+
+.main-ul_li p:hover {
+    transform:  translateX(5px);
+    transition: 0.3s;
+}
+
+.main-btn-wrapper {
+    padding-top: 40px;
+    text-align: left;
+    padding-left: 38px;
+}
+
+.main-btn {
+    display: inline-block;
+    padding: 15px;
+    background-color: #ffdd2d;
+
+}

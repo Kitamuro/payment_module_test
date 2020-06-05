@@ -1,0 +1,50 @@
+.html,
+body {
+    margin: 0;
+    font-family: 'Jura', haas, pragmatica, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    background-color: rgb(253, 253, 253);
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+}
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.container {
+    max-width: 920px;
+    min-width: 920px;
+    margin: 0 auto;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.request {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    margin: 20px 0;
+}
+
+.btn {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffdd2d;
+    border: #ffdd2d;
+    color: #333;
+    font-family: haas, pragmatica, EllipsisFallback, Roboto, Helvetica;
+}
+
+.btn:hover {
+    transition: background-color 0.5s;
+    background-color: #ffbf0efd;
+    border: #ffbf0efd;
+    cursor: pointer;
+}

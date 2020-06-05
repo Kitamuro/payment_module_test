@@ -1,0 +1,45 @@
+.item {
+    width: 50%;
+    display: flex;
+    padding: 30px 30px;
+    justify-content: center;
+    box-sizing: border-box;
+
+}
+
+.icon-wrapper {
+    padding-right: 20px
+}
+
+.item:hover {
+    transform: translateY(-3px);
+    background-color: rgba(247, 247, 247);
+    transition: transform .1s;
+}
+
+.item-icon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.6;
+}
+
+.item-icon:hover {
+    opacity: 1;
+    transition: all 0.2s;
+}
+
+.icon-1 {
+    background-image: url(https://acdn.tinkoff.ru/static/pages/files/dc2ee522-3365-4beb-8304-7e0412c7678a.svg);
+}
+
+.icon-2 {
+    background-image: url(https://acdn.tinkoff.ru/static/pages/files/8b958a45-5ed3-42e0-9780-9f88f9082556.svg);
+}
+
+.icon-3 {
+    background-image: url(https://acdn.tinkoff.ru/static/pages/files/2996d5bf-3073-428a-b9da-85a2d9cb8ac4.svg);
+}
+
+.icon-4 {
+    background-image: url(https://acdn.tinkoff.ru/static/pages/files/26ff14b4-3a2b-4591-af3c-c5cdfb120488.svg);
+}

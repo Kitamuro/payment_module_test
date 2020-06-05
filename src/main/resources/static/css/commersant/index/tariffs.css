@@ -1,0 +1,15 @@
+.tariffs {
+    margin: 0 auto;
+    max-width: 550px;
+}
+
+.row {
+    display: flex;
+
+}
+
+.col {
+    width: 50%;
+    border-bottom: 1px solid rgb(230, 230, 230);
+    padding: 20px 0;
+}
