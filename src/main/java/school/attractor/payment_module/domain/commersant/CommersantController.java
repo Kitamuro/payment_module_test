@@ -27,7 +27,7 @@ public class CommersantController {
 
     @GetMapping("/")
     public String hello() {
-        return "main";
+        return "index";
     }
 
     @GetMapping("/login")
