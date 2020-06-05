@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession ( true );
 
         httpSecurity.authorizeRequests ()
-                .antMatchers ( "/login" , "/pay")
+                .antMatchers ( "/login" , "/pay", "/")
                 .permitAll ();
 
         httpSecurity.authorizeRequests ()
@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll ();
 
         httpSecurity.authorizeRequests ()
-                .antMatchers (  "/css/**", "/js/**", "/img/**", "/icon/**", "/vendor/**")
+                .antMatchers (  "/css/**", "/js/**", "/img/**", "/images/**", "/icon/**", "/vendor/**")
                 .permitAll ();
 
         httpSecurity.authorizeRequests ()
