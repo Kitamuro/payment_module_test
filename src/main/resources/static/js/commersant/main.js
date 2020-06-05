@@ -8,6 +8,7 @@ ListOrders.addEventListener('click', async function (e) {
     let promise = await responseData.json();
     orderDTO = JSON.parse(JSON.stringify(promise));
 
+    console.log(orderDTO);
     printOrder(orderDTO);
 
     let classList = ListOrders.children;

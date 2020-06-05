@@ -216,10 +216,10 @@ input[type=number]::-webkit-outer-spin-button {
     width: 400px;
     margin: 20px;
     background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
     border-radius: 4px;
     padding: 10px;
     position: relative;
+    border: 1px solid rgba(140, 139, 139, 0.5);
 }
 
 .shop-check-box {
@@ -417,4 +417,9 @@ input[type=number]::-webkit-outer-spin-button {
     height: 8px;
     border-radius: 50%;
     background: black;
+}
+
+.shop-box:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
