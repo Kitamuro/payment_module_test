@@ -66,7 +66,6 @@ public class CommersantDTO {
                 .bin(data.getBin())
                 .directorIdentityCard(data.getDirectorIdentityCard())
                 .directorName(data.getDirectorName())
-                .kbe(data.getKbe())
                 .build();
     }
 }

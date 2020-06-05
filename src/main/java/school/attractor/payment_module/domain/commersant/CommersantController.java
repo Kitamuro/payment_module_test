@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.attractor.payment_module.domain.ApacheHttp.ResponseService;
 import school.attractor.payment_module.domain.order.Order;
@@ -13,12 +16,13 @@ import school.attractor.payment_module.domain.transaction.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
 @AllArgsConstructor
 @RequestMapping
-public class CommersantController {
+public class CommersantController{
 
     private final TransactionService transactionService;
     private final OrderService orderService;
@@ -36,26 +40,29 @@ public class CommersantController {
         return "login";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/registration")
     public  String registerPage(Model model){
         if(!model.containsAttribute ( "commersant" )){
             model.addAttribute ( "commersant", new CommersantRegistrationDataDTO () );
+            model.addAttribute("errors", model.getAttribute("errors"));
         }
         return "registration";
     }
 
-    @PostMapping("/register")
-    public String registration(@Valid CommersantRegistrationDataDTO data, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        redirectAttributes.addFlashAttribute ( "commersant", data );
+    @PostMapping("/registration")
+    public String registration(@ModelAttribute("commersant") @Valid CommersantRegistrationDataDTO data, BindingResult bindingResult, Model model
+    ){
+        System.out.println(data);
+        model.addAttribute ( "commersant", data );
         if(bindingResult.hasFieldErrors (  )){
-            redirectAttributes.addFlashAttribute ( "errors", bindingResult.getFieldErrors ()  );
-            return "redirect:/register";
+            model.addAttribute ( "errors", bindingResult.getAllErrors ()  );
+            return "registration";
         }
         try {
             commersantService.register(data);
         } catch (CommersantAlreadyRegisteredException uarEx) {
-            redirectAttributes.addFlashAttribute ("message", "Commersant already exists.");
-            return "redirect:/register";
+            model.addAttribute ("message", "Commersant already exists.");
+            return "registration";
         }
         return "redirect:/login";
     }

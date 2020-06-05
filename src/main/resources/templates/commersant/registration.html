@@ -12,50 +12,53 @@
         Регистрация в системе
     </div>
     <div th:if ="${message != null}">
-        <p th:text="${message}"></p>
+        <div class="error-block" th:text="${message}"></div>
     </div>
-    <form id="form" action="/register" method="post" class="form">
+    <form id = "form" class="form" action="/registration" th:action="@{/registration}" th:object="${commersant}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div class="input-group">
-            <input class="input-field" name="email" required value="zhanel@mail.ru">
+            <input id="email" class="input-field" type="text" th:field="*{email}" required>
             <label class="input-label"> Email </label>
         </div>
+        <div class="error-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+
         <div class="input-group">
-            <input class="input-field" name="password" required value="12345678">
-            <label class="input-label"> password </label>
+            <input  class="input-field password" th:field="*{password}" type="password" required>
+            <label class="input-label"> Password </label>
         </div>
+        <div class="error-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+
         <div class="input-group">
-            <input class="input-field" name="bik" required value="123">
+            <input class="input-field bic" type="text" th:field="*{bik}" required>
             <label class="input-label"> БИК </label>
         </div>
+        <div class="error-block" th:if="${#fields.hasErrors('bik')}" th:errors="*{bik}">BIK Error</div>
 
         <div class="input-group">
-            <input class="input-field" name="bin" required value="123">
+            <input class="input-field bin" type="text" th:field="*{bin}" required>
             <label class="input-label"> БИН </label>
         </div>
+        <div class="error-block" th:if="${#fields.hasErrors('bin')}" th:errors="*{bin}">BIN Error</div>
 
         <div class="input-group">
-            <input class="input-field" name="kbe" required value="123">
-            <label class="input-label"> Кбе </label>
-        </div>
-
-        <div class="input-group">
-            <input class="input-field" name="organizationName" required value="123">
+            <input class="input-field" type="text" th:field="*{organizationName}" required>
             <label class="input-label"> Название организации </label>
         </div>
+        <div class="error-block" th:if="${#fields.hasErrors('organizationName')}" th:errors="*{organizationName}">Organization Name Error</div>
 
         <div class="input-group">
-            <input class="input-field" name="directorIdentityCard" required value="123">
+            <input class="input-field id-card" type="text" th:field="*{directorIdentityCard}"  required>
             <label class="input-label"> Номер удостоверения владельца </label>
         </div>
+        <div class="error-block" th:if="${#fields.hasErrors('directorIdentityCard')}" th:errors="*{directorIdentityCard}">Director Identity Card Error</div>
 
         <div class="input-group">
-            <input class="input-field" name="directorName" required value="123">
+            <input class="input-field" type="text" th:field="*{directorName}" required >
             <label class="input-label"> Имя владельца </label>
         </div>
-
+        <div class="error-block" th:if="${#fields.hasErrors('directorName')}" th:errors="*{directorName}">Director Name Error</div>
         <div class="flex-row">
-            <a href="/login" type="reset" class="btn btn-reset"> Войти </a>
+            <a href="/login" type="reset" class="btn btn-reset"> На главную </a>
             <button class="btn btn-submit" type="submit"> Зарегистрироваться </button>
         </div>
 
@@ -65,9 +68,6 @@
 </body>
 
 <script th:src="@{/js/commersant/effects-for-form.js}"></script>
-
-
-
 
 </html>
 

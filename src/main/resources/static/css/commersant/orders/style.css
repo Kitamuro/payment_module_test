@@ -55,6 +55,11 @@ td.order-date {
     background: rgba(255, 243, 69, 0.62);
 }
 
+.flex-row .pagination-block{
+    display: flex;
+    width: 100%;
+}
+
 .row {
     padding: 5px 20px;
     display: flex;

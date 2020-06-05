@@ -68,20 +68,4 @@ public class ControllerRest {
         }
     }
 
-    @PostMapping("/registration")
-    public String newCommersant(@RequestBody @Valid CommersantRegistrationDataDTO data,
-                                BindingResult result, HttpServletResponse response, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            List<ObjectError> errors = result.getAllErrors();
-            for (ObjectError e : errors) {
-                errorMessage.append("ERROR: ").append(e.getDefaultMessage());
-            }
-            return errorMessage.toString();
-        } else {
-            return "Validation Successful";
-        }
-    }
-
 }
