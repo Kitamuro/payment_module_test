@@ -18,7 +18,7 @@ public class CSVFile {
 
        var commersant = commersantRepository.findById(1).get();
 
-        String csvFile = "C:\\Users\\Cengiz\\Desktop\\Work\\java_projects\\ESDP Project\\Payment-Module\\example.csv";
+        String csvFile = "example.csv";
         FileWriter writer = new FileWriter(csvFile);
 
         writer.append(commersant.getEmail());

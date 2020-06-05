@@ -34,6 +34,14 @@ public class CommersantController{
         return "index";
     }
 
+
+    @GetMapping("/home")
+    public String homePage() {
+        return "main";
+    }
+
+
+
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false, defaultValue = "false") Boolean error, Model model){
         model.addAttribute ( "error", error );
