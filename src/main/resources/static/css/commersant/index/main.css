@@ -52,9 +52,26 @@
     padding-left: 38px;
 }
 
+.main-btn-login-wrapper {
+    padding-top: 20px;
+    text-align: right;
+}
+
 .main-btn {
     display: inline-block;
     padding: 15px;
     background-color: #ffdd2d;
+}
 
+.btn-login {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: white;
+    box-shadow: 0 0 2px 2px #dedede;
+
+}
+
+.btn-login:hover {
+    background-color: white;
+    box-shadow: 0 0 1px 1px grey;
 }
