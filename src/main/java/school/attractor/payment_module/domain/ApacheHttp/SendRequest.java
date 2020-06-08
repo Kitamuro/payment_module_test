@@ -64,16 +64,16 @@ class SendRequest {
         return "";
     }
 
-    private void parseResponse(String htmlString){
-             String responseHtml= htmlString.split ( "(\\bhost\\b)" )[2].split ( "</" )[0].substring ( 3 );
+    void parseResponse(String htmlString){
+//             String responseHtml= htmlString.split ( "(\\bhost\\b)" )[2].split ( "</" )[0].substring ( 3 );
              Document html = Jsoup.parse ( htmlString );
         if(html.title ().equals ( "Transaction approved" )) {
             String transRef = htmlString.split ( "(\\bREF\\b)" )[1].split ( "\\bINT_REF\\b" )[0].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );
             String intTrRef = htmlString.split ( "\\bINT_REF\\b" )[1].split ( "\\bAC\\b" )[0].replaceAll ( "[^\\w \\xC0-\\xFF]", "" );;
             consolePrint(htmlString, transRef, intTrRef);
-            buildResponseDTO(responseHtml, transRef, intTrRef, TransactionStatus.APPROVED );
+            buildResponseDTO(htmlString, transRef, intTrRef, TransactionStatus.APPROVED );
         }else{
-            buildResponseDTO ( responseHtml, "", "", TransactionStatus.REFUSED );
+            buildResponseDTO ( htmlString, "", "", TransactionStatus.REFUSED );
         }
     }
 

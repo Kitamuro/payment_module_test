@@ -29,6 +29,7 @@ public class Response {
     Date date;
 
     @Column
+    @Lob
     String htmlString;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
 
