@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@CrossOrigin(origins = "http://localhost:63342/")
+@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class ControllerRest {
@@ -32,7 +32,7 @@ public class ControllerRest {
 
 
     @PostMapping("/pay")
-    public ResponseEntity<String> mainController(@Valid @RequestBody NewOrderDetails newOrderDetails,
+    public ResponseEntity<String> mainController(@ModelAttribute NewOrderDetails newOrderDetails,
                                                  HttpServletResponse response, BindingResult result) {
         if (result.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();

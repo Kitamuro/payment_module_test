@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Оформление заказа</title>
-    <link rel="stylesheet" href="../../static/css/test-store/order/style.css">
+    <link rel="stylesheet" href="../css/test-store/order/style.css">
     <link href="https://fonts.googleapis.com/css?family=Oxygen|Raleway&display=swap" rel="stylesheetFont">
-    <link rel="stylesheet" href="../../static/vendor/loading-bar/loading-bar.css">
-    <script src="../../static/vendor/loading-bar/loading-bar.js"></script>
+    <link rel="stylesheet" href="../vendor/loading-bar/loading-bar.css">
+    <script src="../vendor/loading-bar/loading-bar.js"></script>
 </head>
 
 <body>
@@ -81,7 +81,7 @@
         //Разметка модальной формы оплаты
         let purchaseHtml = `<div class="purchase-header">
             <h1>Payment Modal Form</h1>
-            <span class = "close-button"><img src="../../static/images/test-store/close.svg" alt="close icon"></span>
+            <span class = "close-button"><img src="../images/test-store/close.svg" alt="close icon"></span>
         </div>
         <div class="purchase-container">
             <div class="customer-info">
@@ -121,7 +121,7 @@
             <hr>
             <div class="purchase-block">
                 <form action="/" id="purchase-form">
-                     <input type="hidden" name="type" value="${infoOrder.type}">
+
                      <input type="hidden" name="shopName" value=${infoOrder.shopName}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
@@ -129,7 +129,7 @@
                      <input type="hidden" name="amount" value=${infoOrder.amount}>
                      <input type="hidden" name="residual" value=${infoOrder.amount}>
                      <input type="hidden" name="orderId" value=${infoOrder.orderId}>
-                     <input type="hidden" name="status" value=${infoOrder.status}>
+
 
                 <div class="card-side">
                      <div class="front-card">
@@ -244,7 +244,7 @@
             let response = await fetch(url, {
                 method: "post",
                 headers: {"Content-Type": "application/json;charset=utf-8" ,
-                    "Access-Control-Allow-Origin" : "*"},
+                   },
                 body: JSON.stringify(transaction)
             });
             //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
