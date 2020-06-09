@@ -32,7 +32,7 @@ public class ControllerRest {
 
 
     @PostMapping("/pay")
-    public ResponseEntity<String> mainController(@ModelAttribute NewOrderDetails newOrderDetails,
+    public ResponseEntity<String> mainController(@RequestBody NewOrderDetails newOrderDetails,
                                                  HttpServletResponse response, BindingResult result) {
         if (result.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
