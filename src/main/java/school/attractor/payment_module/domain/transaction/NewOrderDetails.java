@@ -38,6 +38,11 @@ public class NewOrderDetails {
     @Size(min = 2, max = 30)
     private String userName;
 
+    @NotNull
+    private Integer commersantId;
+
+    private Integer shopId;
+
     @NotBlank
     @NotEmpty
     private String phone;
