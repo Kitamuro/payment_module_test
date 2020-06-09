@@ -17,17 +17,11 @@ public class NewOrderDetails {
     @Positive
     private Integer orderId;
 
-    @NotBlank
-    @NotEmpty
-    @Size(min = 2, max = 20)
-    private String shopName;
-
-    private TransactionType type;
-
     @Positive
     @Min(1)
     @Max(10000000)
     private int amount;
+
 
     @Email
     @NotBlank
@@ -37,9 +31,6 @@ public class NewOrderDetails {
     @NotEmpty
     @Size(min = 2, max = 30)
     private String userName;
-
-    @NotNull
-    private Integer commersantId;
 
     private Integer shopId;
 

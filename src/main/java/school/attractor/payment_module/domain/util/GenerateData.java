@@ -17,7 +17,7 @@ class GenerateData {
         List<String> userName = Arrays.asList("Artur","Бакытжан","Кирил","Вячеслав","Вор","Test");
         for (int i = 0; i < 30; i++) {
             int randomAmount = random.nextInt(80000);
-            int randomId = random.nextInt(5000);
+//            int randomId = random.nextInt(5000);
             int randomOrderId = random.nextInt ( 100000 ) + 999999;
             String name = userName.get(random.nextInt(userName.size()));
             Date today = new Date();
@@ -27,7 +27,7 @@ class GenerateData {
             cal.add(Calendar.DATE, -2);
             Date dayBeforeYesterday = cal.getTime ();
             Order test = Order.builder()
-                    .id(randomId)
+//                    .id(randomId)
                     .orderId (randomOrderId )
                     .shop ( shop1 )
                     .shopName(shop1.getSiteName ())

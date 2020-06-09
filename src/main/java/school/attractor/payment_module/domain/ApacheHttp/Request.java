@@ -27,8 +27,7 @@ public class Request {
     @Column
     Date date;
 
-    @Column
-    @Lob
+    @Column(length = 500)
     String htmlString;
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
 

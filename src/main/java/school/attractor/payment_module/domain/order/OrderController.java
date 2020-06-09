@@ -34,7 +34,7 @@ public class OrderController {
     public String getOrders(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, Principal principal) throws ParseException {
         int currentPage = page.orElse ( 1 );
         int pageSize = size.orElse ( 10 );
-        Page<Order> orders = orderService.getOrders ( PageRequest.of ( currentPage - 1, pageSize, Sort.by ( "date" ).ascending ( ) ), principal );
+        Page<Order> orders = orderService.getOrders ( PageRequest.of ( currentPage - 1, pageSize, Sort.by ( "date" ).descending ( ) ), principal );
         model.addAttribute ( "orders", orders );
         getTotals(model,orderService.getAllOrders(principal));
         addPageNumbers(model, orders);

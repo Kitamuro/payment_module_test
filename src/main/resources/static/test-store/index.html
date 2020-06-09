@@ -26,18 +26,6 @@
     <form action="/static" id="order-form">
 
         <div> Тип оплаты:</div>
-        <div class="checkbox-input">
-            <label>
-                <input type="radio" class="checkbox hidden" name="type" value="2" required>
-                <span class="right checkbox-text"> Hold </span>
-            </label>
-            <label>
-                <input type="radio" class="checkbox hidden" name="type" value="1" checked required>
-                <span class="left checkbox-text"> Instant </span>
-            </label>
-        </div>
-        <input type="hidden" name="shopName" value="Example Shop">
-
         <div>
             <div> ФИО</div>
             <input name="userName" value="test" type="text" required>
@@ -108,7 +96,6 @@
                         </div>
                         <div class="customer-extra-info-names">
                     <ul>
-                        <li><div class="customer-info-text">${infoOrder.shopName}</div></li>
                         <li><div class="customer-info-text">${infoOrder.userName}</div></li>
                         <li><div class="customer-info-text">${infoOrder.email}</div></li>
                         <li><div class="customer-info-text">${infoOrder.phone}</div></li>
@@ -123,7 +110,7 @@
             <div class="purchase-block">
                 <form  id="purchase-form" method="POST">
 
-                     <input type="hidden" name="shopName" value=${infoOrder.shopName}>
+
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
                      <input type="hidden" name="phone" value=${infoOrder.phone}>
@@ -131,7 +118,6 @@
                      <input type="hidden" name="residual" value=${infoOrder.amount}>
                      <input type="hidden" name="orderId" value=${infoOrder.orderId}>
                      <input type="hidden" name="shopId" value="1">
-                     <input type="hidden" name="commersantId" value="1">
 
 
                 <div class="card-side">
@@ -142,7 +128,7 @@
                 </div>
 
                 <div class="form-card form-field">
-                    <input name="card" class="cc-number" value="5169397117346753" type="text" placeholder="Номер карты"
+                    <input name="card" class="cc-number" value="5169497117346753" type="text" placeholder="Номер карты"
                            required minlength="15"
                            maxlength="16" size="16">
                 </div>
