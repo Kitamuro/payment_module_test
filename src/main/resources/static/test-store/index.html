@@ -120,7 +120,7 @@
             </div>
             <hr>
             <div class="purchase-block">
-                <form action="/" id="purchase-form">
+                <form  id="purchase-form" method="POST">
 
                      <input type="hidden" name="shopName" value=${infoOrder.shopName}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
@@ -242,9 +242,8 @@
             let transaction = Object.fromEntries(formData);
 
             let response = await fetch(url, {
-                method: "post",
-                headers: {"Content-Type": "application/json;charset=utf-8" ,
-                   },
+                headers: {"Content-Type": "application/json;charset=utf-8",
+                    "Access-Control-Allow-Origin" : "*"},
                 body: JSON.stringify(transaction)
             });
             //Если ответ от сервера не 200 то мы обрабатываем ошибку и выводим ее на модальное окно
