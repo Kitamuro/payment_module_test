@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 public class ShopDTO {
 
     private int id;
-    private Commersant commersant;
+   private Commersant commersant;
     private BusinessActivity activity;
 
     @NotBlank(message = "Введите название сайта")
