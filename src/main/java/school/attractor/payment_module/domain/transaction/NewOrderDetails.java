@@ -40,8 +40,8 @@ public class NewOrderDetails {
     private String phone;
 
     @NotNull
-    @Range(min = 16, max = 16)
-    private long card;
+    @CreditCardNumber
+    private String card;
 
     @NotBlank
     @NotEmpty
