@@ -102,7 +102,6 @@ public class CommersantController{
         Transaction transaction = transactionService.makeTransaction ( order, amount, type );
         String trStatus = responseService.sendRequest ( transaction);
         order.getTransactions ().add(transaction);
-//        order.setResidual( order.getResidual() - amount);
         orderService.change ( order );
         if (trStatus.equals ( "SUCCESS" )) {
             attributes.addFlashAttribute ( "response", "SUCCESS" );

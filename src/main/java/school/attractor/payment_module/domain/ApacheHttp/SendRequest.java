@@ -87,13 +87,13 @@ class SendRequest {
     }
 
     private List<NameValuePair> addParam(Transaction transaction, String trType) {
-        params.add(new BasicNameValuePair ( "RRN", transaction.getOrder ().getRetrievalReferenceNumber () ));
-        params.add(new BasicNameValuePair (  "INT_REF", transaction.getOrder ().getInternalReferenceNumber ()));
         params.add ( new BasicNameValuePair ( "ORDER",  String.valueOf(transaction.getOrder ().getOrderId () )));
         params.add ( new BasicNameValuePair ( "AMOUNT", String.valueOf (transaction.getAmount ())));
         params.add ( new BasicNameValuePair ( "CURRENCY", "840" ) );
-        params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
+        params.add(new BasicNameValuePair ( "RRN", transaction.getOrder ().getRetrievalReferenceNumber () ));
+        params.add(new BasicNameValuePair (  "INT_REF", transaction.getOrder ().getInternalReferenceNumber ()));
         params.add ( new BasicNameValuePair ( "TRTYPE", trType ) );
+        params.add ( new BasicNameValuePair ( "TERMINAL", "ECOMM001" ) );
         return params;
     }
 

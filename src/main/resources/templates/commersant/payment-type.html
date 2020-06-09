@@ -14,12 +14,11 @@
         <div class="shop-margin font-weight-bold" th:text="${shop.siteName}"></div>
         <div class="shop-menu justify-content-end">
             <div class="basic-shop-title"> <a th:href="@{/shops/about/{shopId}(shopId=${shop.id})}">О магазине</a></div>
-            <div class="basic-shop-title basic-shop-title-border"> <a href="shops/paymentType">Способ оплаты</a></div>
-            <div class="basic-shop-title"> <a href="">Терминалы</a></div>
+            <div class="basic-shop-title basic-shop-title-border"> <a href="/paymentType">Способ оплаты</a></div>
         </div>
     </div>
     <div th:if ="${shop!= null}" class="shop justify-content-center " >
-        <form action="shops/paymentType" method="post" id="shop-block">
+        <form action="/paymentType" method="post" id="shop-block">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="column">
                     <h4 class="check-margin">Списание средств</h4>

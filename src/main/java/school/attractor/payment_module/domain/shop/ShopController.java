@@ -59,6 +59,6 @@ public class ShopController{
     public String changePaymentType (@RequestParam int shopId, @RequestParam int hold ){
         shopService.changePaymentType(shopId, hold);
         System.out.println (shopId + hold );
-        return "shops";
+        return "redirect:/shops";
     }
 }
