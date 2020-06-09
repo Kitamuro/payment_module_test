@@ -41,7 +41,7 @@ public class ControllerRest {
     private final ResponseService responseService;
 
     @PostMapping("/pay")
-    public ResponseEntity<String> mainController(@RequestBody NewOrderDetails newOrderDetails,
+    public ResponseEntity<String> mainController(@Valid @RequestBody NewOrderDetails newOrderDetails,
                                                  HttpServletResponse response, BindingResult result) {
         if (result.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
