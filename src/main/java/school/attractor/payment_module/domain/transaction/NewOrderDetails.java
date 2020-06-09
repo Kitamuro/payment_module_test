@@ -22,8 +22,6 @@ public class NewOrderDetails {
     @Size(min = 2, max = 20)
     private String shopName;
 
-    private Shop shop;
-
     private TransactionType type;
 
     @Positive
