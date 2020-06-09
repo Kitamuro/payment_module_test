@@ -30,6 +30,7 @@ public class Shop {
 
     @Column
     @Builder.Default
+//    1 - мгновенное списание, 2 - холдирование
     private int hold = 1;
 
     @Column

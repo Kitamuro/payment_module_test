@@ -47,8 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .ignoringAntMatchers("/pay");
 
-
-
          httpSecurity.formLogin ()
                 .loginPage ( "/login" )
                 .failureUrl ( "/login?error=true" )

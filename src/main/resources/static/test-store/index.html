@@ -26,17 +26,7 @@
     <form action="/static" id="order-form">
 
         <div> Тип оплаты:</div>
-        <div class="checkbox-input">
-            <label>
-                <input type="radio" class="checkbox hidden" name="type" value="2" required>
-                <span class="right checkbox-text"> Hold </span>
-            </label>
-            <label>
-                <input type="radio" class="checkbox hidden" name="type" value="1" checked required>
-                <span class="left checkbox-text"> Instant </span>
-            </label>
-        </div>
-        <input type="hidden" name="shopName" value="Example Shop">
+        <input type="hidden" name="shopId" value="3">
 
         <div>
             <div> ФИО</div>
@@ -108,7 +98,7 @@
                         </div>
                         <div class="customer-extra-info-names">
                     <ul>
-                        <li><div class="customer-info-text">${infoOrder.shopName}</div></li>
+                        <li><div class="customer-info-text">${infoOrder.shopId}</div></li>
                         <li><div class="customer-info-text">${infoOrder.userName}</div></li>
                         <li><div class="customer-info-text">${infoOrder.email}</div></li>
                         <li><div class="customer-info-text">${infoOrder.phone}</div></li>
@@ -122,13 +112,14 @@
             <div class="purchase-block">
                 <form action="/" id="purchase-form">
 
-                     <input type="hidden" name="shopName" value=${infoOrder.shopName}>
+                     <input type="hidden" name="shopId" value=${infoOrder.shopId}>
                      <input type="hidden" name="userName" value=${infoOrder.userName}>
                      <input type="hidden" name="email" value=${infoOrder.email}>
                      <input type="hidden" name="phone" value=${infoOrder.phone}>
                      <input type="hidden" name="amount" value=${infoOrder.amount}>
                      <input type="hidden" name="residual" value=${infoOrder.amount}>
                      <input type="hidden" name="orderId" value=${infoOrder.orderId}>
+
 
 
                 <div class="card-side">
