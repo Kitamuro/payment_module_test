@@ -30,24 +30,11 @@ public class ResponseService {
     }
 
 
-    private String getTrType(Transaction transaction) {
-        TransactionType type = transaction.getType ( );
-        switch (type) {
-            case REFUND:
-                return "14";
-            case PAYMENT:
-                return "1";
-            case HOLD:
-                return "0";
-            default:
-                return "21";
-        }
 
-    }
 
     public String sendRequest(Transaction transaction) {
-        String trType = getTrType ( transaction );
-        SendRequest sendRequest = new SendRequest ( transaction, trType );
+
+        SendRequest sendRequest = new SendRequest ( transaction, transaction.getType().getNumberType() );
         save ( transaction, sendRequest.getResponseDTO ( ), sendRequest.getRequest () );
         if (sendRequest.getResponseDTO ( ).getStatus ().equals ( TransactionStatus.APPROVED )) {
             transaction.setStatus ( TransactionStatus.APPROVED );

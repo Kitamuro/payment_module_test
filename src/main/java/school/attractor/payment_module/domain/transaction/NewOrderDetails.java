@@ -2,6 +2,7 @@ package school.attractor.payment_module.domain.transaction;
 
 import lombok.*;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.hibernate.validator.constraints.Range;
 import school.attractor.payment_module.domain.shop.Shop;
 
 import javax.validation.constraints.*;
@@ -18,8 +19,7 @@ public class NewOrderDetails {
     private Integer orderId;
 
     @Positive
-    @Min(1)
-    @Max(10000000)
+    @Range(min =  1, max = 10000000, message = "сумма должна быть больше 1")
     private int amount;
 
 
@@ -28,10 +28,11 @@ public class NewOrderDetails {
     private String email;
 
     @NotBlank
-    @NotEmpty
-    @Size(min = 2, max = 30)
+    @NotEmpty(message = "имя не должно быть пустым")
     private String userName;
 
+
+    @NotNull(message = "shop id не заполнен")
     private Integer shopId;
 
     @NotBlank
@@ -39,19 +40,21 @@ public class NewOrderDetails {
     private String phone;
 
     @NotNull
+    @Range(min = 16, max = 16)
     private long card;
 
     @NotBlank
     @NotEmpty
     @NotNull
+    @Size(min = 2, max = 20, message = "Имя должно быть больше 2 символов и меньше 20")
     private String cardHolderName;
 
     @NotNull
-    @Positive
+    @Positive(message = "CVC код  не может быть отрицательным")
     private Integer cvc2;
 
     @NotNull
-    @Positive
+    @Positive(message = "дата не может быть отрицательным числом")
     private Integer exp;
 
     @NotNull
